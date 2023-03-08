@@ -1,0 +1,16 @@
+---
+BasedOnStyle: LLVM
+IndentWidth: 2
+ColumnLimit: 65
+
+---
+Language: Cpp
+AlignAfterOpenBracket: BlockIndent
+BinPackArguments: false
+BinPackParameters: false
+DerivePointerAlignment: false
+PointerAlignment: Left
+BreakBeforeBinaryOperators: All
+AlignArrayOfStructures: Left
+FixNamespaceComments: false
+InsertTrailingCommas: Wrapped

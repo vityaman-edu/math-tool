@@ -4,7 +4,6 @@ set(ARTIFACT math-tool)
 project(${ARTIFACT})
 
 # === External dependencies === #
-
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -14,23 +13,21 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # === Build options === #
-
 set(CMAKE_BUILD_TYPE "release")
-set(CMAKE_CXX_STANDARD "20")
+set(CMAKE_CXX_STANDARD "17")
 set(CMAKE_CXX_COMPILER "clang++")
 set(CXX_COMMON_FLAGS "-std=c++${CMAKE_CXX_STANDARD} -Wall -Werror")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "true")
-
 if (CMAKE_BUILD_TYPE STREQUAL "debug")
     set(CMAKE_CXX_FLAGS "${CXX_COMMON_FLAGS} -O0 -g -fsanitize=address,undefined,leak")
 elseif (CMAKE_BUILD_TYPE STREQUAL "release")
     set(CMAKE_CXX_FLAGS "${CXX_COMMON_FLAGS} -O3")
 endif ()
 
+# === idk === #
 include_directories("src")
 
 # === APP === #
-
 file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
     src/*.cpp
     src/*.h
@@ -38,7 +35,6 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
 add_executable(${ARTIFACT} ${SRC})
 
 # === TEST === #
-
 enable_testing()
 file(GLOB_RECURSE TEST CONFIGURE_DEPENDS
     test/*.cpp
