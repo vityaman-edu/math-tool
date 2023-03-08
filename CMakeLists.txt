@@ -13,7 +13,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # === Build options === #
-set(CMAKE_BUILD_TYPE "release")
+set(CMAKE_BUILD_TYPE "debug")
 set(CMAKE_CXX_STANDARD "17")
 set(CMAKE_CXX_COMPILER "clang++")
 set(CXX_COMMON_FLAGS "-std=c++${CMAKE_CXX_STANDARD} -Wall -Werror")
@@ -31,12 +31,19 @@ include_directories("src")
 file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
     src/*.cpp
     src/*.h
+    src/*/*.cpp
+    src/*/*.h
+    src/*/*/*.cpp
+    src/*/*/*.h
+    src/*/*/*/*.cpp
+    src/*/*/*/*.h
 )
 add_executable(${ARTIFACT} ${SRC})
 
 # === TEST === #
 enable_testing()
 file(GLOB_RECURSE TEST CONFIGURE_DEPENDS
+    src/math/linal/*.h
     test/*.cpp
     test/*.h
 )

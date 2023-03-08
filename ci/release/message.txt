@@ -1,1 +1,1 @@
-[init] linting and formatting
+[math:linal:vector] (tested) vector impl ctors, getter, math operations

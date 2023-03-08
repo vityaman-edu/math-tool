@@ -1,3 +1,4 @@
+#include "math/linal/vector.hpp"
 #include <iostream>
 
 auto main(int argc, char** argv) -> int {

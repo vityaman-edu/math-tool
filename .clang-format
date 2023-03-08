@@ -6,6 +6,7 @@ ColumnLimit: 65
 ---
 Language: Cpp
 AlignAfterOpenBracket: BlockIndent
+AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
 DerivePointerAlignment: false
