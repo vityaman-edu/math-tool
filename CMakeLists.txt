@@ -30,22 +30,22 @@ include_directories("src")
 # === APP === #
 file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
     src/*.cpp
-    src/*.h
+    src/**/.hpp
     src/*/*.cpp
-    src/*/*.h
+    src/*/*.hpp
     src/*/*/*.cpp
-    src/*/*/*.h
+    src/*/*/*.hpp
     src/*/*/*/*.cpp
-    src/*/*/*/*.h
+    src/*/*/*/*.hpp
 )
 add_executable(${ARTIFACT} ${SRC})
 
 # === TEST === #
 enable_testing()
 file(GLOB_RECURSE TEST CONFIGURE_DEPENDS
-    src/math/linal/*.h
+    src/math/linal/*.hpp
     test/*.cpp
-    test/*.h
+    test/*.hpp
 )
 add_executable(${ARTIFACT}-test ${TEST})
 target_link_libraries(
