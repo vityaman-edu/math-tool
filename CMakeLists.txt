@@ -37,11 +37,21 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
     src/*/*/*.hpp
     src/*/*/*/*.cpp
     src/*/*/*/*.hpp
+    src/*/*/*/*/*.cpp
+    src/*/*/*/*/*.hpp
+    src/*/*/*/*/*/*.cpp
+    src/*/*/*/*/*/*.hpp
 )
 add_executable(${ARTIFACT} ${SRC})
 
 # === TEST === #
 enable_testing()
+file(
+    COPY 
+    test/io
+    DESTINATION
+    ${CMAKE_CURRENT_BINARY_DIR}/test
+)
 file(GLOB_RECURSE TEST CONFIGURE_DEPENDS
     src/math/linal/*.hpp
     test/*.cpp

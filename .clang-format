@@ -11,6 +11,7 @@ BinPackArguments: false
 BinPackParameters: false
 DerivePointerAlignment: false
 PointerAlignment: Left
+BreakBeforeTernaryOperators: true
 BreakBeforeBinaryOperators: All
 AlignArrayOfStructures: Left
 FixNamespaceComments: false

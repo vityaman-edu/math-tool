@@ -92,6 +92,22 @@ public:
   vector& operator=(const vector& other) noexcept = default;
   vector& operator=(vector&& other) noexcept = default;
 
+  using container = std::array<F, N>;
+  using iterator = typename container::iterator;
+  using const_iterator = typename container::const_iterator;
+
+  iterator begin() noexcept { return data.begin(); }
+  
+  iterator end() noexcept { return data.end(); }
+
+  [[nodiscard]] const_iterator begin() const noexcept {
+    return data.begin();
+  }
+
+  [[nodiscard]] const_iterator end() const noexcept {
+    return data.end();
+  }
+
   ~vector() = default;
 
   static vector zero() noexcept {
@@ -99,7 +115,7 @@ public:
   }
 
 private:
-  std::array<F, N> data;
+  container data;
 };
 
 }

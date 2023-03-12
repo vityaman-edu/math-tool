@@ -1,1 +1,1 @@
-[math:linal] basic linal operations such as matrix product and scalar vector product introduced
+[math] added iteration lin eq sys solver, linal io, tests

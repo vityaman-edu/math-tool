@@ -1,3 +1,5 @@
+#pragma once
+
 #include "math/linal/matrix.hpp"
 #include "math/linal/vector.hpp"
 #include <cstddef>
@@ -34,6 +36,14 @@ vector<F, N> operator*(
 ) noexcept {
   return vector<F, N>([=](size_t index) {
     return scalar_product(mat[index], vec);
+  });
+}
+
+template <typename T, typename F, size_t N>
+vector<T, N>
+map(const vector<T, N>& vec, const std::function<T(F)>& func) {
+  return vector<T, N>([=](size_t index) {
+    return func(vec[index]);
   });
 }
 
