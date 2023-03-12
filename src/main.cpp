@@ -1,4 +1,5 @@
 #include "math/linal/vector.hpp"
+#include "math/linal/matrix.hpp"
 #include <iostream>
 
 auto main(int argc, char** argv) -> int {

@@ -6,8 +6,8 @@
 
 using math::linal::vector;
 
-constexpr size_t N = 10; // NOLINT
-constexpr int B = 100;   // NOLINT
+static constexpr size_t N = 10; // NOLINT
+static constexpr int B = 100;   // NOLINT
 using T = int;
 
 TEST(Vector, CreateFromArray) {
@@ -35,15 +35,13 @@ TEST(Vector, AddSub) {
   auto left = random_vector<T, N>(-B, B);
   auto right = random_vector<T, N>(-B, B);
 
-  auto expected_sum = vector<T, N>::zero();
-  for (size_t i = 0; i < N; i++) {
-    expected_sum[i] = left[i] + right[i];
-  }
+  auto expected_sum = vector<T, N>([=](size_t index) {
+    return left[index] + right[index];
+  });
 
-  auto expected_diff = vector<T, N>::zero();
-  for (size_t i = 0; i < N; i++) {
-    expected_diff[i] = left[i] - right[i];
-  }
+  auto expected_diff = vector<T, N>([=](size_t index) {
+    return left[index] - right[index];
+  });
 
   ASSERT_EQ(left + right, expected_sum);
   ASSERT_EQ(right + left, expected_sum);
@@ -57,10 +55,9 @@ TEST(Vector, MultOnScalar) {
 
   auto actual = input * scalar;
 
-  auto expected = vector<T, N>::zero();
-  for (size_t i = 0; i < N; i++) {
-    expected[i] = input[i] * scalar;
-  }
+  auto expected = vector<T, N>([=](size_t index) {
+    return input[index] * scalar;
+  });
 
   ASSERT_EQ(actual, expected);
 }

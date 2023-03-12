@@ -10,6 +10,8 @@ namespace math::linal {
 template <typename F, size_t N>
 class vector {
 public:
+  explicit vector() = default;
+
   explicit vector(const std::array<F, N>& array)
       : vector([&array](size_t index) { return array[index]; }) {
   }
@@ -28,27 +30,26 @@ public:
     return data[I];
   }
 
-  F operator[](const size_t index) const {
+  F operator[](size_t index) const {
     assert(index < data.size());
     return data[index];
   }
 
-  F& operator[](const size_t index) {
+  F& operator[](size_t index) {
     assert(index < data.size());
     return data[index];
   }
 
-  vector& operator*=(const F scalar) noexcept {
+  vector& operator*=(F scalar) noexcept {
     for (size_t i = 0; i < N; i++) {
       data[i] *= scalar;
     }
     return *this;
   }
 
-  vector operator*(const F scalar) const noexcept {
+  vector operator*(F scalar) const noexcept {
     auto mult = *this;
-    mult *= scalar;
-    return mult;
+    return mult *= scalar;
   }
 
   vector& operator+=(const vector& other) noexcept {
@@ -59,9 +60,8 @@ public:
   }
 
   vector operator+(const vector& other) const noexcept {
-    vector sum = *this;
-    sum += other;
-    return sum;
+    auto sum = *this;
+    return sum += other;
   }
 
   vector& operator-=(const vector& other) noexcept {
@@ -73,8 +73,7 @@ public:
 
   vector operator-(const vector& other) const noexcept {
     auto diff = *this;
-    diff -= other;
-    return diff;
+    return diff -= other;
   }
 
   bool operator==(const vector& other) const noexcept {
@@ -90,8 +89,8 @@ public:
     return !(*this == other);
   }
 
-  vector& operator=(const vector& other) = delete;
-  vector& operator=(const vector&& other) = delete;
+  vector& operator=(const vector& other) noexcept = default;
+  vector& operator=(vector&& other) noexcept = default;
 
   ~vector() = default;
 
@@ -100,8 +99,6 @@ public:
   }
 
 private:
-  vector() = default;
-
   std::array<F, N> data;
 };
 
