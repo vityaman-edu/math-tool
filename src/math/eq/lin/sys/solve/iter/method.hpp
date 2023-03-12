@@ -3,24 +3,22 @@
 #include "math/eq/lin/sys/lineqsys.hpp"
 #include "math/eq/lin/sys/solve/iter/valid_lineqsys.hpp"
 #include "math/linal/basic_op.hpp"
+#include "math/linal/io.hpp"
 #include "math/linal/matrix.hpp"
 #include "math/linal/vector.hpp"
-#include "math/linal/io.hpp"
 #include <algorithm>
 #include <cstddef>
 
 namespace math::eq::lin::sys::solve::iter {
-
-using math::linal::io::operator<<;
 
 template <typename F, std::size_t N>
 static math::linal::matrix<F, N, N>
 build_alpha(const valid_lineqsys<F, N>& sys) {
   return linal::matrix<F, N, N>([=](size_t row, size_t col) {
     return (
-        (row != col)                              //
+        (row != col)                               //
             ? (-sys.a[row][col] / sys.a[row][row]) //
-            : (0)                                 //
+            : (0)                                  //
     );
   });
 }
