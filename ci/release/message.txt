@@ -1,1 +1,1 @@
-[gauss] refactored gauss a bit, tested
+[gauss] added fuzzing

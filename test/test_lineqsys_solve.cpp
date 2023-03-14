@@ -1,3 +1,4 @@
+#include "generator.hpp"
 #include "math/eq/lin/sys/lineqsys.hpp"
 #include "math/eq/lin/sys/solve/gauss/method.hpp"
 #include "math/eq/lin/sys/solve/iter/method.hpp"
@@ -12,6 +13,7 @@
 #include <fstream>
 #include <gtest/gtest.h>
 #include <iostream>
+#include <numeric>
 #include <stdexcept>
 #include <string>
 
@@ -83,4 +85,42 @@ void test() {
   }
 }
 
-TEST(LinEqSysSolveIter, IOCases3x3) { test<double, 3>(); }
+TEST(LinEqSysSolve, IOCases3x3) { test<double, 3>(); }
+
+TEST(LinEqSysSolve, Fuzzing) {
+  constexpr size_t ROUNDS = 100;             // NOLINT
+  constexpr size_t N = 30;                   // NOLINT
+  constexpr int B = 100;                     // NOLINT
+  using F = float;                           // NOLINT
+  using namespace math::linal;               // NOLINT
+  using namespace math::eq::lin::sys::solve; // NOLINT
+
+  for (size_t i = 0; i < ROUNDS; i++) {
+    matrix<F, N, N> a = random_matrix<F, N, N>(-B, B); // NOLINT
+    vector<F, N> b = random_vector<F, N>(-B, B);       // NOLINT
+
+    // Make diagonal predominance
+    for (size_t j = 0; j < N; j++) {
+      a[j][j] = static_cast<float>(std::reduce(
+          a[j].begin(),
+          a[j].end(),
+          1,
+          [](F left, F right) {
+            return std::abs(left) + std::abs(right);
+          }
+      ));
+    }
+
+    try {
+      const auto valid_system
+          = iter::valid_lineqsys<F, N>::from({a, b});
+      const auto iter_result
+          = iter::solve<F, N>(valid_system, EPS).value;
+      const auto gauss_result = gauss::solve<F, N>({a, b}).value;
+      assert_result(gauss_result, iter_result);
+      std::cout << "[FUZZ]: OK" << std::endl;
+    } catch (std::invalid_argument& e) {
+      std::cerr << "[FUZZ]: Error " << e.what() << std::endl;
+    }
+  }
+}
