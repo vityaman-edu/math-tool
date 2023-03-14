@@ -104,6 +104,18 @@ public:
   matrix& operator=(const matrix& other) noexcept = default;
   matrix& operator=(matrix&& other) noexcept = default;
 
+  void swap_rows(size_t i, size_t j) { // NOLINT
+    assert(i < R && j < R);
+    std::swap(data[i], data[j]);
+  }
+
+  void swap_cols(size_t i, size_t j) { // NOLINT
+    assert(i < C && j < C);
+    for (size_t k = 0; k < R; k++) {
+      std::swap(data[k][i], data[k][j]);
+    }
+  }
+
   ~matrix() = default;
 
   static matrix zero() noexcept {
@@ -119,5 +131,14 @@ public:
 private:
   std::array<vector<F, C>, R> data;
 };
+
+template <typename F, size_t R, size_t C>
+std::ostream&
+operator<<(std::ostream& out, const matrix<F, R, C>& mat) {
+  for (size_t i = 0; i < R; i++) {
+    out << mat[i] << '\n';
+  }
+  return out;
+}
 
 }

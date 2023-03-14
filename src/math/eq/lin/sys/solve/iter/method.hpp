@@ -3,7 +3,6 @@
 #include "math/eq/lin/sys/lineqsys.hpp"
 #include "math/eq/lin/sys/solve/iter/valid_lineqsys.hpp"
 #include "math/linal/basic_op.hpp"
-#include "math/linal/io.hpp"
 #include "math/linal/matrix.hpp"
 #include "math/linal/vector.hpp"
 #include <algorithm>
@@ -23,7 +22,7 @@ build_alpha(const valid_lineqsys<F, N>& sys) {
   });
 }
 
-template <typename F, std::size_t N>
+template <typename F, size_t N>
 static linal::vector<F, N>
 build_beta(const valid_lineqsys<F, N>& sys) {
   return linal::vector<F, N>([=](size_t index) {
@@ -31,14 +30,14 @@ build_beta(const valid_lineqsys<F, N>& sys) {
   });
 }
 
-template <typename F, std::size_t N>
+template <typename F, size_t N>
 struct result { // NOLINT
   linal::vector<F, N> value;
   linal::vector<F, N> error;
   size_t steps_count;
 };
 
-template <typename F, std::size_t N>
+template <typename F, size_t N>
 result<F, N> solve(const valid_lineqsys<F, N>& sys, F eps) {
   const auto alpha = build_alpha(sys);
   const auto beta = build_beta(sys);

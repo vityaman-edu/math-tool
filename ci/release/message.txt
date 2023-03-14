@@ -1,1 +1,1 @@
-[math] added iteration lin eq sys solver, linal io, tests
+[gauss] implemented unstable gauss method

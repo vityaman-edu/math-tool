@@ -39,15 +39,13 @@ TEST(Matrix, AddSub) {
   auto left = random_matrix<T, N, M>(-B, B);
   auto right = random_matrix<T, N, M>(-B, B);
 
-  auto expected_sum
-      = matrix<T, N, M>([=](size_t row, size_t col) {
-          return left[row][col] + right[row][col];
-        });
+  auto expected_sum = matrix<T, N, M>([=](size_t row, size_t col) {
+    return left[row][col] + right[row][col];
+  });
 
-  auto expected_diff
-      = matrix<T, N, M>([=](size_t row, size_t col) {
-          return left[row][col] - right[row][col];
-        });
+  auto expected_diff = matrix<T, N, M>([=](size_t row, size_t col) {
+    return left[row][col] - right[row][col];
+  });
 
   ASSERT_EQ(left + right, expected_sum);
   ASSERT_EQ(right + left, expected_sum);
@@ -66,4 +64,17 @@ TEST(Matrix, MultOnScalar) {
   });
 
   ASSERT_EQ(actual, expected);
+}
+
+TEST(Matrix, SwapRows) {
+  auto input = random_matrix<T, N, M>(-B, B);
+
+  for (size_t i = 0; i < N; i++) {
+    auto copy = input;
+    auto row_1 = random_size(N);
+    auto row_2 = random_size(N);
+    copy.swap_rows(row_1, row_2);
+    ASSERT_EQ(copy[row_1], input[row_2]);
+    ASSERT_EQ(copy[row_2], input[row_1]);
+  }
 }

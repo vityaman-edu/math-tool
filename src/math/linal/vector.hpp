@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstddef>
 #include <functional>
+#include <iostream>
 
 namespace math::linal {
 
@@ -13,8 +14,7 @@ public:
   explicit vector() = default;
 
   explicit vector(const std::array<F, N>& array)
-      : vector([&array](size_t index) { return array[index]; }) {
-  }
+      : vector([&array](size_t index) { return array[index]; }) {}
 
   explicit vector(const std::function<F(size_t)>& fill) {
     for (size_t i = 0; i < N; i++) {
@@ -23,12 +23,6 @@ public:
   }
 
   vector(const vector& other) : vector(other.data) {}
-
-  template <size_t I>
-  [[nodiscard]] F at() const noexcept {
-    static_assert(I < N, "index I should be less than size N");
-    return data[I];
-  }
 
   F operator[](size_t index) const {
     assert(index < data.size());
@@ -97,7 +91,7 @@ public:
   using const_iterator = typename container::const_iterator;
 
   iterator begin() noexcept { return data.begin(); }
-  
+
   iterator end() noexcept { return data.end(); }
 
   [[nodiscard]] const_iterator begin() const noexcept {
@@ -117,5 +111,24 @@ public:
 private:
   container data;
 };
+
+template <typename F, size_t N>
+vector<F, N>
+operator*(F scalar, const vector<F, N>& vector) noexcept {
+  return vector * scalar;
+}
+
+template <typename F, size_t N>
+std::ostream& operator<<(std::ostream& out, const vector<F, N>& vec) {
+  out << "{ ";
+  for (size_t i = 0; i < N - 1 && N > 0; i++) {
+    out << vec[i] << ", ";
+  }
+  if (N > 0) {
+    out << vec[N - 1];
+  }
+  out << " }";
+  return out;
+}
 
 }

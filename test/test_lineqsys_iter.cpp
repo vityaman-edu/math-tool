@@ -2,7 +2,6 @@
 #include "math/eq/lin/sys/solve/iter/method.hpp"
 #include "math/eq/lin/sys/solve/iter/valid_lineqsys.hpp"
 #include "math/linal/basic_op.hpp"
-#include "math/linal/io.hpp"
 #include "math/linal/matrix.hpp"
 #include "math/linal/vector.hpp"
 #include <cmath>
@@ -25,8 +24,7 @@ constexpr float EPS = 0.001;
 template <typename F, size_t N>
 void test() {
   const auto n = std::to_string(N); // NOLINT
-  const std::string basepath
-      = "./test/io/sle/" + n + "x" + n + "/ok";
+  const std::string basepath = "./test/io/sle/" + n + "x" + n + "/ok";
 
   for (const auto& entry :
        std::filesystem::directory_iterator(basepath)) {
@@ -60,8 +58,7 @@ void test() {
     diff = math::linal::map<F, F, N>(diff, [=](F element) {
       return std::abs(element);
     });
-    const auto max_diff
-        = *std::max_element(diff.begin(), diff.end());
+    const auto max_diff = *std::max_element(diff.begin(), diff.end());
 
     ASSERT_LT(max_diff, EPS);
   }
