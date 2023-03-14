@@ -51,7 +51,9 @@ public:
             return row_candidates[row].size()
                    < row_candidates[col].size();
           };
-    std::sort(indexes.begin(), indexes.end(), less_by_candidates_count);
+    std::sort(
+        indexes.begin(), indexes.end(), less_by_candidates_count
+    );
 
     std::array<size_t, N> suitable; // NOLINT
     std::set<size_t> used_rows;
@@ -68,7 +70,7 @@ public:
       );
 
       if (diff.empty()) {
-        throw std::logic_error(
+        throw std::invalid_argument(
             "matrix can't be made diagonal predominant"
         );
       }

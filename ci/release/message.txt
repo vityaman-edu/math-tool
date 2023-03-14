@@ -1,1 +1,1 @@
-[gauss] implemented unstable gauss method
+[gauss] refactored gauss a bit, tested
