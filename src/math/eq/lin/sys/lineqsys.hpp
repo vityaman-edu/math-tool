@@ -44,7 +44,7 @@ operator<<(std::ostream& out, const lineqsys<F, N>& sys) {
     for (size_t j = 0; j < N; j++) {
       out << Format::col() << sys.a[i][j] << ' ';
     }
-    out << " |" << Format::col() << sys.b[i] << '\n';
+    out << " | " << Format::col() << sys.b[i] << '\n';
   }
   return out;
 }

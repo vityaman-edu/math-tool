@@ -12,6 +12,7 @@ Checks: "*,\
   -fuchsia-default-arguments-calls,\
   -cppcoreguidelines-pro-bounds-constant-array-index,\
   -cppcoreguidelines-special-member-functions,\
+  -cppcoreguidelines-owning-memory,\
   -google-readability-namespace-comments,\
   -google-readability-todo,\
   -hicpp-special-member-functions"

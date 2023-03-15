@@ -12,6 +12,8 @@ int usage() {
 }
 
 int main(int argc, char* argv[]) {
+  std::cin.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
   if (argc < 2) {
     return usage();
   }
@@ -35,6 +37,9 @@ int main(int argc, char* argv[]) {
       tool::lineqsys::run(std::cin, std::cout, {filepath});
     } catch (std::invalid_argument& e) {
       std::cerr << "error: " << e.what() << std::endl;
+    } catch (std::ios_base::failure& e) {
+      std::cerr << "error: invalid input (" << e.what() << ")"
+                << std::endl;
     }
   } else {
     return usage();

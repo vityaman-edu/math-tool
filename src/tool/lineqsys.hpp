@@ -19,13 +19,18 @@ using math::eq::lin::sys::solve::gauss::result;
 using math::eq::lin::sys::solve::gauss::solve;
 
 template <typename F, size_t N>
-lineqsys<F, N> parse_system_from(std::istream& input) {
+lineqsys<F, N> parse_system(std::istream& input) {
   lineqsys<F, N> sys; // NOLINT: init in for-loop
   for (size_t i = 0; i < N; i++) {
     for (size_t j = 0; j < N; j++) {
       input >> sys.a[i][j];
     }
     input >> sys.b[i];
+  }
+  std::ifstream* file;                                 // NOLINT
+  if ((file = dynamic_cast<std::ifstream*>(&input))) { // NOLINT
+    file->close();
+    delete file; // NOLINT  
   }
   return sys;
 }
@@ -43,7 +48,7 @@ void report(std::ostream& out, const result<F, N>& result) {
 
 template <typename F, size_t N>
 void impl(std::istream& file, std::ostream& output) {
-  auto system = parse_system_from<F, N>(file);
+  auto system = parse_system<F, N>(file);
   auto result = solve(system);
   report(output, result);
 }
