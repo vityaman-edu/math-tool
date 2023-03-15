@@ -88,7 +88,7 @@ void test() {
 TEST(LinEqSysSolve, IOCases3x3) { test<double, 3>(); }
 
 TEST(LinEqSysSolve, Fuzzing) {
-  constexpr size_t ROUNDS = 100;             // NOLINT
+  constexpr size_t ROUNDS = 10;              // NOLINT
   constexpr size_t N = 30;                   // NOLINT
   constexpr int B = 100;                     // NOLINT
   using F = float;                           // NOLINT

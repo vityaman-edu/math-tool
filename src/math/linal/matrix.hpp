@@ -5,6 +5,7 @@
 #include <cassert>
 #include <cstddef>
 #include <functional>
+#include <iomanip>
 
 namespace math::linal {
 
@@ -135,8 +136,10 @@ private:
 template <typename F, size_t R, size_t C>
 std::ostream&
 operator<<(std::ostream& out, const matrix<F, R, C>& mat) {
+  constexpr int COL_WIDTH = 5;
   for (size_t i = 0; i < R; i++) {
-    out << mat[i] << '\n';
+    out << std::setw(COL_WIDTH) << std::setfill(' ') << mat[i]
+        << '\n';
   }
   return out;
 }

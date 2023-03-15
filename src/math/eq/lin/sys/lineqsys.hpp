@@ -31,14 +31,20 @@ public:
 template <typename F, size_t N>
 using solver = std::function<solution<F, N>(const lineqsys<F, N>&)>;
 
+struct Format { // NOLINT
+  static Format col() { return {}; }
+};
+
+std::ostream& operator<<(std::ostream& out, Format format);
+
 template <typename F, size_t N>
 std::ostream&
 operator<<(std::ostream& out, const lineqsys<F, N>& sys) {
   for (size_t i = 0; i < N; i++) {
     for (size_t j = 0; j < N; j++) {
-      out << sys.a[i][j] << '\t';
+      out << Format::col() << sys.a[i][j] << ' ';
     }
-    out << "|\t" << sys.b[i] << '\n';
+    out << " |" << Format::col() << sys.b[i] << '\n';
   }
   return out;
 }

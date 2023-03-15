@@ -6,6 +6,7 @@
 #include "math/linal/vector.hpp"
 #include <cstddef>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <ostream>
 #include <stdexcept>
@@ -31,14 +32,9 @@ lineqsys<F, N> parse_system_from(std::istream& input) {
 
 template <typename F, size_t N>
 void report(std::ostream& out, const result<F, N>& result) {
-  F det = 1;
-  for (size_t i = 0; i < N; i++) {
-    det *= result.triangle.a[i][i];
-  }
-
   out << "lineqsys gauss method results report" << '\n';
   // TODO: det sign from swaps inside gauss
-  out << "det: " << det << '\n';
+  out << "det: " << result.det << '\n';
   out << "triangle matrix:" << '\n';
   out << result.triangle;
   out << "result: " << result.value << '\n';
