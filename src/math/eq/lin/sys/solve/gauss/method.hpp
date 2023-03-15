@@ -5,64 +5,71 @@
 #include "math/linal/basic_op.hpp"
 #include "math/linal/matrix.hpp"
 #include "math/linal/vector.hpp"
+#include <algorithm>
 #include <array>
 #include <cstddef>
 #include <functional>
 #include <iterator>
 #include <random>
 #include <stdexcept>
+#include <vector>
 
 namespace math::eq::lin::sys::solve::gauss {
 
+struct index_pair { // NOLINT
+  size_t i;
+  size_t j;
+};
+
 template <typename F, size_t N>
-static linal::vector<size_t, 2> peek(
-    const linal::matrix<F, N, N>& matrix,
-    linal::vector<size_t, 2> start
-) {
+static index_pair
+peek(const linal::matrix<F, N, N>& matrix, index_pair start) {
   auto max = start;
-  for (size_t row = start[0]; row < N; row++) {   // NOLINT
-    for (size_t col = start[1]; col < N; col++) { // NOLINT
-      if (matrix[max[0]][max[1]] < matrix[row][col]) {
-        max[0] = row;
-        max[1] = col;
+  for (size_t i = start.i; i < N; i++) {   // NOLINT
+    for (size_t j = start.j; j < N; j++) { // NOLINT
+      if (matrix[max.i][max.j] < matrix[i][j]) {
+        max.i = i;
+        max.j = j;
       }
     }
   }
   return max;
 }
 
-template <typename F, size_t N>
+template <size_t N>
 struct triangulization_result { // NOLINT
+  std::array<index_pair, N> swaps;
+  size_t swaps_count = 0;
 };
 
 template <typename F, size_t N>
-triangulization_result<F, N> triangulate(lineqsys<F, N>& system) {
+triangulization_result<N> triangulate(lineqsys<F, N>& sys) {
+  triangulization_result<N> result = {};
+
   for (size_t row = 0; row < N; row++) {
-
     // Put max element in working position
-    const auto position = linal::vector<size_t, 2>({row, row});
-    // const auto position
-    //     = peek<F, N>(system.a, linal::vector<size_t, 2>({row,
-    //     row}));
+    // const index_pair peek = {row, row};
+    const auto pos = peek<F, N>(sys.a, {row, row});
 
-    if (system.a[position[0]][position[1]] == 0) {
+    if (sys.a[pos.i][pos.j] == 0) {
       throw std::invalid_argument("matrix can't be solved by gauss");
     }
 
-    system.a.swap_rows(position[0], row);
-    std::swap(system.b[position[0]], system.b[row]);
+    sys.a.swap_rows(pos.i, row);
+    std::swap(sys.b[pos.i], sys.b[row]);
 
-    system.a.swap_cols(position[1], row);
+    sys.a.swap_cols(pos.j, row);
+    result.swaps[result.swaps_count++] = {.i = pos.j, .j = row};
 
     // Go ahead and make zeros below
     for (size_t i = row + 1; i < N; i++) { // NOLINT
-      F multiplier = system.a[i][row] / system.a[row][row];
-      system.a[i] -= multiplier * system.a[row];
-      system.b[i] -= multiplier * system.b[row];
+      F multiplier = sys.a[i][row] / sys.a[row][row];
+      sys.a[i] -= multiplier * sys.a[row];
+      sys.b[i] -= multiplier * sys.b[row];
     }
   }
 
-  return {};
+  return result;
 }
 
 template <typename F, size_t N>
@@ -91,11 +98,17 @@ struct result { // NOLINT
 template <typename F, size_t N>
 result<F, N> solve(const lineqsys<F, N>& sys) {
   auto triangle = sys;
-  triangulate(triangle);
-  auto shuffled_result = solve_triangle(triangle);
-  // auto eps = sys.b - sys.a * shuffled_result;
+  auto tresult = triangulate(triangle);
+  auto result = solve_triangle(triangle);
+  for (size_t i = tresult.swaps_count - 1;; i--) { // NOLINT
+    auto swap = tresult.swaps[i];
+    std::swap(result[swap.i], result[swap.j]);
+    if (i == 0) {
+      break;
+    }
+  }
   return {
-      .value = shuffled_result,
+      .value = result,
       .triangle = triangle,
   };
 }

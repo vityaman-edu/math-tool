@@ -10,13 +10,13 @@ int main(int argc, char** argv) {
   (void)argv;
 
   // clang-format off
-  math::eq::lin::sys::lineqsys<double, 3> sys = {
-    .a = math::linal::matrix<double, 3, 3>({{
+  math::eq::lin::sys::lineqsys<float, 3> sys = {
+    .a = math::linal::matrix<float, 3, 3>({{
       { 2, -1,   1 },   // NOLINT
       { 3,  5,  -2 },   // NOLINT
       { 1, -4,  10 }    // NOLINT
     }}),
-    .b = math::linal::vector<double, 3>(
+    .b = math::linal::vector<float, 3>(
       {-3, 1, 0}  // NOLINT
     )
   };

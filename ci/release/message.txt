@@ -1,1 +1,1 @@
-[gauss] added fuzzing
+[gauss] added max element choise and shuffle resolve algorithm
