@@ -23,18 +23,24 @@ build_alpha(const valid_lineqsys<F, N>& sys) {
 }
 
 template <typename F, size_t N>
-static linal::vector<F, N>
-build_beta(const valid_lineqsys<F, N>& sys) {
+static linal::vector<F, N> build_beta(const valid_lineqsys<F, N>& sys
+) {
   return linal::vector<F, N>([=](size_t index) {
     return sys.b[index] / sys.a[index][index];
   });
 }
 
 template <typename F, size_t N>
-struct result { // NOLINT
-  linal::vector<F, N> value;
-  linal::vector<F, N> error;
-  size_t steps_count;
+struct result : solution<F, N> { // NOLINT
+public:
+  result(
+      math::linal::vector<F, N> value, // NOLINT
+      math::linal::vector<F, N> error, // NOLINT
+      size_t steps_count
+  )
+      : solution<F, N>(value, error), steps_count(steps_count) {}
+
+  size_t steps_count; // NOLINT
 };
 
 template <typename F, size_t N>
@@ -51,16 +57,11 @@ result<F, N> solve(const valid_lineqsys<F, N>& sys, F eps) {
     x = x + beta;
 
     steps_count += 1;
-    auto error
-        = math::linal::map<F, F, N>(prev - x, [=](F element) {
-            return std::abs(element);
-          });
+    auto error = math::linal::map<F, F, N>(prev - x, [=](F element) {
+      return std::abs(element);
+    });
     if (*std::max_element(error.begin(), error.end()) < eps) {
-      return {
-          .value = x,
-          .error = error,
-          .steps_count = steps_count,
-      };
+      return result<F, N>(x, error, steps_count);
     }
   }
 }

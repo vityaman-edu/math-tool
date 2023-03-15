@@ -73,15 +73,14 @@ triangulization_result<N> triangulate(lineqsys<F, N>& sys) {
 }
 
 template <typename F, size_t N>
-static linal::vector<F, N> solve_triangle(const lineqsys<F, N>& system
-) {
+static linal::vector<F, N> solve_triangle(const lineqsys<F, N>& sys) {
   linal::vector<F, N> result; // NOLINT: fill in the loop
   for (size_t row = N - 1;; row--) {
-    auto x = system.b[row];                      // NOLINT
+    auto x = sys.b[row];                         // NOLINT
     for (size_t col = row + 1; col < N; col++) { // NOLINT
-      x -= system.a[row][col] * result[col];
+      x -= sys.a[row][col] * result[col];
     }
-    result[row] = x / system.a[row][row];
+    result[row] = x / sys.a[row][row];
     if (row == 0) {
       break;
     }
@@ -90,26 +89,31 @@ static linal::vector<F, N> solve_triangle(const lineqsys<F, N>& system
 }
 
 template <typename F, size_t N>
-struct result { // NOLINT
-  linal::vector<F, N> value;
-  lineqsys<F, N> triangle;
+struct result : solution<F, N> { // NOLINT
+public:
+  result(
+      math::linal::vector<F, N> value, // NOLINT
+      math::linal::vector<F, N> error, // NOLINT
+      const lineqsys<F, N>& triangle
+  )
+      : solution<F, N>(value, error), triangle(triangle) {}
+
+  lineqsys<F, N> triangle; // NOLINT
 };
 
 template <typename F, size_t N>
 result<F, N> solve(const lineqsys<F, N>& sys) {
   auto triangle = sys;
   auto tresult = triangulate(triangle);
-  auto result = solve_triangle(triangle);
+  auto value = solve_triangle(triangle);
   for (size_t i = tresult.swaps_count - 1;; i--) { // NOLINT
     auto swap = tresult.swaps[i];
-    std::swap(result[swap.i], result[swap.j]);
+    std::swap(value[swap.i], value[swap.j]);
     if (i == 0) {
       break;
     }
   }
-  return {
-      .value = result,
-      .triangle = triangle,
-  };
+  return result<F, N>(value, sys.b - sys.a * value, triangle);
 }
+
 }

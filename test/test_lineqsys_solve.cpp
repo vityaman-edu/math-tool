@@ -132,7 +132,6 @@ TEST(LinEqSysSolve, Fuzzing) {
       assert_result(gauss_result, iter_result);
       std::cout << "[FUZZ]: OK" << std::endl;
     } catch (std::invalid_argument& e) {
-      
       std::cerr << "[FUZZ]: Error " << e.what() << std::endl;
     }
   }

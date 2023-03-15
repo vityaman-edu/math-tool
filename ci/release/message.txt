@@ -1,1 +1,1 @@
-[gauss] added max element choise and shuffle resolve algorithm
+[gauss] added ui
