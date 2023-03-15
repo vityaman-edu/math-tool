@@ -57,7 +57,7 @@ result<F, N> solve(const valid_lineqsys<F, N>& sys, F eps) {
     x = x + beta;
 
     steps_count += 1;
-    auto error = math::linal::map<F, F, N>(prev - x, [=](F element) {
+    auto error = math::linal::map<F, F, N>(prev - x, [=](F element) -> F {
       return std::abs(element);
     });
     if (*std::max_element(error.begin(), error.end()) < eps) {
