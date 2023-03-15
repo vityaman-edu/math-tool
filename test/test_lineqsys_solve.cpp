@@ -111,6 +111,18 @@ TEST(LinEqSysSolve, Fuzzing) {
       ));
     }
 
+    // Shuffle
+    for (size_t i = 0; i < N; i++) {
+      auto row_1 = random_size(N);
+      auto row_2 = random_size(N);
+      a.swap_rows(row_1, row_2);
+    }
+    for (size_t i = 0; i < N; i++) {
+      auto col_1 = random_size(N);
+      auto col_2 = random_size(N);
+      a.swap_cols(col_1, col_2);
+    }
+
     try {
       const auto valid_system
           = iter::valid_lineqsys<F, N>::from({a, b});
