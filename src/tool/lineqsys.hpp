@@ -27,11 +27,6 @@ lineqsys<F, N> parse_system(std::istream& input) {
     }
     input >> sys.b[i];
   }
-  std::ifstream* file;                                 // NOLINT
-  if ((file = dynamic_cast<std::ifstream*>(&input))) { // NOLINT
-    file->close();
-    delete file; // NOLINT  
-  }
   return sys;
 }
 
