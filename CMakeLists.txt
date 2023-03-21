@@ -51,7 +51,7 @@ file(
     test/io
     DESTINATION
     ${CMAKE_CURRENT_BINARY_DIR}/test
-)
+) 
 file(GLOB_RECURSE TEST CONFIGURE_DEPENDS
     src/math/linal/*.hpp
     test/*.cpp

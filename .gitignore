@@ -1,5 +1,14 @@
 .vscode/
+
 .cache/
+
 build/
 dist/
 compile_commands.json
+
+*.log
+*.out
+*.gz
+*.fls
+*.fdb_latexmk
+*.aux

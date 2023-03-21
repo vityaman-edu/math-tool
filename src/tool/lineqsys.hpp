@@ -38,7 +38,7 @@ void report(std::ostream& out, const result<F, N>& result) {
   out << "triangle matrix:" << '\n';
   out << result.triangle;
   out << "result: " << result.value << '\n';
-  out << "error: " << result.error << '\n';
+  out << "error:  " << result.error << '\n';
 }
 
 template <typename F, size_t N>

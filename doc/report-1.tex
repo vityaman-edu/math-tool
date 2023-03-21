@@ -1,0 +1,163 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{setspace}
+\usepackage{changepage}
+\usepackage{caption}
+\usepackage{csquotes}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\pgfplotsset{compat=1.18}
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = blue,
+  filecolor  = magenta,      
+  urlcolor   = darkgray,
+  pdftitle   = {
+    math-tool-report-lineqsys-smirnov-victor-p32131
+  },
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.99,0.99,0.99}
+
+\lstdefinestyle{codestyle}{
+  backgroundcolor=\color{backcolour},   
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+\lstset{style=codestyle}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \begin{spacing}{1.4}
+            \large{Университет ИТМО} \\
+            \large{Факультет программной инженерии и компьютерной техники} \\
+        \end{spacing}
+        \vfill
+        \textbf{
+            \huge{Вычислительная математика.} \\
+            \huge{Лабораторная работа №1.} \\
+            \huge{Решение систем линейных уравнений} \\
+        }
+    \end{center}
+    \vfill
+    \begin{center}
+        \begin{tabular}{r l}
+            Группа:  & P32131                  \\
+            Студент: & Смирнов Виктор Игоревич \\
+        \end{tabular}
+    \end{center}
+    \vfill
+    \begin{center}
+        \begin{large}
+            2023
+        \end{large}
+    \end{center}
+\end{titlepage}
+
+\section*{Ключевые слова}
+Системы линейных алгебраических уравнений, СЛАУ, алгоритмы,
+вычислительные методы.
+
+\section{Цель работы}
+Целью проделанной работы было прежде всего ознакомление с
+вычислительными методами решения систем линейных алгебраических
+уравнений. Задача состояла в том, чтобы реализовать необходимые
+алгоритмы на языке программирования, а также разработать
+программное приложение с пользовательским интерфейсом.
+
+\section{Описание метода}
+Был реализован метод главных элементов
+(\cite{calc-math-demidovich-maron}, c. 281).
+
+\section{Реализация алгоритма}
+
+\lstinputlisting[
+    language={C++},
+    caption={Реализация метода главных элементов на языке C++},
+    linerange={17-143}
+]{../src/math/eq/lin/sys/solve/gauss/method.hpp}
+
+\section{Примеры использования программного приложения}
+\begin{lstlisting}[
+    language={Bash},
+    caption={Пример использования приложения 1}
+]
+$ cat a.txt
+3
+ 6  -1 -1   11.33
+-1   6 -1   32
+-1  -1  6   42
+
+$ math-tool lineqsys a.txt
+lineqsys gauss method results report
+det: 196
+triangle matrix:
+       6       -1       -1  |    11.33
+       0    5.833   -1.167  |    33.89
+       0        0      5.6  |    50.67
+result: { 4.666, 7.619, 9.047 }
+error:  { -2.861e-06, 3.815e-06, 3.815e-06 }
+\end{lstlisting}
+
+\begin{lstlisting}[
+    language={Bash},
+    caption={Пример использования приложения 2}
+]
+$ cat null.txt
+5
+0 0 0 0 0  0
+0 0 0 0 0  0
+0 0 0 0 0  0
+0 0 0 0 0  0
+0 0 0 0 0  0
+
+$ math-tool lineqsys null.txt
+error: matrix can't be solved by gauss
+\end{lstlisting}
+
+\section{Вывод}
+В процессе выполнения данной лабораторной работы я 
+ознакомился с некоторыми вычислительными методами для
+решения систем линейных алгебраических уравнений.
+Было очень интересно и увлекательно реализовывать их
+на языке C++.
+
+\begin{thebibliography}{9}
+
+    \bibitem{calc-math-demidovich-maron}
+    Б.П. Демидович, И.А. Марон Основы вычислительной математики:
+    учебное пособие — 1966 год.
+
+\end{thebibliography}
+
+\end{document}

@@ -25,12 +25,11 @@ template <typename F, size_t N>
 static index_pair
 peek(const linal::matrix<F, N, N>& matrix, index_pair start) {
   auto max = start;
-  for (size_t i = start.i; i < N; i++) {   // NOLINT
-    for (size_t j = start.j; j < N; j++) { // NOLINT
-      if (matrix[max.i][max.j] < matrix[i][j]) {
-        max.i = i;
-        max.j = j;
-      }
+  size_t j = start.j;                    // NOLINT
+  for (size_t i = start.i; i < N; i++) { // NOLINT
+    if (matrix[max.i][max.j] < matrix[i][j]) {
+      max.i = i;
+      max.j = j;
     }
   }
   return max;
