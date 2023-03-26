@@ -1,0 +1,31 @@
+CompileFlags:
+  Add: [-xc++, -Wall]
+  Compiler: clang++
+
+Diagnostics:
+  UnusedIncludes: Strict
+  ClangTidy:
+    Add: "*"
+    Remove:
+      [
+        llvm-namespace-comment,
+        llvmlibc-callee-namespace,
+        llvmlibc-implementation-in-namespace,
+        llvmlibc-restrict-system-libc-headers,
+        llvm-include-order,
+        fuchsia-default-arguments-calls,
+        fuchsia-overloaded-operator,
+        altera-unroll-loops,
+        altera-id-dependent-backward-branch,
+        google-readability-namespace-comments,
+        google-readability-todo,
+        hicpp-special-member-functions, # TODO: remove
+        cppcoreguidelines-special-member-functions, # TODO: remove
+        cppcoreguidelines-pro-bounds-constant-array-index,
+        modernize-use-trailing-return-type,
+      ]
+
+InlayHints:
+  Designators: Yes
+  Enabled: Yes
+  DeducedTypes: Yes
