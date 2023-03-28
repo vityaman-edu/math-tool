@@ -2,6 +2,7 @@
 #include "math/eq/solve/half_division.hpp"
 #include "math/eq/solve/interval.hpp"
 #include "math/eq/solve/method.hpp"
+#include <algorithm>
 #include <gtest/gtest.h>
 #include <iterator>
 #include <vector>
@@ -29,6 +30,22 @@ TEST(EqSolveTest, CompareAllOnSample) { // NOLINT
       -1.35656,
       1.79785,
   });
+
+  const auto tabulated_intervals
+      = f.tabulate(interval<F>(-10, 5), 100);
+  ASSERT_EQ(tabulated_intervals.size(), 3);
+  for (auto result : results) {
+    ASSERT_NE((
+        std::find_if(
+            tabulated_intervals.begin(),
+            tabulated_intervals.end(),
+            [result](const interval<F>& interval) {
+              return interval.contains(result);
+            }
+        )),
+        tabulated_intervals.end()
+    );
+  }
 
   auto half_division_tracer = half_division::empty_tracer<F>();
   auto half_division_method

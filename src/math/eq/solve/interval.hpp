@@ -1,4 +1,5 @@
 #pragma once
+#include <cassert>
 #include <type_traits>
 
 namespace math::eq::solve {
@@ -20,11 +21,17 @@ public:
 
   T middle() const noexcept { return (start() + end()) / 2; }
 
+  bool contains(T point) const noexcept {
+    return start() <= point && point <= end();
+  }
+
   interval<T> left_from(T point) const noexcept {
+    assert(contains(point));
     return interval<T>(start(), point);
   }
 
   interval<T> right_from(T point) const noexcept {
+    assert(contains(point));
     return interval<T>(point, end());
   }
 
