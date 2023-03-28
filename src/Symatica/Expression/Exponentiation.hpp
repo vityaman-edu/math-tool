@@ -7,7 +7,7 @@ namespace Symatica::Expression {
 
 class Exponentiation : public BinaryOperation {
 public:
-  Exponentiation(Expression& left, Expression& right)
+  explicit Exponentiation(const Expression& left, const Expression& right)
       : BinaryOperation(left, right) {}
 
   [[nodiscard]] Type type() const noexcept override {

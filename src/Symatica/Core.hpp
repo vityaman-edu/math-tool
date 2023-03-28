@@ -4,6 +4,6 @@
 namespace Symatica::Core {
 
 using Id = std::size_t;
-using F = double;
+using Number = double;
 
 }

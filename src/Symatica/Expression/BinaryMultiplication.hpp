@@ -7,7 +7,7 @@ namespace Symatica::Expression {
 
 class BinaryMultiplication : public BinaryOperation {
 public:
-  BinaryMultiplication(Expression& left, Expression& right)
+  BinaryMultiplication(const Expression& left, const Expression& right)
       : BinaryOperation(left, right) {}
 
   [[nodiscard]] Type type() const noexcept override {
