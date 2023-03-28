@@ -9,10 +9,7 @@
 TEST(EqSolveTest, CompareAllOnSample) { // NOLINT
   constexpr auto EPS = 0.00001;
   using F = float;
-  using math::eq::solve::function;
-  using math::eq::solve::half_division;
-  using math::eq::solve::interval;
-  using math::eq::solve::method;
+  using namespace math::eq::solve; // NOLINT
 
   const auto f = function<F>([](F x) { // NOLINT
     return -0.38 * x * x * x           // NOLINT
@@ -33,9 +30,11 @@ TEST(EqSolveTest, CompareAllOnSample) { // NOLINT
       1.79785,
   });
 
-  const auto half_division_on_iteration = [](F, F, F, F, F, F, F) {};
+  auto half_division_tracer = half_division::empty_tracer<F>();
   auto half_division_method
-      = half_division<F, half_division_on_iteration>(EPS);
+      = half_division::method<F, typeof(half_division_tracer)>(
+          EPS, half_division_tracer
+      );
 
   const auto methods = std::vector<method<F>*>({
       &half_division_method,
