@@ -1,0 +1,52 @@
+#include "math/eq/solve/function.hpp"
+#include "math/eq/solve/half_division.hpp"
+#include "math/eq/solve/interval.hpp"
+#include "math/eq/solve/method.hpp"
+#include <gtest/gtest.h>
+#include <iterator>
+#include <vector>
+
+TEST(EqSolveTest, CompareAllOnSample) { // NOLINT
+  constexpr auto EPS = 0.00001;
+  using F = float;
+  using math::eq::solve::function;
+  using math::eq::solve::half_division;
+  using math::eq::solve::interval;
+  using math::eq::solve::method;
+
+  const auto f = function<F>([](F x) { // NOLINT
+    return -0.38 * x * x * x           // NOLINT
+           - 3.42 * x * x              // NOLINT
+           + 2.51 * x                  // NOLINT
+           + 8.75;                     // NOLINT
+  });
+
+  const auto intervals = std::vector<interval<F>>({
+      interval<F>(-10, -5),
+      interval<F>(-5, 0),
+      interval<F>(0, 5),
+  });
+
+  const auto results = std::vector<F>({
+      -9.44129,
+      -1.35656,
+      1.79785,
+  });
+
+  const auto half_division_on_iteration = [](F, F, F, F, F, F, F) {};
+  auto half_division_method
+      = half_division<F, half_division_on_iteration>(EPS);
+
+  const auto methods = std::vector<method<F>*>({
+      &half_division_method,
+  });
+
+  for (std::size_t i = 0; i < intervals.size(); i++) {
+    const auto& interval = intervals[i];
+    const auto expected_result = results[i];
+    for (auto* method : methods) {
+      const auto actual_result = method->find_some_root(interval, f);
+      ASSERT_NEAR(actual_result, expected_result, EPS);
+    }
+  }
+}

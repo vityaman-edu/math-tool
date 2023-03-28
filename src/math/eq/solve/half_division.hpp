@@ -11,8 +11,7 @@ using half_division_callback
 template <typename T, half_division_callback<T> OnIteration>
 class half_division : public method<T> {
 public:
-  half_division(T epsilon, std::function<void()> on_interation)
-      : epsilon(epsilon), on_interation(std::move(on_interation)) {}
+  explicit half_division(T epsilon) : epsilon(epsilon) {}
 
   T find_some_root(interval<T> interval, function<T> function)
       override {
@@ -42,7 +41,6 @@ public:
 
 private:
   T epsilon;
-  std::function<void()> on_interation;
 };
 
 }

@@ -8,7 +8,9 @@ class interval {
   static_assert(std::is_arithmetic<T>::value);
 
 public:
-  interval(T start, T end) : _start(start), _end(end) {}
+  explicit interval(T start, T end) : _start(start), _end(end) {}
+  interval(const interval& other)
+      : interval(other.start(), other.end()) {}
 
   T length() const noexcept { return end() - start(); }
 

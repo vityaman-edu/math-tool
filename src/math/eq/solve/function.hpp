@@ -28,7 +28,10 @@ public:
       : original(original), derivative(derivative) {}
 
   explicit function(math::function<T, T> original)
-      : function(original, naive_derivative(original, EPSILON)) {}
+      : function(original, naive_derivative<T>(original, EPSILON)) {}
+
+  function(const function& other)
+      : function(other.original, other.derivative) {}
 
   bool exactly_has_root_inside(interval<T> interval) const noexcept {
     return original(interval.start()) * original(interval.end()) < 0;
