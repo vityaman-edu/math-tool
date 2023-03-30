@@ -15,7 +15,8 @@ Checks: "*,\
   -cppcoreguidelines-owning-memory,\
   -google-readability-namespace-comments,\
   -google-readability-todo,\
-  -hicpp-special-member-functions"
+  -hicpp-special-member-functions,\
+  -readability-identifier-length"
 WarningsAsErrors: "*"
 HeaderFilterRegex: ".*"
 AnalyzeTemporaryDtors: false

@@ -23,6 +23,7 @@ Diagnostics:
         cppcoreguidelines-special-member-functions, # TODO: remove
         cppcoreguidelines-pro-bounds-constant-array-index,
         modernize-use-trailing-return-type,
+        readability-identifier-length
       ]
 
 InlayHints:

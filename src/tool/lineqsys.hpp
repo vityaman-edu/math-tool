@@ -33,7 +33,6 @@ lineqsys<F, N> parse_system(std::istream& input) {
 template <typename F, size_t N>
 void report(std::ostream& out, const result<F, N>& result) {
   out << "lineqsys gauss method results report" << '\n';
-  // TODO: det sign from swaps inside gauss
   out << "det: " << result.det << '\n';
   out << "triangle matrix:" << '\n';
   out << result.triangle;

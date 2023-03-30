@@ -14,7 +14,7 @@ static constexpr size_t N = 10; // NOLINT
 static constexpr int B = 100;   // NOLINT
 using T = int;
 
-TEST(BasicOp, ScalarProduct) {
+TEST(BasicOp, ScalarProduct) { // NOLINT
   auto left = random_vector<T, N>(-B, B);
   auto right = random_vector<T, N>(-B, B);
 
@@ -27,7 +27,7 @@ TEST(BasicOp, ScalarProduct) {
   ASSERT_EQ(actual_product, expected_product);
 }
 
-TEST(BasicOp, OperatorComposition) {
+TEST(BasicOp, OperatorComposition) { // NOLINT
   // clang-format off
   auto left = matrix<T, 2, 3>({{
     {1, 2, 3}, // NOLINT
@@ -58,7 +58,7 @@ TEST(BasicOp, OperatorComposition) {
   ASSERT_EQ(actual_r_apply_l, expected_r_apply_l);
 }
 
-TEST(BasicOp, OperatorApplyVector) {
+TEST(BasicOp, OperatorApplyVector) { // NOLINT
   // clang-format off
   auto scale = random_vector<T, N>(-B, B);
   auto scale_op = matrix<T, 3, 3>({{
