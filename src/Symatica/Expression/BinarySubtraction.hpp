@@ -7,7 +7,9 @@ namespace Symatica::Expression {
 
 class BinarySubtraction : public BinaryOperation {
 public:
-  BinarySubtraction(const Expression& left, const Expression& right)
+  explicit BinarySubtraction(
+      const Ptr<Expression>& left, const Ptr<Expression>& right
+  )
       : BinaryOperation(left, right) {}
 
   [[nodiscard]] Type type() const noexcept override {

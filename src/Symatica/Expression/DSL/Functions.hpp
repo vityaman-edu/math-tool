@@ -11,7 +11,7 @@ using Symatica::Expression::Literal;
 
 using E = Expression;
 
-Exponentiation sqare(const E& argument) noexcept;
-Literal l(Number number) noexcept;
+Ptr<Exponentiation> sqare(const Ptr<E>& argument);
+Ptr<Literal> l(Number number);
 
 }

@@ -2,6 +2,7 @@
 
 #include "Symatica/Core.hpp"
 #include "Symatica/Expression/Expression.hpp"
+#include <string>
 
 namespace Symatica::Expression {
 
@@ -14,6 +15,10 @@ public:
   }
 
   [[nodiscard]] Id id() const noexcept { return _id; }
+
+  [[nodiscard]] std::string asString() const noexcept override {
+    return "$" + std::to_string(_id);
+  }
 
 private:
   Id _id;

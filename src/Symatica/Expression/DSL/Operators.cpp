@@ -2,20 +2,26 @@
 
 namespace Symatica::Expression::DSL {
 
-BinaryAddition operator+(const E& left, const E& right) noexcept {
-  return {left, right};
+using Symatica::Core::makePtr;
+
+Ptr<BinaryAddition>
+operator+(const Ptr<E>& left, const Ptr<E>& right) {
+  return makePtr<BinaryAddition>(left, right);
 }
 
-BinarySubtraction operator-(const E& left, const E& right) noexcept {
-  return {left, right};
+Ptr<BinarySubtraction>
+operator-(const Ptr<E>& left, const Ptr<E>& right) {
+  return makePtr<BinarySubtraction>(left, right);
 }
 
-BinaryMultiplication operator*(const E& left, const E& right) noexcept {
-  return {left, right};
+Ptr<BinaryMultiplication>
+operator*(const Ptr<E>& left, const Ptr<E>& right) {
+  return makePtr<BinaryMultiplication>(left, right);
 }
 
-BinaryDivision operator/(const E& left, const E& right) noexcept {
-  return {left, right};
+Ptr<BinaryDivision>
+operator/(const Ptr<E>& left, const Ptr<E>& right) {
+  return makePtr<BinaryDivision>(left, right);
 }
 
 }

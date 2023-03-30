@@ -15,6 +15,7 @@
 
 namespace Symatica::Visitor {
 
+using Symatica::Core::Ptr;
 using Symatica::Expression::BinaryAddition;
 using Symatica::Expression::BinaryDivision;
 using Symatica::Expression::BinaryMultiplication;
@@ -29,56 +30,60 @@ class Evaluator : public Visitor<R> {
 public:
   explicit Evaluator(Symbol::Table& table) : _table(table) {}
 
-  R valueOf(const Expression& expression) {
+  R valueOf(const Ptr<Expression>& expression) {
     return this->visitExpression(expression);
   }
 
-  R visitBinaryAddition(const BinaryAddition& operation) override {
+  R visitBinaryAddition(const Ptr<BinaryAddition>& operation) override {
     return visitBinaryOperation(
         operation, [](R a, R b) { return a + b; } // NOLINT
     );
   };
 
-  R visitBinaryDivision(const BinaryDivision& operation) override {
+  R visitBinaryDivision(const Ptr<BinaryDivision>& operation) override {
     // TODO: FIXME: throw Division by zero error
     return visitBinaryOperation(
         operation, [](R a, R b) { return a / b; } // NOLINT
     );
   }
 
-  R visitBinaryMultiplication(const BinaryMultiplication& operation
+  R visitBinaryMultiplication(const Ptr<BinaryMultiplication>& operation
   ) override {
     return visitBinaryOperation(
         operation, [](R a, R b) { return a * b; } // NOLINT
     );
   }
 
-  R visitBinarySubtraction(const BinarySubtraction& operation) override {
+  R visitBinarySubtraction(const Ptr<BinarySubtraction>& operation) override {
     return visitBinaryOperation(
         operation, [](R a, R b) { return a - b; } // NOLINT
     );
   }
 
-  R visitExponentiation(const Exponentiation& operation) override {
+  R visitExponentiation(const Ptr<Exponentiation>& operation) override {
     return visitBinaryOperation(
         operation, [](R a, R b) { return std::pow(a, b); } // NOLINT
     );
   }
 
-  R visitLiteral(const Literal& literal) override {
-    return literal.value();
+  R visitNegation(const Ptr<Negation>& operation) override {
+    return -1 * valueOf(operation->child());
   }
 
-  R visitVariable(const Variable& variable) override {
-    return valueOf(_table.get(variable.id()));
+  R visitLiteral(const Ptr<Literal>& literal) override {
+    return literal->value();
+  }
+
+  R visitVariable(const Ptr<Variable>& variable) override {
+    return valueOf(_table.get(variable->id()));
   }
 
 private:
   using combinator = std::function<R(R, R)>;
   R visitBinaryOperation(
-      const BinaryOperation& op, combinator comb // NOLINT
+      const Ptr<BinaryOperation>& op, combinator comb // NOLINT
   ) {
-    return comb(valueOf(op.left()), valueOf(op.right()));
+    return comb(valueOf(op->left()), valueOf(op->right()));
   }
 
   Symbol::Table& _table;

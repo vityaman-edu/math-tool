@@ -15,9 +15,16 @@ using Symatica::Expression::BinarySubtraction;
 
 using E = Expression;
 
-BinaryAddition operator+(const E& left, const E& right) noexcept;
-BinarySubtraction operator-(const E& left, const E& right) noexcept;
-BinaryMultiplication operator*(const E& left, const E& right) noexcept;
-BinaryDivision operator/(const E& left, const E& right) noexcept;
+Ptr<BinaryAddition>
+operator+(const Ptr<E>& left, const Ptr<E>& right);
+
+Ptr<BinarySubtraction>
+operator-(const Ptr<E>& left, const Ptr<E>& right);
+
+Ptr<BinaryMultiplication>
+operator*(const Ptr<E>& left, const Ptr<E>& right);
+
+Ptr<BinaryDivision>
+operator/(const Ptr<E>& left, const Ptr<E>& right);
 
 }
