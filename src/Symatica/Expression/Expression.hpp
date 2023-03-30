@@ -9,11 +9,12 @@ enum Type {
   BINARY_MULTIPLICATION,
   BINARY_DIVISION,
   EXPONENTIATION,
+  NEGATION,
   ATOM_VARIABLE,
   ATOM_LITERAL,
 };
 
-// TODO: Create some gathering expression 
+// TODO: Create some gathering expression
 // that we will expose as root from api
 // and witch will dispose memory resources
 class Expression {
