@@ -20,7 +20,7 @@ using Symatica::Visitor::Evaluator;
 
 TEST(TestEvaluator, OnlyLiterals) { // NOLINT
   auto table = TreeTable({});
-  auto eval = Evaluator<Number>(table);
+  auto eval = Evaluator(table);
   ASSERT_EQ(eval.valueOf(l(2)), 2);
   ASSERT_EQ(eval.valueOf(l(2) + l(2)), 4);
   ASSERT_EQ(eval.valueOf(l(2) - l(2)), 0);

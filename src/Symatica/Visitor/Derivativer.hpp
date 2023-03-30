@@ -52,7 +52,7 @@ public:
   R visitBinaryDivision(const Ptr<BinaryDivision>& op) override {
     auto a = op->left();
     auto b = op->right();
-    return (d(a) * b - a * d(b)) / (pow(b, l(2)));
+    return (d(a) * b - a * d(b)) / pow(b, l(2));
   }
 
   R visitBinaryMultiplication(const Ptr<BinaryMultiplication>& op) override {
@@ -76,7 +76,7 @@ public:
       );
     }
     auto power = Core::castPtr<Literal>(b);
-    return (power - l(1)) * a * derivativeOf(a);
+    return power * pow(a, l(power->value() - 1)) * derivativeOf(a);
   }
 
   R visitNegation(const Ptr<Negation>& operation) override {
@@ -91,6 +91,8 @@ public:
     }
     return l(0);
   }
+
+  virtual ~Derivativer() = default;
 
 private:
   R d(const Ptr<Expression>& expression) {

@@ -20,6 +20,9 @@ public:
   [[nodiscard]] Number value() const noexcept { return _value; }
 
   [[nodiscard]] std::string asString() const noexcept override {
+    if (value() == static_cast<Core::Integer>(value())) {
+      return std::to_string(static_cast<Core::Integer>(value()));
+    }
     return std::to_string(value()); // NOLINT
   }
 

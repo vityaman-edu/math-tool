@@ -7,6 +7,7 @@ namespace Symatica::Core {
 
 using Id = std::size_t;
 using Number = double;
+using Integer = int;
 
 template <typename T>
 using Ptr = std::shared_ptr<T>;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Symatica/Core.hpp"
 #include "Symatica/Expression/BinaryAddition.hpp"
 #include "Symatica/Expression/BinaryDivision.hpp"
 #include "Symatica/Expression/BinaryMultiplication.hpp"
@@ -25,8 +26,9 @@ using Symatica::Expression::Exponentiation;
 using Symatica::Expression::Literal;
 using Symatica::Expression::Variable;
 
-template <typename R>
-class Evaluator : public Visitor<R> {
+class Evaluator : public Visitor<Core::Number> {
+  using R = Core::Number;
+
 public:
   explicit Evaluator(Symbol::Table& table) : _table(table) {}
 
@@ -77,6 +79,8 @@ public:
   R visitVariable(const Ptr<Variable>& variable) override {
     return valueOf(_table.get(variable->id()));
   }
+
+  virtual ~Evaluator() = default;
 
 private:
   using combinator = std::function<R(R, R)>;

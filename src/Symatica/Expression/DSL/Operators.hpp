@@ -6,6 +6,7 @@
 #include "Symatica/Expression/BinarySubtraction.hpp"
 #include "Symatica/Expression/Exponentiation.hpp"
 #include "Symatica/Expression/Expression.hpp"
+#include "Symatica/Expression/Negation.hpp"
 
 namespace Symatica::Expression::DSL {
 
@@ -24,8 +25,9 @@ Ptr<BinaryMultiplication> operator*(const Ptr<E>& left, const Ptr<E>& right);
 
 Ptr<BinaryDivision> operator/(const Ptr<E>& left, const Ptr<E>& right);
 
+Ptr<Negation> operator-(const Ptr<E>& child);
+
 Ptr<Exponentiation> sqare(const Ptr<E>& argument);
 
 Ptr<Exponentiation> pow(const Ptr<E>& number, const Ptr<E>& power);
-
 }

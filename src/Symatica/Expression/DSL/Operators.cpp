@@ -1,5 +1,6 @@
 #include "Symatica/Expression/DSL/Operators.hpp"
 #include "Symatica/Expression/DSL/Literals.hpp"
+#include "Symatica/Expression/Negation.hpp"
 
 namespace Symatica::Expression::DSL {
 
@@ -19,6 +20,10 @@ Ptr<BinaryMultiplication> operator*(const Ptr<E>& left, const Ptr<E>& right) {
 
 Ptr<BinaryDivision> operator/(const Ptr<E>& left, const Ptr<E>& right) {
   return makePtr<BinaryDivision>(left, right);
+}
+
+Ptr<Negation> operator-(const Ptr<E>& child) {
+  return makePtr<Negation>(child);
 }
 
 Ptr<Exponentiation> pow(const Ptr<E>& number, const Ptr<E>& power) {
