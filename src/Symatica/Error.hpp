@@ -10,16 +10,19 @@ using Symatica::Core::Id;
 
 class General : std::runtime_error {
 public:
-  explicit General(const std::string& message)
-      : std::runtime_error(message) {}
+  explicit General(const std::string& message) : std::runtime_error(message) {}
 };
 
 class SymbolNotFound : public General {
 public:
   explicit SymbolNotFound(Id number)
-      : General(
-          "Symbol with id " + std::to_string(number) + "not found"
-      ) {}
+      : General("Symbol with id " + std::to_string(number) + "not found") {}
+};
+
+class UnsuppotedFeature : public General {
+public:
+  explicit UnsuppotedFeature(const std::string& message)
+      : General("Unsuppoted feature: " + message) {}
 };
 
 }

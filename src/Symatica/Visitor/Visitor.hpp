@@ -30,8 +30,6 @@ using Symatica::Expression::Variable;
 
 template <typename R>
 class Visitor {
-  static_assert(std::is_default_constructible_v<R>);
-
 public:
   virtual R visitBinaryAddition(const Ptr<BinaryAddition>&) = 0;
   virtual R visitBinaryDivision(const Ptr<BinaryDivision>&) = 0;

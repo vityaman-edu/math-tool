@@ -1,15 +1,12 @@
 #include "Symatica/Core.hpp"
 #include "Symatica/Expression/DSL/Literals.hpp"
 #include "Symatica/Expression/DSL/Operators.hpp"
-#include <exception>
 #include <gtest/gtest.h>
-#include <iostream>
-#include <vector>
 
-using Symatica::Expression::DSL::operator*;
-using Symatica::Expression::DSL::operator+;
-using Symatica::Expression::DSL::operator/;
-using Symatica::Expression::DSL::operator-;
+using Symatica::Expression::DSL::operator*; // NOLINT
+using Symatica::Expression::DSL::operator+; // NOLINT
+using Symatica::Expression::DSL::operator/; // NOLINT
+using Symatica::Expression::DSL::operator-; // NOLINT
 using Symatica::Core::Number;
 using Symatica::Expression::DSL::l;
 using Symatica::Expression::DSL::pow;
