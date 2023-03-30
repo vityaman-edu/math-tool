@@ -10,6 +10,8 @@ using Symatica::Core::Id;
 
 class Variable : public Expression {
 public:
+  explicit Variable(Id id) : _id(id) {} // NOLINT
+
   [[nodiscard]] Type type() const noexcept override {
     return Type::ATOM_VARIABLE;
   }

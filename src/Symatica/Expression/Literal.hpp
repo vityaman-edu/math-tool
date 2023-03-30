@@ -2,6 +2,7 @@
 
 #include "Symatica/Core.hpp"
 #include "Symatica/Expression/Expression.hpp"
+#include <cmath>
 #include <string>
 
 namespace Symatica::Expression {
@@ -19,7 +20,7 @@ public:
   [[nodiscard]] Number value() const noexcept { return _value; }
 
   [[nodiscard]] std::string asString() const noexcept override {
-    return std::to_string(value());
+    return std::to_string(value()); // NOLINT
   }
 
 private:
