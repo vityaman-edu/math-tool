@@ -36,7 +36,7 @@ public:
       : function(other.original, other.derivative) {}
 
   bool exactly_has_root_inside(interval<T> interval) const noexcept {
-    return original(interval.start()) * original(interval.end()) < 0;
+    return original(interval.left()) * original(interval.right()) < 0;
   }
 
   std::vector<interval<T>>
@@ -45,11 +45,11 @@ public:
     auto length = scope.length() / count;
     auto result = std::vector<interval<T>>();
     for (std::size_t i = 0; i < count; i++) {
-      auto left = scope.left_from(scope.start() + length);
+      auto left = scope.left_from(scope.left() + length);
       if (exactly_has_root_inside(left)) {
         result.emplace_back(left);
       }
-      scope = scope.right_from(scope.start() + length);
+      scope = scope.right_from(scope.left() + length);
     }
     return result;
   }

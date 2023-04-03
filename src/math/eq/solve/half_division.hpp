@@ -10,9 +10,7 @@ template <typename T>
 class tracer {
 public:
   virtual void on_start() = 0;
-  virtual void
-  on_iteration(T a, T b, T x, T fa, T fb, T fx, T ab) // NOLINT
-      = 0;
+  virtual void on_iteration(T a, T b, T x, T fa, T fb, T fx, T ab) = 0;
   virtual void on_end() = 0;
 };
 
@@ -28,7 +26,7 @@ public:
 template <typename T>
 class md_table_tracer : public tracer<T> {
 public:
-  explicit md_table_tracer(std::ostream& out) : out(out), n(1) {}
+  explicit md_table_tracer(std::ostream& out) : out(out) {}
 
   void on_start() override {
     out << "| n | a | b | x | f(a) | f(b) | f(x) | b - a |" << '\n'
@@ -37,7 +35,7 @@ public:
 
   void on_iteration(T a, T b, T x, T fa, T fb, T fx, T ab) // NOLINT
       override {
-    out << '|' << n++ << '|' << a << '|' << b << '|' << x   //
+    out << '|' << ++n << '|' << a << '|' << b << '|' << x   //
         << '|' << fa << '|' << fb << '|' << fx << '|' << ab //
         << '|' << '\n';
   }
@@ -55,8 +53,7 @@ public:
   explicit method(T epsilon, Tracer& tracer)
       : tracer(tracer), epsilon(epsilon) {}
 
-  T find_some_root(interval<T> interval, function<T> function)
-      override {
+  T find_some_root(interval<T> interval, function<T> function) override {
     assert(function.exactly_has_root_inside(interval));
     tracer.on_start();
     while (true) {
@@ -68,11 +65,11 @@ public:
         interval = right;
       }
       tracer.on_iteration(
-          interval.start(),
-          interval.end(),
+          interval.left(),
+          interval.right(),
           interval.middle(),
-          function(interval.start()),
-          function(interval.end()),
+          function(interval.left()),
+          function(interval.right()),
           function(interval.middle()),
           interval.length()
       );
