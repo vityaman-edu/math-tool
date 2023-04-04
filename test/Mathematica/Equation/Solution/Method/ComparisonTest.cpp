@@ -64,12 +64,12 @@ TEST(ComparisonTest, Sample) { // NOLINT
     );
   }
 
-  auto halfDivisionTracer = HalfDivision::MardownTableTracer<Real>(std::cout);
+  auto halfDivisionTracer = HalfDivision::MarkdownTableTracer<Real>(std::cout);
   auto halfDivision = HalfDivision::Executor<Real, typeof(halfDivisionTracer)>(
       EPS, halfDivisionTracer
   );
 
-  auto newtonTracer = Newton::MardownTableTracer<Real>(std::cout);
+  auto newtonTracer = Newton::MarkdownTableTracer<Real>(std::cout);
   auto newton = Newton::Executor<Real, typeof(newtonTracer)>(EPS, newtonTracer);
 
   auto simpleIterationTracer

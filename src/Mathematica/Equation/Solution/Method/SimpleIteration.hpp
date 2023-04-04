@@ -16,6 +16,14 @@ public:
 };
 
 template <typename T>
+class EmptyTracer : public Tracer<T> {
+public:
+  void onStart() override {}
+  void onIteration(T prev, T next, T fNext, T diff) override {}
+  void onEnd() override {}
+};
+
+template <typename T>
 class MarkdownTableTracer : Tracer<T> {
 public:
   explicit MarkdownTableTracer(std::ostream& out) : out(out) {}

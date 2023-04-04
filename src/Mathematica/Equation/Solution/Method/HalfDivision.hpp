@@ -26,9 +26,9 @@ public:
 };
 
 template <typename T>
-class MardownTableTracer : public Tracer<T> {
+class MarkdownTableTracer : public Tracer<T> {
 public:
-  explicit MardownTableTracer(std::ostream& out) : out(out) {}
+  explicit MarkdownTableTracer(std::ostream& out) : out(out) {}
 
   void onStart() override {
     printedRowsCount = 0;
