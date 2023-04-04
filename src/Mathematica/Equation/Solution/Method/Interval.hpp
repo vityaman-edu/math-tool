@@ -1,18 +1,24 @@
 #pragma once
 
+#include <cassert>
 #include <string>
 #include <type_traits>
 #include <vector>
-#include <cassert>
 
 namespace Mathematica::Equation::Solution::Method {
+
+// TODO: add partition for iterval as object
+// to reduce count of parameters in function
 
 template <typename T>
 class Interval {
   static_assert(std::is_arithmetic<T>::value);
 
 public:
-  explicit Interval(T left, T right) : _left(left), _right(right) {} // NOLINT
+  explicit Interval(T left, T right) : _left(left), _right(right) { // NOLINT
+    assert(left <= right);
+  }
+
   Interval(const Interval& other) : Interval(other.left(), other.right()) {}
 
   T length() const noexcept { return right() - left(); }

@@ -2,6 +2,7 @@
 
 #include "Mathematica/Core.hpp"
 #include "Mathematica/Equation/Solution/Method/Interval.hpp"
+#include <algorithm>
 #include <cassert>
 #include <functional>
 #include <optional>
@@ -15,10 +16,27 @@ bool isDefinitelyRootInside(Interval<T> scope, Function<T> f) noexcept {
 }
 
 template <typename T>
+bool constSign(Interval<T> scope, T fineness, Function<T> df) noexcept {
+  assert(fineness > 0);
+  assert(fineness <= scope.length());
+
+  for ( //
+    auto currentScope = scope.leftFrom(scope.left() + fineness);
+    currentScope.right() < scope.right();
+    currentScope += fineness
+  ) {
+    if (df(currentScope.left()) * df(currentScope.right()) < 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+template <typename T>
 std::vector<Interval<T>> rootSeparabilityIntervals(
     Interval<T> scope, T fineness, Function<T> f
 ) noexcept {
-  assert(fineness > 0);
+  assert(0 < fineness);
   assert(fineness <= scope.length());
 
   auto result = std::vector<Interval<T>>();
@@ -32,6 +50,23 @@ std::vector<Interval<T>> rootSeparabilityIntervals(
     }
   }
   return result;
+}
+
+// TODO: use iterators
+template <typename T>
+T max(Interval<T> scope, T fineness, Function<T> f) {
+  assert(0 < fineness);
+  assert(fineness <= scope.length());
+
+  auto max = f(scope.left());
+  for ( //
+    auto currentScope = scope.leftFrom(scope.left() + fineness);
+    currentScope.right() < scope.right();
+    currentScope += fineness
+  ) {
+    max = std::max(max, f(scope.right()));
+  }
+  return max;
 }
 
 }

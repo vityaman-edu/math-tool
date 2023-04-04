@@ -3,6 +3,7 @@
 #include "Mathematica/Core.hpp"
 #include "Mathematica/Equation/Solution/Method/FunctionAnalysis.hpp"
 #include "Mathematica/Equation/Solution/Method/Interval.hpp"
+#include <iomanip>
 #include <ostream>
 
 namespace Mathematica::Equation::Solution::Method::HalfDivision {
@@ -17,11 +18,20 @@ public:
 };
 
 template <typename T>
+class EmptyTracer : public Tracer<T> {
+public:
+  void onStart() override{};
+  void onIteration(T a, T b, T x, T fa, T fb, T fx, T ab) override{}; // NOLINT
+  void onEnd() override{};
+};
+
+template <typename T>
 class MardownTableTracer : public Tracer<T> {
 public:
   explicit MardownTableTracer(std::ostream& out) : out(out) {}
 
   void onStart() override {
+    printedRowsCount = 0;
     out << "| n | a | b | x | f(a) | f(b) | f(x) | b - a |" << '\n'
         << "|---|---|---|---|------|------|------|-------|" << '\n';
   }
@@ -50,6 +60,7 @@ public:
     assert(isDefinitelyRootInside(scope, f));
 
     tracer.onStart();
+
     while (true) {
       auto left = scope.leftFrom(scope.middle());
       auto right = scope.rightFrom(scope.middle());
@@ -58,6 +69,7 @@ public:
       } else {
         scope = right;
       }
+
       tracer.onIteration(
           scope.left(),
           scope.right(),
@@ -67,11 +79,14 @@ public:
           f(scope.middle()),
           scope.length()
       );
+
       if (scope.length() < epsilon) {
-        tracer.onEnd();
-        return scope.middle();
+        break;
       }
     };
+
+    tracer.onEnd();
+    return scope.middle();
   }
 
 private:
