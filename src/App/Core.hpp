@@ -1,5 +1,5 @@
 #include "Mathematica/Core.hpp"
-#include "Mathematica/Equation/Solution/Method/Interval.hpp"
+#include "Mathematica/Common/Interval.hpp"
 #include <optional>
 #include <string>
 #include <vector>
@@ -15,7 +15,7 @@ using Real = Mathematica::Real;
 
 using Integer = Mathematica::Integer;
 
-using Scope = Mathematica::Equation::Solution::Method::Interval<Real>;
+using Scope = Mathematica::Interval<Real>;
 
 template <typename T>
 using Function = Mathematica::Function<T>;

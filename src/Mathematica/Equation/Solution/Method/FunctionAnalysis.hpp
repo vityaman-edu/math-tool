@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Mathematica/Common/Interval.hpp"
+#include "Mathematica/Common/Partition.hpp"
 #include "Mathematica/Core.hpp"
-#include "Mathematica/Equation/Solution/Method/Interval.hpp"
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 #include <functional>
 #include <optional>
 #include <vector>
@@ -17,14 +19,7 @@ bool isDefinitelyRootInside(Interval<T> scope, Function<T> f) noexcept {
 
 template <typename T>
 bool constSign(Interval<T> scope, T fineness, Function<T> df) noexcept {
-  assert(fineness > 0);
-  assert(fineness <= scope.length());
-
-  for ( //
-    auto currentScope = scope.leftFrom(scope.left() + fineness);
-    currentScope.right() < scope.right();
-    currentScope += fineness
-  ) {
+  for (auto currentScope : Partition<T>::fromFineness(scope, fineness)) {
     if (df(currentScope.left()) * df(currentScope.right()) < 0) {
       return false;
     }
@@ -36,15 +31,8 @@ template <typename T>
 std::vector<Interval<T>> rootSeparabilityIntervals(
     Interval<T> scope, T fineness, Function<T> f
 ) noexcept {
-  assert(0 < fineness);
-  assert(fineness <= scope.length());
-
   auto result = std::vector<Interval<T>>();
-  for ( //
-    auto currentScope = scope.leftFrom(scope.left() + fineness);
-    currentScope.right() < scope.right();
-    currentScope += fineness
-  ) {
+  for (auto currentScope : Partition<T>::fromFineness(scope, fineness)) {
     if (isDefinitelyRootInside(currentScope, f)) {
       result.emplace_back(currentScope);
     }
@@ -52,19 +40,11 @@ std::vector<Interval<T>> rootSeparabilityIntervals(
   return result;
 }
 
-// TODO: use iterators
 template <typename T>
 T max(Interval<T> scope, T fineness, Function<T> f) {
-  assert(0 < fineness);
-  assert(fineness <= scope.length());
-
   auto max = f(scope.left());
-  for ( //
-    auto currentScope = scope.leftFrom(scope.left() + fineness);
-    currentScope.right() < scope.right();
-    currentScope += fineness
-  ) {
-    max = std::max(max, f(scope.right()));
+  for (auto currentScope : Partition<T>::fromFineness(scope, fineness)) {
+    max = std::max(max, f(currentScope.right()));
   }
   return max;
 }

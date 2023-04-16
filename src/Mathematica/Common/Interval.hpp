@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <vector>
 
-namespace Mathematica::Equation::Solution::Method {
+namespace Mathematica {
 
 // TODO: add partition for iterval as object
 // to reduce count of parameters in function
@@ -56,6 +56,10 @@ public:
   Interval<T> operator+(T shift) const noexcept {
     auto copy = *this;
     return copy += shift;
+  }
+
+  bool operator==(Interval<T> other) const noexcept {
+    return _left == other._left && _right == other._right;
   }
 
 private:

@@ -2,7 +2,7 @@
 
 #include "Mathematica/Core.hpp"
 #include "Mathematica/Equation/Solution/Method/FunctionAnalysis.hpp"
-#include "Mathematica/Equation/Solution/Method/Interval.hpp"
+#include "Mathematica/Common/Interval.hpp"
 #include <iomanip>
 #include <ostream>
 
