@@ -78,7 +78,7 @@ static Function<Real> parseExpression(const String& string) {
   throw Error::IllegalArgument("expected '1', '2' or '3', got " + string);
 }
 
-void Runner::run(std::istream& input, std::ostream& output) const {
+void Runner::run(std::istream& input, std::ostream& output) {
   auto equation = std::string("");
   input >> equation;
   auto f = parseExpression(equation);
@@ -86,6 +86,8 @@ void Runner::run(std::istream& input, std::ostream& output) const {
   auto eps = 0.00001;
   auto df = [&f, eps](Real x) { return (f(x + eps) - f(x)) / eps; };
   auto ddf = [&df, eps](Real x) { return (df(x + eps) - df(x)) / eps; };
+
+  auto args = this->args();
 
   output << "Report" << std::endl;
   output << "Taken method: " << toString(args.method) << std::endl;

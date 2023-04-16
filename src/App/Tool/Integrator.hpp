@@ -1,20 +1,19 @@
 #pragma once
 
-#include <istream>
-#include <ostream>
 #include <utility>
 
 #include "App/Core.hpp"
 #include "App/Tool/Base/Runner.hpp"
 
-namespace App::Tool::EquationSolver {
-
-constexpr auto REQUIRED_ARGS_SIZE = 6;
+namespace App::Tool::Integrator {
 
 enum Method {
-  HALF_DIVISION,
-  NEWTON,
-  SIMPLE_ITERATION,
+  RECTANGLE_L,
+  RECTANGLE_M,
+  RECTANGLE_R,
+  TRAPEZE,
+  SIMPSON,
+  COTES_5,
 };
 
 struct Arguments {
@@ -25,11 +24,12 @@ struct Arguments {
   static Arguments parseArgs(const Vector<String>& args);
 };
 
-class Runner : BaseRunner<Arguments> {
+class Runner : public BaseRunner<Arguments> {
 public:
   explicit Runner(Arguments args) : BaseRunner(std::move(args)) {}
+  ~Runner() override = default;
 
-  void run(std::istream &input, std::ostream &output) override;
+  void run(std::istream& input, std::ostream& output) override;
 };
 
 }

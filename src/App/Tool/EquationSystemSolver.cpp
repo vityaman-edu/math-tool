@@ -1,7 +1,6 @@
 #include "App/Tool/EquationSystemSolver.hpp"
 #include "App/Canvas.hpp"
 #include "App/Error.hpp"
-#include "Mathematica/Equation/Solution/Method/HalfDivision.hpp"
 #include <cmath>
 #include <iostream>
 #include <ostream>
