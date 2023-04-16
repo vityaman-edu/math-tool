@@ -11,7 +11,7 @@ using namespace Mathematica;                // NOLINT
 using namespace Equation::Solution::Method; // NOLINT
 
 // TODO: disable some checks only in tests
-TEST(ComparisonTest, Sample) { // NOLINT
+TEST(EquationSolver, SampleComparison) { // NOLINT
   constexpr auto EPS = 0.001;
   constexpr auto FIT = 1;
   std::cout << std::setprecision(3);
