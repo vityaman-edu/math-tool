@@ -3,6 +3,7 @@
 #include "Mathematica/Common/Interval.hpp"
 #include "Mathematica/Common/Partition.hpp"
 #include "Mathematica/Core.hpp"
+#include "Mathematica/Error.hpp"
 #include "Mathematica/Integration/Cotes.hpp"
 #include <cmath>
 #include <ostream>
@@ -60,7 +61,7 @@ public:
     tracer.onStart();
     auto size = 4;
     auto prev = cotes.areaUnderGraph(f, Partition<T>(scope, size));
-    while (true) {
+    for (Index i = 0; i < iterationsLimit; i++) {
       size *= 2;
       auto curr = cotes.areaUnderGraph(f, Partition<T>(scope, size));
       tracer.onIteration(size, prev, curr, std::abs(prev - curr));
@@ -70,9 +71,14 @@ public:
       }
       prev = curr;
     };
+    throw Error::ProcessDiverges( //
+        "Can't integrate given function, "
+        "maybe it diverges in given interval"
+    );
   }
 
 private:
+  Count iterationsLimit = 20; // NOLINT
   T epsilon;
   Cotes<T> cotes;
   Tracer tracer;

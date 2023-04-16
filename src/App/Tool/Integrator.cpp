@@ -2,6 +2,7 @@
 #include "App/Canvas.hpp"
 #include "App/Core.hpp"
 #include "App/Error.hpp"
+#include "Mathematica/Error.hpp"
 #include "Mathematica/Integration/Approx.hpp"
 #include "Mathematica/Integration/Core.hpp"
 #include "Mathematica/Integration/Cotes.hpp"
@@ -9,6 +10,7 @@
 #include <cstddef>
 
 namespace App::Tool::Integrator {
+using Mathematica::Error::ProcessDiverges;
 
 static Method parseMethod(const String& string) {
   if (string == "rect-l") {
@@ -30,8 +32,8 @@ static Method parseMethod(const String& string) {
     return Method::COTES_5;
   }
   throw Error::IllegalArgument(
-      "expected 'rect-*', 'trapeze', 'simpson' or 'cotes5',"
-      " got "
+      "expected 'rect-*', 'trapeze', "
+      "'simpson' or 'cotes5', got "
       + string
   );
 }
@@ -71,6 +73,12 @@ static Function<Real> parseExpression(const String& string) {
   }
   if (string == "5") {
     return [](Real x) { return std::sqrt(x); };
+  }
+  if (string == "6") {
+    return [](Real x) { return 3 * x * x * x - 4 * x * x + 7 * x - 17; };
+  }
+  if (string == "7") {
+    return [](Real x) { return 1 / x; };
   }
   throw Error::IllegalArgument("expected '1', '2' or '3', got " + string);
   // NOLINTEND(readability-magic-numbers)
@@ -123,8 +131,12 @@ void Runner::run(std::istream& input, std::ostream& output) {
   auto tracer = MarkdownTableTracer<F>(std::cout);
   const auto approx = ApproxFactory(args.accuracy, tracer);
   auto method = approx.of(trivial<F>(args.method));
-  auto result = method.integrate(f, args.scope);
-  output << "Result: " << result << std::endl;
+  try {
+    auto result = method.integrate(f, args.scope);
+    output << "Result: " << result << std::endl;
+  } catch (ProcessDiverges& e) {
+    output << "No result: " << e.what() << std::endl;
+  }
 
   output << "Graph: " << std::endl;
 
