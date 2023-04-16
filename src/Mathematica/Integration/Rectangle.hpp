@@ -16,7 +16,7 @@ class Method {
 public:
   explicit Method(PointPeeker<T> peek) : peek(peek) {}
 
-  T areaUnderGraph(Partition<T> partition, Function<T> function) {
+  T areaUnderGraph(Function<T> function, Partition<T> partition) {
     T sum = 0;
     for (auto interval : partition) {
         sum += function(peek(interval)) * interval.length();
