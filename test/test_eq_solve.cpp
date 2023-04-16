@@ -60,7 +60,7 @@ TEST(EqSolveTest, CompareAllOnSample) { // NOLINT
 
   auto half_division_tracer = half_division::empty_tracer<F>();
   auto half_division_method
-      = half_division::method<F, typeof(half_division_tracer)>(
+      = half_division::method<F, half_division::empty_tracer<F>>(
           EPS, half_division_tracer
       );
 

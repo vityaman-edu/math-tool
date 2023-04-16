@@ -27,6 +27,6 @@ Diagnostics:
       ]
 
 InlayHints:
-  Designators: Yes
-  Enabled: Yes
-  DeducedTypes: Yes
+  Designators: No
+  Enabled: No
+  DeducedTypes: No

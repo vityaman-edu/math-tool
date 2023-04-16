@@ -6,7 +6,6 @@
 #include "Mathematica/Equation/Solution/Method/HalfDivision.hpp"
 #include "Mathematica/Equation/Solution/Method/Newton.hpp"
 #include "Mathematica/Equation/Solution/Method/SimpleIteration.hpp"
-
 #include <cmath>
 #include <cstddef>
 #include <iostream>
@@ -124,18 +123,19 @@ void Runner::run(std::istream& input, std::ostream& output) const {
   using namespace Mathematica::Equation::Solution::Method;
 
   auto halfDivisionTracer = HalfDivision::MarkdownTableTracer<Real>(std::cout);
-  auto halfDivision = HalfDivision::Executor<Real, typeof(halfDivisionTracer)>(
+  auto halfDivision = HalfDivision::Executor<Real, HalfDivision::MarkdownTableTracer<Real>>(
       args.accuracy, halfDivisionTracer
   );
 
   auto newtonTracer = Newton::MarkdownTableTracer<Real>(std::cout);
-  auto newton = Newton::Executor<Real, typeof(newtonTracer)>(
+  auto newton = Newton::Executor<Real, Newton::MarkdownTableTracer<Real>>(
       args.accuracy, newtonTracer
   );
 
-  auto simpleIterationTracer = SimpleIteration::MarkdownTableTracer<Real>(std::cout);
+  auto simpleIterationTracer
+      = SimpleIteration::MarkdownTableTracer<Real>(std::cout);
   auto simpleIteration
-      = SimpleIteration::Executor<Real, typeof(simpleIterationTracer)>(
+      = SimpleIteration::Executor<Real, SimpleIteration::MarkdownTableTracer<Real>>(
           args.accuracy, simpleIterationTracer
       );
 
