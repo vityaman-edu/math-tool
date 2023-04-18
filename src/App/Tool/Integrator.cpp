@@ -90,7 +90,7 @@ Arguments Arguments::parseArgs(const Vector<String>& args) {
   return {
       .method = parseMethod(args[2]),
       .scope = Scope(parseReal(args[3]), parseReal(args[4])),
-      .accuracy = parseReal(args[5]),
+      .accuracy = parseReal(args[5]) / 10,
   };
 };
 
@@ -115,6 +115,15 @@ static Mathematica::Integration::TrivialMethod<F> trivial(Method method) {
 
 void Runner::run(std::istream& input, std::ostream& output) {
   using F = double;
+
+  std::cout << "1) x * x * x + 2.64 * x * x - 5.41 * x - 11.76\n"
+               "2) 5 * std::sin(x) / x\n"
+               "3) 3 * (x * x / 2 - 1) * std::sin(x / 2 + 5)\n"
+               "4) x * x - 1\n"
+               "5) std::sqrt(x)\n"
+               "6) 3 * x * x * x - 4 * x * x + 7 * x - 17\n"
+               "7) 1 / x\n"
+            << std::endl;
 
   auto equation = std::string();
   input >> equation;

@@ -56,8 +56,8 @@ TrivialMethod<T> trivial5() noexcept {
 template <typename T>
 class Cotes {
 public:
-  explicit Cotes(TrivialMethod<T> trivial) //
-      : trivialAreaUnderGraph(trivial) {}
+  explicit Cotes(TrivialMethod<T> trivial, Index index) //
+      : trivialAreaUnderGraph(trivial), index(index) {}
 
   T areaUnderGraph(Function<T> function, Partition<T> partition) noexcept {
     T sum = 0;
@@ -67,8 +67,13 @@ public:
     return sum;
   }
 
+  [[nodiscard]] Index degree() const noexcept {
+    return index;
+  }
+
 private:
   TrivialMethod<T> trivialAreaUnderGraph;
+  Index index;
 };
 
 }

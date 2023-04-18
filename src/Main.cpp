@@ -24,18 +24,22 @@ int main(int argc, char* argv[]) {
   }
 
   auto args = std::vector<std::string>(argv, argv + argc);
-  
+
   auto tool = args[1]; // NOLINT
   if (tool == "--help") {
     std::cout << "overview: Math tool" << std::endl;
     usage();
-    std::cout << "options:" << std::endl;
-    std::cout << "  lineqsys: solves systems of linear equations" << std::endl;
-    std::cout << "    -i reads lineqsys from stdin" << std::endl;
-    std::cout << "    <filepath> reads lineqsys from file" << std::endl;
-    std::cout << "  eqsolver" << std::endl;
-    std::cout << "  syssolver" << std::endl;
-    std::cout << "  integrator" << std::endl;
+    std::cout << //
+        "options:\n"
+        "  lineqsys: solves systems of linear equations\n"
+        "    -i reads lineqsys from stdin\n"
+        "    <filepath> reads lineqsys from file\n"
+        "  eqsolver\n"
+        "  syssolver\n"
+        "  integrator:\n"
+        "    <method> rect-l rect-m rect-r trapeze simpson cotes5\n"
+        "    <left> <right> scope\n"
+        "    <accuracy>\n";
   } else if (tool == "lineqsys") {
     if (argc != 3) {
       return usage();
@@ -53,7 +57,8 @@ int main(int argc, char* argv[]) {
     auto runner = App::Tool::EquationSolver::Runner(arguments);
     runner.run(std::cin, std::cout);
   } else if (tool == "syssolver") {
-    auto arguments = App::Tool::EquationSystemSolver::Arguments::parseArgs(args);
+    auto arguments
+        = App::Tool::EquationSystemSolver::Arguments::parseArgs(args);
     auto runner = App::Tool::EquationSystemSolver::Runner(arguments);
     runner.run(std::cin, std::cout);
   } else if (tool == "integrator") {

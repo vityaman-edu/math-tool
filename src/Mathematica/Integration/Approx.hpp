@@ -65,7 +65,7 @@ public:
       size *= 2;
       auto curr = cotes.areaUnderGraph(f, Partition<T>(scope, size));
       tracer.onIteration(size, prev, curr, std::abs(prev - curr));
-      if (std::abs(prev - curr) < epsilon) {
+      if (std::abs(prev - curr) / (std::pow(2, cotes.degree() + 2) - 1) < epsilon) {
         tracer.onEnd();
         return curr;
       }
@@ -95,7 +95,7 @@ public:
   }
 
   Approx<T, Tracer> of(TrivialMethod<T> trivial) const noexcept {
-    return Approx<T, Tracer>(epsilon, Cotes(trivial), tracer);
+    return Approx<T, Tracer>(epsilon, Cotes(trivial, 0), tracer);
   }
 
 private:

@@ -18,12 +18,12 @@ TEST(Integration, Sample) {
   auto function = [](F x) { return std::sqrt(x); };
   auto expected = 136.16;
 
-  auto rectL = Cotes(trivial0<F>([](auto i) { return i.left(); }));
-  auto rectM = Cotes(trivial0<F>([](auto i) { return i.middle(); }));
-  auto rectR = Cotes(trivial0<F>([](auto i) { return i.right(); }));
-  auto trapeze = Cotes(trivial1<F>());
-  auto simpson = Cotes(trivial2<F>());
-  auto cotes5 = Cotes(trivial5<F>());
+  auto rectL = Cotes(trivial0<F>([](auto i) { return i.left(); }), 0);
+  auto rectM = Cotes(trivial0<F>([](auto i) { return i.middle(); }), 0);
+  auto rectR = Cotes(trivial0<F>([](auto i) { return i.right(); }), 0);
+  auto trapeze = Cotes(trivial1<F>(), 1);
+  auto simpson = Cotes(trivial2<F>(), 2);
+  auto cotes5 = Cotes(trivial5<F>(), 5);
 
   auto methods = {
       rectL,
