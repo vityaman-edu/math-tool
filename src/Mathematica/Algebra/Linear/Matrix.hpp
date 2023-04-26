@@ -5,7 +5,11 @@
 
 namespace Mathematica::Algebra::Linear {
 
-template <typename F, Size R, Size C>
+template <
+    typename F,
+    Size R,
+    Size C,
+    Field::BasicOp<F> Op = Field::BasicOp<F>()>
 class Matrix {
 public:
   explicit Matrix() = default;
@@ -21,7 +25,10 @@ public:
     }
   }
 
-  Matrix(const Matrix& other) : Matrix(other.data) {}
+  Matrix(const Matrix& other)
+      : Matrix([&other](auto row, auto col) { return other[row][col]; }) {}
+
+  ~Matrix() = default;
 
   Vector<F, C>& operator[](Index row) noexcept {
     assert(row < data.size());
@@ -29,29 +36,32 @@ public:
   }
 
   const Vector<F, C>& operator[](Index row) const noexcept {
-    return (*this)[row];
+    assert(row < data.size());
+    return data[row];
   }
 
-  Matrix& operator+=(const Matrix<F, R, C>& other) noexcept {
+  Matrix& operator+=(const Matrix& other) noexcept {
     for (auto i = 0; i < R; i++) {
       data[i] += other[i];
     }
     return *this;
   }
 
-  Matrix operator+(const Matrix<F, R, C>& other) const noexcept {
-    return *this += other;
+  Matrix operator+(const Matrix& other) const noexcept {
+    auto copy = *this;
+    return copy += other;
   }
 
-  Matrix& operator-=(const Matrix<F, R, C>& other) noexcept {
+  Matrix& operator-=(const Matrix& other) noexcept {
     for (auto i = 0; i < R; i++) {
       data[i] -= other[i];
     }
     return *this;
   }
 
-  Matrix operator-(const Matrix<F, R, C>& other) const noexcept {
-    return *this -= other;
+  Matrix operator-(const Matrix& other) const noexcept {
+    auto copy = *this;
+    return copy -= other;
   }
 
   Matrix& operator*=(F scalar) noexcept {
@@ -61,7 +71,10 @@ public:
     return *this;
   }
 
-  Matrix operator*(F scalar) const noexcept { return *this *= scalar; }
+  Matrix operator*(F scalar) const noexcept {
+    auto copy = *this;
+    return copy *= scalar;
+  }
 
   Matrix& operator/=(F scalar) noexcept {
     for (auto i = 0; i < R; i++) {
@@ -87,15 +100,37 @@ public:
     return !(*this == other);
   }
 
+  void swapRows(Index i, Index j) noexcept {
+    assert(i < R && j < R);
+    std::swap(data[i], data[j]);
+  }
+
+  void swapCols(Index i, Index j) noexcept {
+    assert(i < C && j < C);
+    for (auto k = 0; k < R; k++) {
+      std::swap(data[k][i], data[k][j]);
+    }
+  }
+
+  static Matrix zero() noexcept {
+    return matrix([](auto, auto) { return Op.zero(); });
+  }
+
+  static Matrix unit() noexcept {
+    return matrix([](auto row, auto col) {
+      return ((row == col) ? (Op.unit()) : (Op.zero()));
+    });
+  }
+
 private:
   Matrix& negate() noexcept {
     for (auto i = 0; i < R; i++) {
-      data[i] = -data[i];
+      data[i] = Op.neg(data[i]);
     }
     return *this;
   }
 
-  Array<Vector<F, C>, R> data;
+  Array<Vector<F, C, Op>, R> data;
 };
 
 }

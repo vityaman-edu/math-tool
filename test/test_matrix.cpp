@@ -5,16 +5,16 @@
 #include <cstddef>
 #include <gtest/gtest.h>
 
-using math::linal::matrix;
+using math::linal::Matrix;
 
 static constexpr size_t N = 10; // NOLINT
 static constexpr size_t M = 15; // NOLINT
 static constexpr int B = 100;   // NOLINT
 using T = int;
 
-TEST(Matrix, CreateFromMArray) {
-  auto data = random_array2d<T, N, M>(-B, B);
-  auto mat = matrix<T, N, M>(data);
+TEST(matrix, CreateFromMArray) {
+  auto data = random_array_2d<T, N, M>(-B, B);
+  auto mat = Matrix<T, N, M>(data);
   for (size_t i = 0; i < N; i++) {
     for (size_t j = 0; j < M; j++) {
       ASSERT_EQ(mat[i][j], data[i][j]);
@@ -22,7 +22,7 @@ TEST(Matrix, CreateFromMArray) {
   }
 }
 
-TEST(Matrix, Copy) {
+TEST(matrix, Copy) {
   auto input = random_matrix<T, N, M>(-B, B);
   auto copy = input;
 
@@ -35,15 +35,15 @@ TEST(Matrix, Copy) {
   ASSERT_EQ(copy[index], was_value);
 }
 
-TEST(Matrix, AddSub) {
+TEST(matrix, AddSub) {
   auto left = random_matrix<T, N, M>(-B, B);
   auto right = random_matrix<T, N, M>(-B, B);
 
-  auto expected_sum = matrix<T, N, M>([=](size_t row, size_t col) {
+  auto expected_sum = Matrix<T, N, M>([=](size_t row, size_t col) {
     return left[row][col] + right[row][col];
   });
 
-  auto expected_diff = matrix<T, N, M>([=](size_t row, size_t col) {
+  auto expected_diff = Matrix<T, N, M>([=](size_t row, size_t col) {
     return left[row][col] - right[row][col];
   });
 
@@ -53,20 +53,20 @@ TEST(Matrix, AddSub) {
   ASSERT_NE(right - left, expected_diff);
 }
 
-TEST(Matrix, MultOnScalar) {
+TEST(matrix, MultOnScalar) {
   auto input = random_matrix<T, N, M>(-B, B);
   auto scalar = random_int(-B, B);
 
   auto actual = input * scalar;
 
-  auto expected = matrix<T, N, M>([=](size_t row, size_t col) {
+  auto expected = Matrix<T, N, M>([=](size_t row, size_t col) {
     return input[row][col] * scalar;
   });
 
   ASSERT_EQ(actual, expected);
 }
 
-TEST(Matrix, SwapRows) {
+TEST(matrix, SwapRows) {
   auto input = random_matrix<T, N, M>(-B, B);
 
   for (size_t i = 0; i < N; i++) {

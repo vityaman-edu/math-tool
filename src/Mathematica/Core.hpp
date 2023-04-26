@@ -3,6 +3,7 @@
 #include <array>
 #include <cstddef>
 #include <functional>
+#include <set>
 
 namespace Mathematica {
 
@@ -20,5 +21,8 @@ using Function = Mapping<T(T)>;
 
 template <typename T, Size N>
 using Array = std::array<T, N>;
+
+template <typename T>
+using OrderedSet = std::set<T>;
 
 }

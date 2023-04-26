@@ -9,20 +9,20 @@
 namespace math::linal {
 
 template <typename F, size_t N>
-class vector {
+class Vector {
 public:
-  explicit vector() = default;
+  explicit Vector() = default;
 
-  explicit vector(const std::array<F, N>& array)
-      : vector([&array](size_t index) { return array[index]; }) {}
+  explicit Vector(const std::array<F, N>& array)
+      : Vector([&array](size_t index) { return array[index]; }) {}
 
-  explicit vector(const std::function<F(size_t)>& fill) {
+  explicit Vector(const std::function<F(size_t)>& fill) {
     for (size_t i = 0; i < N; i++) {
       data[i] = fill(i);
     }
   }
 
-  vector(const vector& other) : vector(other.data) {}
+  Vector(const Vector& other) : Vector(other.data) {}
 
   F operator[](size_t index) const {
     assert(index < data.size());
@@ -34,43 +34,43 @@ public:
     return data[index];
   }
 
-  vector& operator*=(F scalar) noexcept {
+  Vector& operator*=(F scalar) noexcept {
     for (size_t i = 0; i < N; i++) {
       data[i] *= scalar;
     }
     return *this;
   }
 
-  vector operator*(F scalar) const noexcept {
+  Vector operator*(F scalar) const noexcept {
     auto mult = *this;
     return mult *= scalar;
   }
 
-  vector& operator+=(const vector& other) noexcept {
+  Vector& operator+=(const Vector& other) noexcept {
     for (size_t i = 0; i < N; i++) {
       data[i] += other[i];
     }
     return *this;
   }
 
-  vector operator+(const vector& other) const noexcept {
+  Vector operator+(const Vector& other) const noexcept {
     auto sum = *this;
     return sum += other;
   }
 
-  vector& operator-=(const vector& other) noexcept {
+  Vector& operator-=(const Vector& other) noexcept {
     for (size_t i = 0; i < N; i++) {
       data[i] -= other[i];
     }
     return *this;
   }
 
-  vector operator-(const vector& other) const noexcept {
+  Vector operator-(const Vector& other) const noexcept {
     auto diff = *this;
     return diff -= other;
   }
 
-  bool operator==(const vector& other) const noexcept {
+  bool operator==(const Vector& other) const noexcept {
     for (size_t i = 0; i < N; i++) {
       if (data[i] != other[i]) {
         return false;
@@ -79,12 +79,12 @@ public:
     return true;
   }
 
-  bool operator!=(const vector& other) const noexcept {
+  bool operator!=(const Vector& other) const noexcept {
     return !(*this == other);
   }
 
-  vector& operator=(const vector& other) noexcept = default;
-  vector& operator=(vector&& other) noexcept = default;
+  Vector& operator=(const Vector& other) noexcept = default;
+  Vector& operator=(Vector&& other) noexcept = default;
 
   using container = std::array<F, N>;
   using iterator = typename container::iterator;
@@ -102,10 +102,10 @@ public:
     return data.end();
   }
 
-  ~vector() = default;
+  ~Vector() = default;
 
-  static vector zero() noexcept {
-    return vector([](size_t) { return 0; });
+  static Vector zero() noexcept {
+    return Vector([](size_t) { return 0; });
   }
 
 private:
@@ -113,13 +113,13 @@ private:
 };
 
 template <typename F, size_t N>
-vector<F, N>
-operator*(F scalar, const vector<F, N>& vector) noexcept {
+Vector<F, N>
+operator*(F scalar, const Vector<F, N>& vector) noexcept {
   return vector * scalar;
 }
 
 template <typename F, size_t N>
-std::ostream& operator<<(std::ostream& out, const vector<F, N>& vec) {
+std::ostream& operator<<(std::ostream& out, const Vector<F, N>& vec) {
   out << "{ ";
   for (size_t i = 0; i < N - 1 && N > 0; i++) {
     out << vec[i] << ", ";

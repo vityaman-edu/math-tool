@@ -1,18 +1,21 @@
 #pragma once
 
+#include "Mathematica/Algebra/FieldTrait.hpp"
 #include "Mathematica/Core.hpp"
+#include <cassert>
+#include <type_traits>
 
 namespace Mathematica::Algebra::Linear {
 
-template <typename T, Size N>
+template <typename F, Size N, Field::BasicOp<F> Op = Field::BasicOp<F>()>
 class Vector {
 public:
   explicit Vector() = default;
 
-  explicit Vector(const Array<T, N>& array)
+  explicit Vector(const Array<F, N>& array)
       : Vector([=](auto index) { return array[index]; }) {}
 
-  explicit Vector(const Mapping<T(Index)>& item) {
+  explicit Vector(const Mapping<F(Index)>& item) {
     for (auto i = 0; i < N; i++) {
       data[i] = item(i);
     }
@@ -20,59 +23,69 @@ public:
 
   Vector(const Vector& other) : Vector(other.data) {}
 
-  T& operator[](Index index) noexcept {
+  ~Vector() = default;
+
+  F& operator[](Index index) noexcept {
     assert(index < data.size());
     return data[index];
   }
 
-  T operator[](Index index) const noexcept { return (*this)[index]; }
+  F operator[](Index index) const noexcept {
+    assert(index < data.size());
+    return data[index];
+  }
 
   Vector& operator+=(const Vector& other) noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] += other[i];
+      data[i] = Op.sum(data[i], other[i]);
     }
     return *this;
   }
 
   Vector operator+(const Vector& other) const noexcept {
-    return *this += other;
+    auto copy = *this;
+    return copy += other;
   }
 
   Vector& operator-=(const Vector& other) noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] -= other[i];
+      data[i] = Op.dif(data[i], other[i]);
     }
     return *this;
   }
 
   Vector operator-(const Vector& other) const noexcept {
-    return *this -= other;
+    auto copy = *this;
+    return copy -= other;
   }
 
-  Vector& operator*=(T scalar) noexcept {
+  Vector& operator*=(F scalar) noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] *= scalar;
+      data[i] = Op.mul(data[i], scalar);
     }
     return *this;
   }
 
-  Vector operator*(T scalar) const noexcept {
-    return *this *= scalar; //
+  Vector operator*(F scalar) const noexcept {
+    auto copy = *this;
+    return copy *= scalar;
   }
 
-  Vector& operator/=(T scalar) noexcept {
+  Vector& operator/=(F scalar) noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] /= scalar;
+      data[i] = Op.div(data[i], scalar);
     }
     return *this;
   }
 
-  Vector operator/(T scalar) const noexcept {
-    return *this /= scalar; //
+  Vector operator/(F scalar) const noexcept {
+    auto copy = *this;
+    return copy /= scalar;
   }
 
   Vector operator-() const noexcept {
-    return this->negate(); //
+    auto copy = *this;
+    return copy->negate();
   }
 
   bool operator==(const Vector& other) const noexcept {
@@ -89,18 +102,30 @@ public:
   }
 
   static Vector zero() noexcept {
-    return Vector([](Index) { return 0; });
+    return Vector([](Index) { return Op.zero(); });
   }
+
+  using container = Array<F, N>;
+  using iterator = typename container::iterator;
+  using const_iterator = typename container::const_iterator;
+
+  iterator begin() noexcept { return data.begin(); }
+
+  iterator end() noexcept { return data.end(); }
+
+  [[nodiscard]] const_iterator begin() const noexcept { return data.begin(); }
+
+  [[nodiscard]] const_iterator end() const noexcept { return data.end(); }
 
 private:
   Vector& negate() noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] = -data[i];
+      data[i] = Op.Opneg(data[i]);
     }
     return *this;
   }
 
-  Array<T, N> data;
+  Array<F, N> data;
 };
 
 template <typename T, size_t N>

@@ -11,21 +11,21 @@ namespace math::eq::lin::sys {
 
 template <typename F, size_t N>
 struct lineqsys { // NOLINT
-  math::linal::matrix<F, N, N> a;
-  math::linal::vector<F, N> b;
+  math::linal::Matrix<F, N, N> a;
+  math::linal::Vector<F, N> b;
 };
 
 template <typename F, size_t N>
 struct solution { // NOLINT
 public:
   solution(
-      math::linal::vector<F, N> value, // NOLINT
-      math::linal::vector<F, N> error  // NOLINT
+      math::linal::Vector<F, N> value, // NOLINT
+      math::linal::Vector<F, N> error  // NOLINT
   )
       : value(value), error(error) {}
 
-  math::linal::vector<F, N> value; // NOLINT
-  math::linal::vector<F, N> error; // NOLINT
+  math::linal::Vector<F, N> value; // NOLINT
+  math::linal::Vector<F, N> error; // NOLINT
 };
 
 template <typename F, size_t N>
