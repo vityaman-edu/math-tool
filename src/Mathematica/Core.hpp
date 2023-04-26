@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <functional>
 
@@ -11,7 +12,13 @@ using Index = Size;
 using Integer = int64_t;
 using Real = double;
 
+template <typename Signature>
+using Mapping = std::function<Signature>;
+
 template <typename T>
-using Function = std::function<T(T)>;
+using Function = Mapping<T(T)>;
+
+template <typename T, Size N>
+using Array = std::array<T, N>;
 
 }
