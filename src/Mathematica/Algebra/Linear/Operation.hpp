@@ -1,12 +1,17 @@
 #pragma once
 
-
+#include "Mathematica/Algebra/FieldTrait.hpp"
+#include "Mathematica/Algebra/Linear/Matrix.hpp"
+#include "Mathematica/Algebra/Linear/Vector.hpp"
 #include "Mathematica/Core.hpp"
 
 namespace Mathematica::Algebra::Linear {
 
 template <typename F, Size N, Field::BasicOp<F> Op = Field::BasicOp<F>()>
-F scalarProduct(const Vector<F, N>& left, const Vector<F, N>& right) noexcept {
+F scalarProduct(
+    const Vector<F, N>& left, // NOLINT
+    const Vector<F, N>& right
+) noexcept {
   F product = 0;
   for (auto i = 0; i < N; i++) {
     product = Op.sum(product, Op.mul(left[i], right[i]));
@@ -21,7 +26,8 @@ template <
     Size C,
     Field::BasicOp<F> Op = Field::BasicOp<F>()>
 Matrix<F, A, B, Op> operator*(
-    const Matrix<F, A, C, Op>& left, const Matrix<F, C, B, Op>& right
+    const Matrix<F, A, C, Op>& left, // NOLINT
+    const Matrix<F, C, B, Op>& right
 ) noexcept {
   return Matrix<F, A, B, Op>([=](auto row, auto col) {
     F value = 0;
@@ -33,8 +39,10 @@ Matrix<F, A, B, Op> operator*(
 }
 
 template <typename F, Size N>
-Vector<F, N> operator*(const Matrix<F, N, N>& mat, const Vector<F, N>& vec) noexcept {
-  return Vector<F, N>([=](auto index) { return scalarProduct(mat[index], vec); });
+Vector<F, N>
+operator*(const Matrix<F, N, N>& mat, const Vector<F, N>& vec) noexcept {
+  return Vector<F, N>([=](auto index) { return scalarProduct(mat[index], vec); }
+  );
 }
 
 template <typename T, typename F, Size N>

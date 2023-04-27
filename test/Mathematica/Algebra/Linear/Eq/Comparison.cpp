@@ -14,15 +14,16 @@
 #include <stdexcept>
 #include <string>
 
-using namespace Mathematica;
-using namespace Mathematica::Algebra::Linear;
+using namespace Mathematica;                  // NOLINT
+using namespace Mathematica::Algebra::Linear; // NOLINT
 
 constexpr float EPS = 0.001;
 
 template <typename F, Size N>
-void assert_result(const Vector<F, N>& actual, const Vector<F, N>& expected) {
-  auto diff = (actual - expected);
-  diff = map<F, F, N>(diff, [=](auto element) { return std::abs(element); });
+void assertResult(const Vector<F, N>& actual, const Vector<F, N>& expected) {
+  const auto diff = map<F, F, N>(actual - expected, [=](auto element) {
+    return std::abs(element);
+  });
   const auto max_diff = *std::max_element(diff.begin(), diff.end());
   ASSERT_LT(max_diff, EPS);
 }
@@ -59,7 +60,7 @@ void test() {
     try {
       auto iter = Eq::IterationSolver<F, N>(EPS);
       const auto iter_result = iter.solve({a, b}).value;
-      assert_result(iter_result, expected_result);
+      assertResult(iter_result, expected_result);
     } catch (std::invalid_argument& e) {
       std::cerr << "iter error: " << e.what() << std::endl;
     }
@@ -67,7 +68,7 @@ void test() {
     try {
       auto gauss = Eq::GaussSolver<F, N>();
       const auto gauss_result = gauss.solve({a, b}).value;
-      assert_result(gauss_result, expected_result);
+      assertResult(gauss_result, expected_result);
     } catch (std::invalid_argument& e) {
       std::cerr << "gauss error: " << e.what() << std::endl;
     }
@@ -116,7 +117,7 @@ TEST(LinearEqSolve, Fuzzing) { // NOLINT
 
       const auto iter_result = iter.solve({a, b}).value;
       const auto gauss_result = gauss.solve({a, b}).value;
-      assert_result(gauss_result, iter_result);
+      assertResult(gauss_result, iter_result);
       std::cout << "[FUZZ]: OK" << std::endl;
     } catch (std::invalid_argument& e) {
       std::cerr << "[FUZZ]: Error " << e.what() << std::endl;
