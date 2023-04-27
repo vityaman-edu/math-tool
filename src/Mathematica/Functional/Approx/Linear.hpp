@@ -3,7 +3,7 @@
 #include "Mathematica/Algebra/FieldTrait.hpp"
 #include "Mathematica/Core.hpp"
 #include "Mathematica/Functional/Approx/LeastSqare.hpp"
-#include "Mathematica/Functional/Approx/Point.hpp"
+#include "Mathematica/Common/Point.hpp"
 
 namespace Mathematica::Functional::Approx::Linear {
 

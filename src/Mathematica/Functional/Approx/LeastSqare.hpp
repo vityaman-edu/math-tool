@@ -5,7 +5,7 @@
 #include "Mathematica/Algebra/Linear/Vector.hpp"
 #include "Mathematica/Algebra/Polynomial/Polynomial.hpp"
 #include "Mathematica/Core.hpp"
-#include "Mathematica/Functional/Approx/Point.hpp"
+#include "Mathematica/Common/Point.hpp"
 #include <cmath>
 
 namespace Mathematica::Functional::Approx::LeastSqare {

@@ -1,6 +1,6 @@
 #include "Mathematica/Functional/Approx/LeastSqare.hpp"
 #include "Mathematica/Core.hpp"
-#include "Mathematica/Functional/Approx/Point.hpp"
+#include "Mathematica/Common/Point.hpp"
 #include "Mathematica/Interop/Polynomial.hpp"
 #include "Symatica/Expression/DSL/Literals.hpp"
 #include <gtest/gtest.h>

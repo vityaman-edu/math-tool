@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Mathematica::Functional::Approx {
+namespace Mathematica {
 
 template <typename T>
 struct Point {

@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <functional>
 #include <set>
+#include <vector>
 
 namespace Mathematica {
 
@@ -21,6 +22,9 @@ using Function = Mapping<T(T)>;
 
 template <typename T, Size N>
 using Array = std::array<T, N>;
+
+template <typename T>
+using ArrayList = std::vector<T>;
 
 template <typename T>
 using OrderedSet = std::set<T>;
