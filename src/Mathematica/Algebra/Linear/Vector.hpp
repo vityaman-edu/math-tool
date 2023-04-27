@@ -13,7 +13,7 @@ public:
   explicit Vector() = default;
 
   explicit Vector(const Array<F, N>& array)
-      : Vector([=](auto index) { return array[index]; }) {}
+      : Vector([&](auto index) { return array[index]; }) {}
 
   explicit Vector(const Mapping<F(Index)>& item) {
     for (auto i = 0; i < N; i++) {

@@ -11,7 +11,7 @@ namespace Mathematica::Algebra::Linear::Eq {
 template <typename F, Size N, Field::BasicOp<F> Op = Field::BasicOp<F>()>
 class GaussSolver {
 public:
-  Solution<F, N, Op> solve(const System<F, N, Op>& sys) {
+  Solution<F, N, Op> solve(const System<F, N, Op>& sys) const {
     auto triangle = sys;
     auto tresult = triangulate(triangle);
     auto value = solveTriangle(triangle);
@@ -63,7 +63,7 @@ private:
     Count rowSwapsCount = 0;
   };
 
-  TriangulizationResult triangulate(System<F, N, Op>& sys) {
+  static TriangulizationResult triangulate(System<F, N, Op>& sys) {
     TriangulizationResult result = {};
 
     for (Index row = 0; row < N; row++) {

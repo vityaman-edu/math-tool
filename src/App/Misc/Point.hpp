@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 namespace App::Misc {
 
 template <typename T>

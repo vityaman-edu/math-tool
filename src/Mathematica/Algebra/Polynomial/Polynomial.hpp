@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Mathematica/Algebra/Linear/Vector.hpp"
-#include "Mathematica/Algebra/Linear/IO.hpp"
 #include "Mathematica/Core.hpp"
 #include <cassert>
 #include <cmath>
@@ -105,7 +104,7 @@ template <
     Field::BasicOp<F> Op = Field::BasicOp<F>()>
 Polynomial<F, A + B>
 operator*(const Polynomial<F, A>& a, const Polynomial<F, B>& b) noexcept {
-  return Polynomial(Linear::Vector<F, A + B>([=](auto n) {
+  return Polynomial(Linear::Vector<F, A + B>([&](auto n) {
     auto sum = Op.zero();
     for (auto i = 0; i < n; i++) {
       sum = Op.sum(sum, Op.mul(a[i], b[n - i]));
