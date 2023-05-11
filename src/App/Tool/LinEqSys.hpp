@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace tool::lineqsys {
+namespace App::Tool::LinEqSys {
 
 using Mathematica::Abstract::Float;
 using Mathematica::Algebra::Linear::Eq::GaussSolver;
