@@ -1,10 +1,10 @@
-#include "App/Tool/lineqsys.hpp"
+#include "App/Tool/LinEqSys.hpp"
 #include <cassert>
 #include <fstream>
 
-namespace tool::lineqsys {
+namespace App::Tool::LinEqSys {
 
-void run_delegate(std::istream& input, std::ostream& out) {
+void runDelegate(std::istream& input, std::ostream& out) {
   using F = float;
   size_t size; // NOLINT
   input >> size;
@@ -77,20 +77,18 @@ void run_delegate(std::istream& input, std::ostream& out) {
 }
 
 void run(
-    std::istream& input,
-    std::ostream& out,
-    const std::vector<std::string>& args
+    std::istream& input, std::ostream& out, const std::vector<std::string>& args
 ) {
   assert(!args.empty()); // NOLINT
 
   if ((args[0] == "-i")) {
-    run_delegate(input, out);
+    runDelegate(input, out);
   } else {
     std::ifstream file;
     file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     try {
       file.open(args[0]);
-      run_delegate(file, out);
+      runDelegate(file, out);
     } catch (std::ios_base::failure& e) {
       file.close();
       throw e;
