@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Mathematica/Algebra/Field.hpp"
+#include "Mathematica/Abstract/Field.hpp"
 #include "Mathematica/Core.hpp"
 #include <cassert>
 
 namespace Mathematica::Algebra::Linear {
 
-template <Field F, Size N>
+template <Abstract::Field F, Size N>
 class Vector {
 public:
   explicit Vector() = default;

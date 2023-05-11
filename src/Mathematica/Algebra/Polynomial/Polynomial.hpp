@@ -12,7 +12,7 @@ namespace Mathematica::Algebra {
 using PolynomialDegree = Integer;
 constexpr PolynomialDegree PolynomialDegreeMinusInfty = -1;
 
-template <Field F, PolynomialDegree N>
+template <Abstract::Field F, PolynomialDegree N>
 class Polynomial {
 public:
   explicit Polynomial(const Linear::Vector<F, N>& coefficients)
@@ -94,7 +94,7 @@ private:
   Linear::Vector<F, N> coefficients;
 };
 
-template <Field F, PolynomialDegree A, PolynomialDegree B>
+template <Abstract::Field F, PolynomialDegree A, PolynomialDegree B>
 Polynomial<F, A + B>
 operator*(const Polynomial<F, A>& a, const Polynomial<F, B>& b) noexcept {
   return Polynomial(Linear::Vector<F, A + B>([&](auto n) {

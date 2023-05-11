@@ -6,8 +6,7 @@
 
 namespace Mathematica::Algebra::Linear {
 
-template <typename F, Size N>
-  requires Field<F>
+template <Abstract::Field F, Size N>
 F scalarProduct(
     const Vector<F, N>& left, // NOLINT
     const Vector<F, N>& right
@@ -19,8 +18,7 @@ F scalarProduct(
   return product;
 }
 
-template <typename F, Size A, Size B, Size C>
-  requires Field<F>
+template <Abstract::Field F, Size A, Size B, Size C>
 Matrix<F, A, B> operator*(
     const Matrix<F, A, C>& left, // NOLINT
     const Matrix<F, C, B>& right

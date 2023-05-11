@@ -1,5 +1,5 @@
 #include "../Generator.hpp"
-#include "Mathematica/Algebra/Field.hpp"
+#include "Mathematica/Abstract/Float.hpp"
 #include "Mathematica/Algebra/Linear/Eq/GaussSolver.hpp"
 #include "Mathematica/Algebra/Linear/Eq/IterationSolver.hpp"
 #include "Mathematica/Core.hpp"
@@ -16,6 +16,7 @@
 
 using namespace Mathematica;                  // NOLINT
 using namespace Mathematica::Algebra::Linear; // NOLINT
+using namespace Mathematica::Abstract;        // NOLINT
 
 constexpr float EPS = 0.001;
 

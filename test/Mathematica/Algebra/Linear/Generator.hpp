@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mathematica/Algebra/Field.hpp"
+#include "Mathematica/Abstract/Float.hpp"
 #include "Mathematica/Algebra/Linear/Matrix.hpp"
 #include "Mathematica/Algebra/Linear/Vector.hpp"
 #include "Mathematica/Core.hpp"
@@ -10,7 +10,7 @@
 
 using namespace Mathematica;                  // NOLINT
 using namespace Mathematica::Algebra::Linear; // NOLINT
-using namespace Mathematica::Algebra;         // NOLINT
+using namespace Mathematica::Abstract;        // NOLINT
 
 int randomInt(int left, int right);
 

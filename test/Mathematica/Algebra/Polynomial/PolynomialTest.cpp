@@ -1,11 +1,13 @@
 #include "Mathematica/Algebra/Polynomial/Polynomial.hpp"
+#include "Mathematica/Abstract/Float.hpp"
 #include "Mathematica/Algebra/Linear/Vector.hpp"
 #include "Mathematica/Core.hpp"
 #include <gtest/gtest.h>
 
-using namespace Mathematica;                // NOLINT
-using namespace Mathematica::Algebra;       // NOLINT
-using Mathematica::Algebra::Linear::Vector; // NOLINT
+using namespace Mathematica;           // NOLINT
+using namespace Mathematica::Abstract; // NOLINT
+using namespace Mathematica::Algebra;  // NOLINT
+using Mathematica::Algebra::Linear::Vector;
 using F = double;
 
 TEST(Polynomial, Degree) { // NOLINT

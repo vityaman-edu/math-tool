@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mathematica/Algebra/Field.hpp"
+#include "Mathematica/Abstract/Float.hpp"
 #include "Mathematica/Algebra/Polynomial/Polynomial.hpp"
 #include "Symatica/Core.hpp"
 #include "Symatica/Expression/DSL/Literals.hpp"
@@ -11,7 +11,7 @@
 
 namespace Mathematica::Interop {
 
-using Mathematica::Algebra::Float;
+using Mathematica::Abstract::Float;
 using Symatica::Core::Ptr;
 using Symatica::Expression::Expression;
 using Symatica::Expression::Variable;

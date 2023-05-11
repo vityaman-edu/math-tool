@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mathematica/Algebra/Field.hpp"
+#include "Mathematica/Abstract/Field.hpp"
 #include "Mathematica/Algebra/Linear/Eq/GaussSolver.hpp"
 #include "Mathematica/Algebra/Linear/Matrix.hpp"
 #include "Mathematica/Algebra/Linear/Vector.hpp"
@@ -11,9 +11,7 @@
 
 namespace Mathematica::Functional::Approx::LeastSqare {
 
-using Mathematica::Algebra::Field;
-
-template <Field F, Algebra::PolynomialDegree D, Count N>
+template <Abstract::Field F, Algebra::PolynomialDegree D, Count N>
 Algebra::Linear::Matrix<F, D, D> buildMatrix(const Array<Point<F>, N>& points
 ) noexcept {
   //     0 1 2 3
@@ -34,7 +32,7 @@ Algebra::Linear::Matrix<F, D, D> buildMatrix(const Array<Point<F>, N>& points
   });
 }
 
-template <Field F, Algebra::PolynomialDegree D, Count N>
+template <Abstract::Field F, Algebra::PolynomialDegree D, Count N>
 Algebra::Linear::Vector<F, D> buildVector( //
     const Array<Point<F>, N>& points
 ) {
@@ -47,7 +45,7 @@ Algebra::Linear::Vector<F, D> buildVector( //
   });
 }
 
-template <Field F, Algebra::PolynomialDegree D, Count N>
+template <Abstract::Field F, Algebra::PolynomialDegree D, Count N>
 Algebra::Polynomial<F, D> optimalPolynomial( //
     const Array<Point<F>, N>& points
 ) noexcept {

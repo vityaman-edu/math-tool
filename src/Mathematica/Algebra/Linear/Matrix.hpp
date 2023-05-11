@@ -5,8 +5,7 @@
 
 namespace Mathematica::Algebra::Linear {
 
-template <typename F, Size R, Size C>
-  requires Field<F>
+template <Abstract::Field F, Size R, Size C>
 class Matrix {
 public:
   explicit Matrix() = default;

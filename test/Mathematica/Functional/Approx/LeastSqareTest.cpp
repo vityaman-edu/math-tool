@@ -1,5 +1,5 @@
 #include "Mathematica/Functional/Approx/LeastSqare.hpp"
-#include "Mathematica/Algebra/Field.hpp"
+#include "Mathematica/Abstract/Float.hpp"
 #include "Mathematica/Common/Point.hpp"
 #include "Mathematica/Core.hpp"
 #include "Mathematica/Interop/Polynomial.hpp"
@@ -8,7 +8,7 @@
 
 using namespace Mathematica;                     // NOLINT
 using namespace Mathematica::Functional::Approx; // NOLINT
-using Mathematica::Algebra::Float;
+using Mathematica::Abstract::Float;
 using Mathematica::Interop::symbolic;
 using Symatica::Expression::DSL::var;
 using F = double;

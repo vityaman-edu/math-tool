@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mathematica/Algebra/Field.hpp"
+#include "Mathematica/Abstract/Field.hpp"
 #include "Mathematica/Algebra/Linear/Eq/System.hpp"
 #include "Mathematica/Algebra/Linear/Operation.hpp"
 #include "Mathematica/Core.hpp"
@@ -8,7 +8,7 @@
 
 namespace Mathematica::Algebra::Linear::Eq {
 
-template <typename F, Size N> requires Field<F>
+template <Abstract::Field F, Size N>
 class GaussSolver {
 public:
   Solution<F, N> solve(const System<F, N>& sys) const {
