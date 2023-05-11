@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mathematica/Algebra/FieldTrait.hpp"
+#include "Mathematica/Abstract/Field.hpp"
 #include "Mathematica/Algebra/Linear/Eq/System.hpp"
 #include "Mathematica/Algebra/Linear/Operation.hpp"
 #include "Mathematica/Core.hpp"
@@ -8,10 +8,10 @@
 
 namespace Mathematica::Algebra::Linear::Eq {
 
-template <typename F, Size N, Field::BasicOp<F> Op = Field::BasicOp<F>()>
+template <Abstract::Field F, Size N>
 class GaussSolver {
 public:
-  Solution<F, N, Op> solve(const System<F, N, Op>& sys) const {
+  Solution<F, N> solve(const System<F, N>& sys) const {
     auto triangle = sys;
     auto tresult = triangulate(triangle);
     auto value = solveTriangle(triangle);
@@ -45,7 +45,7 @@ private:
     Index i, j;
   };
 
-  static MatIndex peek(const Matrix<F, N, N, Op>& matrix, MatIndex start) {
+  static MatIndex peek(const Matrix<F, N, N>& matrix, MatIndex start) {
     auto max = start;
     auto j = start.j;
     for (auto i = start.i; i < N; i++) {
@@ -63,7 +63,7 @@ private:
     Count rowSwapsCount = 0;
   };
 
-  static TriangulizationResult triangulate(System<F, N, Op>& sys) {
+  static TriangulizationResult triangulate(System<F, N>& sys) {
     TriangulizationResult result = {};
 
     for (Index row = 0; row < N; row++) {
@@ -100,8 +100,8 @@ private:
     return result;
   }
 
-  static Vector<F, N, Op> solveTriangle(const System<F, N, Op>& sys) {
-    Vector<F, N, Op> result;
+  static Vector<F, N> solveTriangle(const System<F, N>& sys) {
+    Vector<F, N> result;
     for (auto row = N - 1;; row--) {
       auto x = sys.b[row];
       for (auto col = row + 1; col < N; col++) {

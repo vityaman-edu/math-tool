@@ -8,18 +8,18 @@ using math::linal::Vector;
 
 static constexpr size_t N = 10; // NOLINT
 static constexpr int B = 100;   // NOLINT
-using T = int;
+using F = int;
 
 TEST(vector, CreateFromArray) {
-  auto data = random_array<T, N>(-B, B);
-  auto vec = Vector<T, N>(data);
+  auto data = random_array<F, N>(-B, B);
+  auto vec = Vector<F, N>(data);
   for (size_t i = 0; i < N; i++) {
     ASSERT_EQ(vec[i], data[i]);
   }
 }
 
 TEST(vector, Copy) {
-  auto input = random_vector<T, N>(-B, B);
+  auto input = random_vector<F, N>(-B, B);
   auto copy = input;
 
   auto index = random_size(N);
@@ -32,14 +32,14 @@ TEST(vector, Copy) {
 }
 
 TEST(vector, AddSub) {
-  auto left = random_vector<T, N>(-B, B);
-  auto right = random_vector<T, N>(-B, B);
+  auto left = random_vector<F, N>(-B, B);
+  auto right = random_vector<F, N>(-B, B);
 
-  auto expected_sum = Vector<T, N>([=](size_t index) {
+  auto expected_sum = Vector<F, N>([=](size_t index) {
     return left[index] + right[index];
   });
 
-  auto expected_diff = Vector<T, N>([=](size_t index) {
+  auto expected_diff = Vector<F, N>([=](size_t index) {
     return left[index] - right[index];
   });
 
@@ -50,12 +50,12 @@ TEST(vector, AddSub) {
 }
 
 TEST(vector, MultOnScalar) {
-  auto input = random_vector<T, N>(-B, B);
+  auto input = random_vector<F, N>(-B, B);
   auto scalar = random_int(-B, B);
 
   auto actual = input * scalar;
 
-  auto expected = Vector<T, N>([=](size_t index) {
+  auto expected = Vector<F, N>([=](size_t index) {
     return input[index] * scalar;
   });
 

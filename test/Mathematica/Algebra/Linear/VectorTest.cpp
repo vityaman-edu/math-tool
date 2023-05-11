@@ -7,20 +7,20 @@
 
 using Mathematica::Algebra::Linear::Vector;
 
-static constexpr size_t N = 10; // NOLINT
+static constexpr std::size_t N = 10; // NOLINT
 static constexpr int B = 100;   // NOLINT
-using T = int;
+using F = double;
 
 TEST(Vector, CreateFromArray) { // NOLINT
-  auto data = randomArray<T, N>(-B, B);
-  auto vec = Vector<T, N>(data);
+  auto data = randomArray<F, N>(-B, B);
+  auto vec = Vector<Float<F>, N>(data);
   for (auto i = 0; i < N; i++) {
     ASSERT_EQ(vec[i], data[i]);
   }
 }
 
-TEST(Vector, Copy) {
-  auto input = randomVector<T, N>(-B, B);
+TEST(Vector, Copy) { // NOLINT
+  auto input = randomVector<F, N>(-B, B);
   auto copy = input;
 
   auto index = randomSize(N);
@@ -32,15 +32,17 @@ TEST(Vector, Copy) {
   ASSERT_EQ(copy[index], was_value);
 }
 
-TEST(Vector, AddSub) {
-  auto left = randomVector<T, N>(-B, B);
-  auto right = randomVector<T, N>(-B, B);
+TEST(Vector, AddSub) { // NOLINT
+  auto left = randomVector<F, N>(-B, B);
+  auto right = randomVector<F, N>(-B, B);
 
-  auto expected_sum
-      = Vector<T, N>([=](size_t index) { return left[index] + right[index]; });
+  auto expected_sum = Vector<Float<F>, N>([=](size_t index) {
+    return left[index] + right[index];
+  });
 
-  auto expected_diff
-      = Vector<T, N>([=](size_t index) { return left[index] - right[index]; });
+  auto expected_diff = Vector<Float<F>, N>([=](size_t index) {
+    return left[index] - right[index];
+  });
 
   ASSERT_EQ(left + right, expected_sum);
   ASSERT_EQ(right + left, expected_sum);
@@ -48,14 +50,15 @@ TEST(Vector, AddSub) {
   ASSERT_NE(right - left, expected_diff);
 }
 
-TEST(Vector, MultOnScalar) {
-  auto input = randomVector<T, N>(-B, B);
+TEST(Vector, MultOnScalar) { // NOLINT
+  auto input = randomVector<F, N>(-B, B);
   auto scalar = randomInt(-B, B);
 
   auto actual = input * scalar;
 
-  auto expected
-      = Vector<T, N>([=](size_t index) { return input[index] * scalar; });
+  auto expected = Vector<Float<F>, N>([=](size_t index) {
+    return input[index] * scalar;
+  });
 
   ASSERT_EQ(actual, expected);
 }

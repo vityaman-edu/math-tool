@@ -1,38 +1,32 @@
 #pragma once
 
-#include "Mathematica/Algebra/FieldTrait.hpp"
 #include "Mathematica/Algebra/Linear/Matrix.hpp"
 #include "Mathematica/Algebra/Linear/Vector.hpp"
 #include "Mathematica/Core.hpp"
 
 namespace Mathematica::Algebra::Linear {
 
-template <typename F, Size N, Field::BasicOp<F> Op = Field::BasicOp<F>()>
+template <Abstract::Field F, Size N>
 F scalarProduct(
     const Vector<F, N>& left, // NOLINT
     const Vector<F, N>& right
 ) noexcept {
   F product = 0;
   for (auto i = 0; i < N; i++) {
-    product = Op.sum(product, Op.mul(left[i], right[i]));
+    product = product + left[i] * right[i];
   }
   return product;
 }
 
-template <
-    typename F,
-    Size A,
-    Size B,
-    Size C,
-    Field::BasicOp<F> Op = Field::BasicOp<F>()>
-Matrix<F, A, B, Op> operator*(
-    const Matrix<F, A, C, Op>& left, // NOLINT
-    const Matrix<F, C, B, Op>& right
+template <Abstract::Field F, Size A, Size B, Size C>
+Matrix<F, A, B> operator*(
+    const Matrix<F, A, C>& left, // NOLINT
+    const Matrix<F, C, B>& right
 ) noexcept {
-  return Matrix<F, A, B, Op>([=](auto row, auto col) {
+  return Matrix<F, A, B>([=](auto row, auto col) {
     F value = 0;
     for (auto k = 0; k < C; k++) {
-      value = Op.sum(value, Op.mul(left[row][k], right[k][col]));
+      value = value + left[row][k] * right[k][col];
     }
     return value;
   });

@@ -12,39 +12,39 @@ using math::linal::Vector;
 
 static constexpr size_t N = 10; // NOLINT
 static constexpr int B = 100;   // NOLINT
-using T = int;
+using F = int;
 
 TEST(BasicOp, ScalarProduct) { // NOLINT
-  auto left = random_vector<T, N>(-B, B);
-  auto right = random_vector<T, N>(-B, B);
+  auto left = random_vector<F, N>(-B, B);
+  auto right = random_vector<F, N>(-B, B);
 
-  T expected_product = 0;
+  F expected_product = 0;
   for (size_t i = 0; i < N; i++) {
     expected_product += left[i] * right[i];
   }
 
-  auto actual_product = scalar_product<T, N>(left, right);
+  auto actual_product = scalar_product<F, N>(left, right);
   ASSERT_EQ(actual_product, expected_product);
 }
 
 TEST(BasicOp, OperatorComposition) { // NOLINT
   // clang-format off
-  auto left = Matrix<T, 2, 3>({{
+  auto left = Matrix<F, 2, 3>({{
     {1, 2, 3}, // NOLINT
     {4, 5, 6}, // NOLINT
   }});
-  auto right = Matrix<T, 3, 2>({{
+  auto right = Matrix<F, 3, 2>({{
     {7 , 8 }, // NOLINT
     {9 , 10}, // NOLINT
     {11, 12}, // NOLINT
   }});
 
-  auto expected_l_apply_r = Matrix<T, 2, 2>({{
+  auto expected_l_apply_r = Matrix<F, 2, 2>({{
     {58 ,  64}, // NOLINT
     {139, 154}, // NOLINT
   }});
 
-  auto expected_r_apply_l = Matrix<T, 3, 3>({{
+  auto expected_r_apply_l = Matrix<F, 3, 3>({{
     {39, 54,  69}, // NOLINT
     {49, 68,  87}, // NOLINT
     {59, 82, 105}, // NOLINT
@@ -60,17 +60,17 @@ TEST(BasicOp, OperatorComposition) { // NOLINT
 
 TEST(BasicOp, OperatorApplyVector) { // NOLINT
   // clang-format off
-  auto scale = random_vector<T, N>(-B, B);
-  auto scale_op = Matrix<T, 3, 3>({{
+  auto scale = random_vector<F, N>(-B, B);
+  auto scale_op = Matrix<F, 3, 3>({{
     {scale[0], 0       , 0       },
     {0       , scale[1], 0       },
     {0       , 0       , scale[2]},
   }});
   // clang-format on
-  auto original_vector = random_vector<T, 3>(-B, B);
+  auto original_vector = random_vector<F, 3>(-B, B);
   auto actual_scaled_vector = scale_op * original_vector;
 
-  auto expected_scaled_vector = Vector<T, 3>([=](size_t index) {
+  auto expected_scaled_vector = Vector<F, 3>([=](size_t index) {
     return original_vector[index] * scale[index];
   });
 

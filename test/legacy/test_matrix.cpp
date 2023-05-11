@@ -10,11 +10,11 @@ using math::linal::Matrix;
 static constexpr size_t N = 10; // NOLINT
 static constexpr size_t M = 15; // NOLINT
 static constexpr int B = 100;   // NOLINT
-using T = int;
+using F = int;
 
 TEST(matrix, CreateFromMArray) {
-  auto data = random_array_2d<T, N, M>(-B, B);
-  auto mat = Matrix<T, N, M>(data);
+  auto data = random_array_2d<F, N, M>(-B, B);
+  auto mat = Matrix<F, N, M>(data);
   for (size_t i = 0; i < N; i++) {
     for (size_t j = 0; j < M; j++) {
       ASSERT_EQ(mat[i][j], data[i][j]);
@@ -23,11 +23,11 @@ TEST(matrix, CreateFromMArray) {
 }
 
 TEST(matrix, Copy) {
-  auto input = random_matrix<T, N, M>(-B, B);
+  auto input = random_matrix<F, N, M>(-B, B);
   auto copy = input;
 
   auto index = random_size(N);
-  auto new_value = random_vector<T, M>(-B, B);
+  auto new_value = random_vector<F, M>(-B, B);
   auto was_value = input[index];
   input[index] = new_value;
 
@@ -36,14 +36,14 @@ TEST(matrix, Copy) {
 }
 
 TEST(matrix, AddSub) {
-  auto left = random_matrix<T, N, M>(-B, B);
-  auto right = random_matrix<T, N, M>(-B, B);
+  auto left = random_matrix<F, N, M>(-B, B);
+  auto right = random_matrix<F, N, M>(-B, B);
 
-  auto expected_sum = Matrix<T, N, M>([=](size_t row, size_t col) {
+  auto expected_sum = Matrix<F, N, M>([=](size_t row, size_t col) {
     return left[row][col] + right[row][col];
   });
 
-  auto expected_diff = Matrix<T, N, M>([=](size_t row, size_t col) {
+  auto expected_diff = Matrix<F, N, M>([=](size_t row, size_t col) {
     return left[row][col] - right[row][col];
   });
 
@@ -54,12 +54,12 @@ TEST(matrix, AddSub) {
 }
 
 TEST(matrix, MultOnScalar) {
-  auto input = random_matrix<T, N, M>(-B, B);
+  auto input = random_matrix<F, N, M>(-B, B);
   auto scalar = random_int(-B, B);
 
   auto actual = input * scalar;
 
-  auto expected = Matrix<T, N, M>([=](size_t row, size_t col) {
+  auto expected = Matrix<F, N, M>([=](size_t row, size_t col) {
     return input[row][col] * scalar;
   });
 
@@ -67,7 +67,7 @@ TEST(matrix, MultOnScalar) {
 }
 
 TEST(matrix, SwapRows) {
-  auto input = random_matrix<T, N, M>(-B, B);
+  auto input = random_matrix<F, N, M>(-B, B);
 
   for (size_t i = 0; i < N; i++) {
     auto copy = input;

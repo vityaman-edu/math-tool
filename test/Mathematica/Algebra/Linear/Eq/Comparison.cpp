@@ -1,5 +1,5 @@
 #include "../Generator.hpp"
-#include "Mathematica/Algebra/FieldTrait.hpp"
+#include "Mathematica/Abstract/Float.hpp"
 #include "Mathematica/Algebra/Linear/Eq/GaussSolver.hpp"
 #include "Mathematica/Algebra/Linear/Eq/IterationSolver.hpp"
 #include "Mathematica/Core.hpp"
@@ -16,14 +16,18 @@
 
 using namespace Mathematica;                  // NOLINT
 using namespace Mathematica::Algebra::Linear; // NOLINT
+using namespace Mathematica::Abstract;        // NOLINT
 
 constexpr float EPS = 0.001;
 
 template <typename F, Size N>
-void assertResult(const Vector<F, N>& actual, const Vector<F, N>& expected) {
-  const auto diff = map<F, F, N>(actual - expected, [=](auto element) {
-    return std::abs(element);
-  });
+void assertResult(
+    const Vector<Float<F>, N>& actual, const Vector<Float<F>, N>& expected
+) {
+  const auto diff
+      = map<Float<F>, Float<F>>(actual - expected, [=](auto element) {
+          return Float(std::abs(element.value));
+        });
   const auto max_diff = *std::max_element(diff.begin(), diff.end());
   ASSERT_LT(max_diff, EPS);
 }
@@ -39,17 +43,17 @@ void test() {
       throw std::runtime_error("can't open file");
     }
 
-    auto a = Matrix<F, N, N>();
-    auto b = Vector<F, N>();
+    auto a = Matrix<Float<F>, N, N>();
+    auto b = Vector<Float<F>, N>();
 
     for (auto i = 0; i < N; i++) {
       for (auto j = 0; j < N; j++) {
-        file >> a[i][j];
+        file >> a[i][j].value;
       }
-      file >> b[i];
+      file >> b[i].value;
     }
 
-    const auto expected_result = Vector<F, N>([&file](size_t) {
+    const auto expected_result = Vector<Float<F>, N>([&file](size_t) {
       F number;
       file >> number;
       return number;
@@ -58,7 +62,7 @@ void test() {
     file.close();
 
     try {
-      auto iter = Eq::IterationSolver<F, N>(EPS);
+      auto iter = Eq::IterationSolver<Float<F>, N>(EPS);
       const auto iter_result = iter.solve({a, b}).value;
       assertResult(iter_result, expected_result);
     } catch (std::invalid_argument& e) {
@@ -66,7 +70,7 @@ void test() {
     }
 
     try {
-      auto gauss = Eq::GaussSolver<F, N>();
+      auto gauss = Eq::GaussSolver<Float<F>, N>();
       const auto gauss_result = gauss.solve({a, b}).value;
       assertResult(gauss_result, expected_result);
     } catch (std::invalid_argument& e) {
@@ -91,12 +95,12 @@ TEST(LinearEqSolve, Fuzzing) { // NOLINT
 
     // Make diagonal predominance
     for (size_t j = 0; j < N; j++) {
-      a[j][j] = static_cast<float>(std::reduce(
+      a[j][j] = std::reduce(
           a[j].begin(),
           a[j].end(),
-          1,
-          [](F left, F right) { return std::abs(left) + std::abs(right); }
-      ));
+          Float<F>(1),
+          [](auto left, auto right) { return abs(left) + abs(right); }
+      );
     }
 
     // Shuffle
@@ -112,8 +116,8 @@ TEST(LinearEqSolve, Fuzzing) { // NOLINT
     }
 
     try {
-      auto gauss = Eq::GaussSolver<F, N>();
-      auto iter = Eq::IterationSolver<F, N>(EPS);
+      auto gauss = Eq::GaussSolver<Float<F>, N>();
+      auto iter = Eq::IterationSolver<Float<F>, N>(EPS);
 
       const auto iter_result = iter.solve({a, b}).value;
       const auto gauss_result = gauss.solve({a, b}).value;

@@ -12,10 +12,7 @@ namespace Mathematica::Algebra {
 using PolynomialDegree = Integer;
 constexpr PolynomialDegree PolynomialDegreeMinusInfty = -1;
 
-template <
-    typename F,
-    PolynomialDegree N,
-    Field::BasicOp<F> Op = Field::BasicOp<F>()>
+template <Abstract::Field F, PolynomialDegree N>
 class Polynomial {
 public:
   explicit Polynomial(const Linear::Vector<F, N>& coefficients)
@@ -24,12 +21,12 @@ public:
   Polynomial(const Polynomial& other) : Polynomial(other.coefficients) {}
 
   F operator()(F argument) const noexcept {
-    auto value = Op.zero();
+    auto value = F::zero();
     const auto deg = degree();
     for (auto i = 0; i <= deg; i++) {
       // TODO: std::pow - not an abstract operation
-      const auto element = Op.mul(coefficients[i], std::pow(argument, i));
-      value = Op.sum(value, element);
+      const auto element = coefficients[i] * argument.pow(i);
+      value = value + element;
     }
     return value;
   }
@@ -48,7 +45,7 @@ public:
 
   [[nodiscard]] PolynomialDegree degree() const noexcept {
     for (PolynomialDegree i = N - 1; 0 <= i; i--) {
-      if (!Op.equals(coefficients[i], Op.zero())) {
+      if (coefficients[i] != F::zero()) {
         return i;
       }
     }
@@ -97,17 +94,13 @@ private:
   Linear::Vector<F, N> coefficients;
 };
 
-template <
-    typename F,
-    PolynomialDegree A,
-    PolynomialDegree B,
-    Field::BasicOp<F> Op = Field::BasicOp<F>()>
+template <Abstract::Field F, PolynomialDegree A, PolynomialDegree B>
 Polynomial<F, A + B>
 operator*(const Polynomial<F, A>& a, const Polynomial<F, B>& b) noexcept {
   return Polynomial(Linear::Vector<F, A + B>([&](auto n) {
-    auto sum = Op.zero();
+    auto sum = F::zero();
     for (auto i = 0; i < n; i++) {
-      sum = Op.sum(sum, Op.mul(a[i], b[n - i]));
+      sum = sum + a[i] * b[n - i];
     }
     return sum;
   }));

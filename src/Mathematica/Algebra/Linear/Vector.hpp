@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Mathematica/Algebra/FieldTrait.hpp"
+#include "Mathematica/Abstract/Field.hpp"
 #include "Mathematica/Core.hpp"
 #include <cassert>
-#include <type_traits>
 
 namespace Mathematica::Algebra::Linear {
 
-template <typename F, Size N, Field::BasicOp<F> Op = Field::BasicOp<F>()>
+template <Abstract::Field F, Size N>
 class Vector {
 public:
   explicit Vector() = default;
@@ -37,7 +36,7 @@ public:
 
   Vector& operator+=(const Vector& other) noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] = Op.sum(data[i], other[i]);
+      data[i] = data[i] + other[i];
     }
     return *this;
   }
@@ -49,7 +48,7 @@ public:
 
   Vector& operator-=(const Vector& other) noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] = Op.dif(data[i], other[i]);
+      data[i] = data[i] - other[i];
     }
     return *this;
   }
@@ -61,7 +60,7 @@ public:
 
   Vector& operator*=(F scalar) noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] = Op.mul(data[i], scalar);
+      data[i] = data[i] * scalar;
     }
     return *this;
   }
@@ -73,7 +72,7 @@ public:
 
   Vector& operator/=(F scalar) noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] = Op.div(data[i], scalar);
+      data[i] = data[i] / scalar;
     }
     return *this;
   }
@@ -102,7 +101,7 @@ public:
   }
 
   static Vector zero() noexcept {
-    return Vector([](Index) { return Op.zero(); });
+    return Vector([](Index) { return F::zero(); });
   }
 
   using container = Array<F, N>;
@@ -120,7 +119,7 @@ public:
 private:
   Vector& negate() noexcept {
     for (auto i = 0; i < N; i++) {
-      data[i] = Op.Opneg(data[i]);
+      data[i] = -data[i];
     }
     return *this;
   }

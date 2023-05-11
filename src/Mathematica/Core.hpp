@@ -8,7 +8,8 @@
 
 namespace Mathematica {
 
-using Size = std::size_t;
+using NotNegativeInteger = std::size_t;
+using Size = NotNegativeInteger;
 using Count = Size;
 using Index = Size;
 using Integer = int64_t;
