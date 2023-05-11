@@ -1,5 +1,5 @@
 CompileFlags:
-  Add: [-xc++, -Wall]
+  Add: [-xc++, -Wall, -std=c++20]
   Compiler: clang++
 
 Diagnostics:
@@ -15,6 +15,7 @@ Diagnostics:
         llvm-include-order,
         fuchsia-default-arguments-calls,
         fuchsia-overloaded-operator,
+        altera-struct-pack-align,
         altera-unroll-loops,
         altera-id-dependent-backward-branch,
         google-readability-namespace-comments,
@@ -22,11 +23,12 @@ Diagnostics:
         hicpp-special-member-functions, # TODO: remove
         cppcoreguidelines-special-member-functions, # TODO: remove
         cppcoreguidelines-pro-bounds-constant-array-index,
+        cppcoreguidelines-avoid-magic-numbers,
         modernize-use-trailing-return-type,
         readability-identifier-length
       ]
 
 InlayHints:
-  Designators: Yes
-  Enabled: Yes
-  DeducedTypes: Yes
+  Designators: No
+  Enabled: No
+  DeducedTypes: No

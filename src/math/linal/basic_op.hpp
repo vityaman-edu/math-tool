@@ -8,7 +8,7 @@ namespace math::linal {
 
 template <typename F, size_t N>
 F scalar_product(
-    const vector<F, N>& left, const vector<F, N>& right
+    const Vector<F, N>& left, const Vector<F, N>& right
 ) noexcept {
   F product = 0;
   for (size_t i = 0; i < N; i++) {
@@ -18,10 +18,10 @@ F scalar_product(
 }
 
 template <typename F, size_t A, size_t B, size_t C>
-matrix<F, A, B> operator*(
-    const matrix<F, A, C>& left, const matrix<F, C, B>& right
+Matrix<F, A, B> operator*(
+    const Matrix<F, A, C>& left, const Matrix<F, C, B>& right
 ) noexcept {
-  return matrix<F, A, B>([=](size_t row, size_t col) {
+  return Matrix<F, A, B>([=](size_t row, size_t col) {
     F value = 0;
     for (size_t k = 0; k < C; k++) {
       value += left[row][k] * right[k][col];
@@ -31,18 +31,18 @@ matrix<F, A, B> operator*(
 }
 
 template <typename F, size_t N>
-vector<F, N> operator*(
-    const matrix<F, N, N>& mat, const vector<F, N>& vec
+Vector<F, N> operator*(
+    const Matrix<F, N, N>& mat, const Vector<F, N>& vec
 ) noexcept {
-  return vector<F, N>([=](size_t index) {
+  return Vector<F, N>([=](size_t index) {
     return scalar_product(mat[index], vec);
   });
 }
 
 template <typename T, typename F, size_t N>
-vector<T, N>
-map(const vector<T, N>& vec, const std::function<T(F)>& func) {
-  return vector<T, N>([=](size_t index) {
+Vector<T, N>
+map(const Vector<T, N>& vec, const std::function<T(F)>& func) {
+  return Vector<T, N>([=](size_t index) {
     return func(vec[index]);
   });
 }

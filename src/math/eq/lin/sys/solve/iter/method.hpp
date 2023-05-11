@@ -11,9 +11,9 @@
 namespace math::eq::lin::sys::solve::iter {
 
 template <typename F, std::size_t N>
-static math::linal::matrix<F, N, N>
+static math::linal::Matrix<F, N, N>
 build_alpha(const valid_lineqsys<F, N>& sys) {
-  return linal::matrix<F, N, N>([=](size_t row, size_t col) {
+  return linal::Matrix<F, N, N>([=](size_t row, size_t col) {
     return (
         (row != col)                               //
             ? (-sys.a[row][col] / sys.a[row][row]) //
@@ -23,9 +23,9 @@ build_alpha(const valid_lineqsys<F, N>& sys) {
 }
 
 template <typename F, size_t N>
-static linal::vector<F, N> build_beta(const valid_lineqsys<F, N>& sys
+static linal::Vector<F, N> build_beta(const valid_lineqsys<F, N>& sys
 ) {
-  return linal::vector<F, N>([=](size_t index) {
+  return linal::Vector<F, N>([=](size_t index) {
     return sys.b[index] / sys.a[index][index];
   });
 }
@@ -34,8 +34,8 @@ template <typename F, size_t N>
 struct result : solution<F, N> { // NOLINT
 public:
   result(
-      math::linal::vector<F, N> value, // NOLINT
-      math::linal::vector<F, N> error, // NOLINT
+      math::linal::Vector<F, N> value, // NOLINT
+      math::linal::Vector<F, N> error, // NOLINT
       size_t steps_count
   )
       : solution<F, N>(value, error), steps_count(steps_count) {}
@@ -49,8 +49,8 @@ result<F, N> solve(const valid_lineqsys<F, N>& sys, F eps) {
   const auto beta = build_beta(sys);
 
   size_t steps_count = 0;
-  linal::vector<F, N> x = beta; // NOLINT: x is ok for math
-  linal::vector<F, N> prev = beta;
+  linal::Vector<F, N> x = beta; // NOLINT: x is ok for math
+  linal::Vector<F, N> prev = beta;
   while (true) {
     prev = x;
     x = alpha * x;

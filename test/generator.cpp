@@ -1,5 +1,6 @@
 #include "generator.hpp"
 #include <cstdlib>
+#include <cassert>
 
 // TODO: use c++11 random features
 int random_int(const int left, const int right) {

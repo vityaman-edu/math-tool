@@ -21,8 +21,8 @@ constexpr float EPS = 0.001;
 
 template <typename F, size_t N>
 void assert_result(
-    const math::linal::vector<F, N>& actual,  // NOLINT
-    const math::linal::vector<F, N>& expected // NOLINT
+    const math::linal::Vector<F, N>& actual,  // NOLINT
+    const math::linal::Vector<F, N>& expected // NOLINT
 ) {
   auto diff = (actual - expected);
   diff = math::linal::map<F, F, N>(diff, [=](F element) {
@@ -48,8 +48,8 @@ void test() {
       throw std::runtime_error("can't open file");
     }
 
-    matrix<F, N, N> a; // NOLINT
-    vector<F, N> b;    // NOLINT
+    Matrix<F, N, N> a; // NOLINT
+    Vector<F, N> b;    // NOLINT
 
     for (size_t i = 0; i < N; i++) {
       for (size_t j = 0; j < N; j++) {
@@ -58,7 +58,7 @@ void test() {
       file >> b[i];
     }
 
-    const auto expected_result = vector<F, N>([&file](size_t) {
+    const auto expected_result = Vector<F, N>([&file](size_t) {
       F number;
       file >> number;
       return number;
@@ -96,8 +96,8 @@ TEST(LinEqSysSolve, Fuzzing) {
   using namespace math::eq::lin::sys::solve; // NOLINT
 
   for (size_t i = 0; i < ROUNDS; i++) {
-    matrix<F, N, N> a = random_matrix<F, N, N>(-B, B); // NOLINT
-    vector<F, N> b = random_vector<F, N>(-B, B);       // NOLINT
+    Matrix<F, N, N> a = random_matrix<F, N, N>(-B, B); // NOLINT
+    Vector<F, N> b = random_vector<F, N>(-B, B);       // NOLINT
 
     // Make diagonal predominance
     for (size_t j = 0; j < N; j++) {

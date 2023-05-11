@@ -13,12 +13,11 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-
 # === Build options === #
 set(CMAKE_BUILD_TYPE "debug")
-set(CMAKE_CXX_STANDARD "17")
+set(CMAKE_CXX_STANDARD "20")
 set(CMAKE_CXX_COMPILER "clang++")
-set(CXX_COMMON_FLAGS "-std=c++${CMAKE_CXX_STANDARD} -Wall -Werror")
+set(CXX_COMMON_FLAGS "-std=c++${CMAKE_CXX_STANDARD} -stdlib=libstdc++ -Wall -Werror")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "true")
 if (CMAKE_BUILD_TYPE STREQUAL "debug")
     set(CMAKE_CXX_FLAGS "${CXX_COMMON_FLAGS} -O0 -g -fsanitize=address,undefined,leak")

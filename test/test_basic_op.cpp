@@ -6,9 +6,9 @@
 #include <cstddef>
 #include <gtest/gtest.h>
 
-using math::linal::matrix;
+using math::linal::Matrix;
 using math::linal::scalar_product;
-using math::linal::vector;
+using math::linal::Vector;
 
 static constexpr size_t N = 10; // NOLINT
 static constexpr int B = 100;   // NOLINT
@@ -29,22 +29,22 @@ TEST(BasicOp, ScalarProduct) { // NOLINT
 
 TEST(BasicOp, OperatorComposition) { // NOLINT
   // clang-format off
-  auto left = matrix<T, 2, 3>({{
+  auto left = Matrix<T, 2, 3>({{
     {1, 2, 3}, // NOLINT
     {4, 5, 6}, // NOLINT
   }});
-  auto right = matrix<T, 3, 2>({{
+  auto right = Matrix<T, 3, 2>({{
     {7 , 8 }, // NOLINT
     {9 , 10}, // NOLINT
     {11, 12}, // NOLINT
   }});
 
-  auto expected_l_apply_r = matrix<T, 2, 2>({{
+  auto expected_l_apply_r = Matrix<T, 2, 2>({{
     {58 ,  64}, // NOLINT
     {139, 154}, // NOLINT
   }});
 
-  auto expected_r_apply_l = matrix<T, 3, 3>({{
+  auto expected_r_apply_l = Matrix<T, 3, 3>({{
     {39, 54,  69}, // NOLINT
     {49, 68,  87}, // NOLINT
     {59, 82, 105}, // NOLINT
@@ -61,7 +61,7 @@ TEST(BasicOp, OperatorComposition) { // NOLINT
 TEST(BasicOp, OperatorApplyVector) { // NOLINT
   // clang-format off
   auto scale = random_vector<T, N>(-B, B);
-  auto scale_op = matrix<T, 3, 3>({{
+  auto scale_op = Matrix<T, 3, 3>({{
     {scale[0], 0       , 0       },
     {0       , scale[1], 0       },
     {0       , 0       , scale[2]},
@@ -70,7 +70,7 @@ TEST(BasicOp, OperatorApplyVector) { // NOLINT
   auto original_vector = random_vector<T, 3>(-B, B);
   auto actual_scaled_vector = scale_op * original_vector;
 
-  auto expected_scaled_vector = vector<T, 3>([=](size_t index) {
+  auto expected_scaled_vector = Vector<T, 3>([=](size_t index) {
     return original_vector[index] * scale[index];
   });
 

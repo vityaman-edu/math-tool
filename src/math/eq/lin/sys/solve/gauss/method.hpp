@@ -23,7 +23,7 @@ struct index_pair { // NOLINT
 
 template <typename F, size_t N>
 static index_pair
-peek(const linal::matrix<F, N, N>& matrix, index_pair start) {
+peek(const linal::Matrix<F, N, N>& matrix, index_pair start) {
   auto max = start;
   size_t j = start.j;                    // NOLINT
   for (size_t i = start.i; i < N; i++) { // NOLINT
@@ -78,8 +78,8 @@ triangulization_result<N> triangulate(lineqsys<F, N>& sys) {
 }
 
 template <typename F, size_t N>
-static linal::vector<F, N> solve_triangle(const lineqsys<F, N>& sys) {
-  linal::vector<F, N> result; // NOLINT: fill in the loop
+static linal::Vector<F, N> solve_triangle(const lineqsys<F, N>& sys) {
+  linal::Vector<F, N> result; // NOLINT: fill in the loop
   for (size_t row = N - 1;; row--) {
     auto x = sys.b[row];                         // NOLINT
     for (size_t col = row + 1; col < N; col++) { // NOLINT
@@ -97,8 +97,8 @@ template <typename F, size_t N>
 struct result : solution<F, N> { // NOLINT
 public:
   result(
-      math::linal::vector<F, N> value, // NOLINT
-      math::linal::vector<F, N> error, // NOLINT
+      math::linal::Vector<F, N> value, // NOLINT
+      math::linal::Vector<F, N> error, // NOLINT
       const lineqsys<F, N>& triangle,
       F det
   )

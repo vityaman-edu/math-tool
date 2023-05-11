@@ -143,6 +143,9 @@ public:
       if (lit_right->value() == 1) {
         return optimized_left;
       }
+      if (lit_right->value() == 0) {
+        return l(1);
+      }
     }
     MATCH(optimized_left, Type::ATOM_LITERAL, Literal, lit_left) {
       if (lit_left->value() == 1) {

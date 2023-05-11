@@ -10,16 +10,16 @@
 namespace math::linal {
 
 template <typename F, size_t R, size_t C>
-class matrix {
+class Matrix {
 public:
-  explicit matrix() = default;
+  explicit Matrix() = default;
 
-  explicit matrix(const std::array<std::array<F, C>, R>& data)
-      : matrix([&data](size_t row, size_t col) {
+  explicit Matrix(const std::array<std::array<F, C>, R>& data)
+      : Matrix([&data](size_t row, size_t col) {
           return data[row][col];
         }) {}
 
-  explicit matrix(const std::function<F(size_t, size_t)>& fill) {
+  explicit Matrix(const std::function<F(size_t, size_t)>& fill) {
     for (size_t i = 0; i < R; i++) {
       for (size_t j = 0; j < C; j++) {
         data[i][j] = fill(i, j);
@@ -27,8 +27,8 @@ public:
     }
   }
 
-  matrix(const matrix& other)
-      : matrix([&other](size_t row, size_t col) {
+  Matrix(const Matrix& other)
+      : Matrix([&other](size_t row, size_t col) {
           return other.data[row][col];
         }) {}
 
@@ -43,53 +43,53 @@ public:
     return data[I][J];
   }
 
-  const vector<F, C>& operator[](size_t row) const {
+  const Vector<F, C>& operator[](size_t row) const {
     assert(row < data.size());
     return data[row];
   }
 
-  vector<F, C>& operator[](size_t row) {
+  Vector<F, C>& operator[](size_t row) {
     assert(row < data.size());
     return data[row];
   }
 
-  matrix& operator*=(F scalar) noexcept {
+  Matrix& operator*=(F scalar) noexcept {
     for (size_t i = 0; i < R; i++) {
       data[i] *= scalar;
     }
     return *this;
   }
 
-  matrix operator*(F scalar) const noexcept {
+  Matrix operator*(F scalar) const noexcept {
     auto mult = *this;
     return mult *= scalar;
   }
 
-  matrix& operator+=(const matrix& other) noexcept {
+  Matrix& operator+=(const Matrix& other) noexcept {
     for (size_t i = 0; i < R; i++) {
       data[i] += other[i];
     }
     return *this;
   }
 
-  matrix operator+(const matrix& other) const noexcept {
+  Matrix operator+(const Matrix& other) const noexcept {
     auto sum = *this;
     return sum += other;
   }
 
-  matrix& operator-=(const matrix& other) noexcept {
+  Matrix& operator-=(const Matrix& other) noexcept {
     for (size_t i = 0; i < R; i++) {
       data[i] -= other[i];
     }
     return *this;
   }
 
-  matrix operator-(const matrix& other) const noexcept {
+  Matrix operator-(const Matrix& other) const noexcept {
     auto diff = *this;
     return diff -= other;
   }
 
-  bool operator==(const matrix& other) const noexcept {
+  bool operator==(const Matrix& other) const noexcept {
     for (size_t i = 0; i < R; i++) {
       if (data[i] != other[i]) {
         return false;
@@ -98,12 +98,12 @@ public:
     return true;
   }
 
-  bool operator!=(const matrix& other) const noexcept {
+  bool operator!=(const Matrix& other) const noexcept {
     return !(*this == other);
   }
 
-  matrix& operator=(const matrix& other) noexcept = default;
-  matrix& operator=(matrix&& other) noexcept = default;
+  Matrix& operator=(const Matrix& other) noexcept = default;
+  Matrix& operator=(Matrix&& other) noexcept = default;
 
   void swap_rows(size_t i, size_t j) { // NOLINT
     assert(i < R && j < R);
@@ -117,25 +117,25 @@ public:
     }
   }
 
-  ~matrix() = default;
+  ~Matrix() = default;
 
-  static matrix zero() noexcept {
-    return matrix([](size_t, size_t) { return 0; });
+  static Matrix zero() noexcept {
+    return Matrix([](size_t, size_t) { return 0; });
   }
 
-  static matrix unit() noexcept {
-    return matrix([](size_t row, size_t col) {
+  static Matrix unit() noexcept {
+    return Matrix([](size_t row, size_t col) {
       return ((row == col) ? (1) : (0));
     });
   }
 
 private:
-  std::array<vector<F, C>, R> data;
+  std::array<Vector<F, C>, R> data;
 };
 
 template <typename F, size_t R, size_t C>
 std::ostream&
-operator<<(std::ostream& out, const matrix<F, R, C>& mat) {
+operator<<(std::ostream& out, const Matrix<F, R, C>& mat) {
   constexpr int COL_WIDTH = 5;
   for (size_t i = 0; i < R; i++) {
     out << std::setw(COL_WIDTH) << std::setfill(' ') << mat[i]
