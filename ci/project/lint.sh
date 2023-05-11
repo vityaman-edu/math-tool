@@ -1,5 +1,8 @@
 set -o errexit
 
+cd $(dirname -- "$0"; )
+cd ../..
+
 echo 'Formatting...'
 find src test \( -name "*.h" -o -name "*.cpp" \) > build/sources.txt
 clang-format \
