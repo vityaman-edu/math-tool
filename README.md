@@ -1,23 +1,80 @@
-# math-tool
+# CLI for Mathematica and Symathica
 
-| n   | a        | b        | x        | f(a)        | f(b)         | f(x)         | b - a       |
-| --- | -------- | -------- | -------- | ----------- | ------------ | ------------ | ----------- |
-| 1   | -10      | -7.5     | -8.75    | 21.65       | -42.1375     | -20.4859     | 2.5         |
-| 2   | -10      | -8.75    | -9.375   | 21.65       | -20.4859     | -2.25684     | 1.25        |
-| 3   | -10      | -9.375   | -9.6875  | 21.65       | -2.25684     | 8.95208      | 0.625       |
-| 4   | -9.6875  | -9.375   | -9.53125 | 8.95208     | -2.25684     | 3.16584      | 0.3125      |
-| 5   | -9.53125 | -9.375   | -9.45312 | 3.16584     | -2.25684     | 0.409602     | 0.15625     |
-| 6   | -9.45312 | -9.375   | -9.41406 | 0.409602    | -2.25684     | -0.934774    | 0.078125    |
-| 7   | -9.45312 | -9.41406 | -9.43359 | 0.409602    | -0.934774    | -0.265384    | 0.0390625   |
-| 8   | -9.45312 | -9.43359 | -9.44336 | 0.409602    | -0.265384    | 0.0714085    | 0.0195312   |
-| 9   | -9.44336 | -9.43359 | -9.43848 | 0.0714085   | -0.265384    | -0.0971627   | 0.00976562  |
-| 10  | -9.44336 | -9.43848 | -9.44092 | 0.0714085   | -0.0971627   | -0.0129209   | 0.00488281  |
-| 11  | -9.44336 | -9.44092 | -9.44214 | 0.0714085   | -0.0129209   | 0.0292329    | 0.00244141  |
-| 12  | -9.44214 | -9.44092 | -9.44153 | 0.0292329   | -0.0129209   | 0.00815326   | 0.0012207   |
-| 13  | -9.44153 | -9.44092 | -9.44122 | 0.00815326  | -0.0129209   | -0.0023845   | 0.000610352 |
-| 14  | -9.44153 | -9.44122 | -9.44138 | 0.00815326  | -0.0023845   | 0.00288421   | 0.000305176 |
-| 15  | -9.44138 | -9.44122 | -9.4413  | 0.00288421  | -0.0023845   | 0.000249815  | 0.000152588 |
-| 16  | -9.4413  | -9.44122 | -9.44126 | 0.000249815 | -0.0023845   | -0.00106735  | 7.62939e-05 |
-| 17  | -9.4413  | -9.44126 | -9.44128 | 0.000249815 | -0.00106735  | -0.000408771 | 3.8147e-05  |
-| 18  | -9.4413  | -9.44128 | -9.44129 | 0.000249815 | -0.000408771 | -7.94789e-05 | 1.90735e-05 |
-| 19  | -9.4413  | -9.44129 | -9.44129 | 0.000249815 | -7.94789e-05 | 8.51676e-05  | 9.53674e-06 |
+![example workflow](https://github.com/vityaman-edu/math-tool/actions/workflows/trunk.yml/badge.svg)
+![Total lines](https://img.shields.io/tokei/lines/github/vityaman-edu/math-tool)
+
+## Mathematica
+
+- A library for abstract scientific computations and
+  contains computational methods implementation.
+
+- Uses `C++20` concepts to abstract algorithms and data structures
+  on algebraic types such as `Field`, `Real` numbers and so on.
+
+- Basic data structures as `Matrix`, `Vector`, `Polynomial` implemented.
+
+- Solve systems of linear equations using
+  `Gauss` and `Simple Iteration` methods.
+
+- Solve equations with only variable using
+  `Half-Division`, `Newton`, `Simple Iteration` methods.
+
+- Compute an integral of one-argument continuous function
+  on given interval using `Cotes` methods.
+
+- Approximate one-argument function with `Polynomial`
+  using `Least Sqares` method.
+
+- Find some statistics such as `PCC`, `RSS`.
+
+## Symatica
+
+- A library for symbolic computations.
+
+- Supports basic operations such as
+  `Addition`, `Substraction`, `Multiplication`, `Division`,
+  `Negation`, `Exponentiation`.
+
+- Leaf of `Expression` is either a `Variable` or `Literal`.
+
+- Has a `DSL` to build `Expression` tree easily.
+
+- Use `Evaluator` visitor to set values (or other expressions)
+  to variables and compute concrete value of a given `Expression`.
+
+- Use `Optimizer` visitor to optimize expression by applying
+  transformations such as `a + 0 = a`, `a * 1 = a`, `2 + 2 = 4`,
+  and many-many others.
+
+- Use `Derivativer` visitor to find an `Expression` that is
+  a precise dervivative of a given `Expression`. Then you
+  can optimize it using `Optimizer` and compute using
+  `Evaluator`.
+
+- Goal 1: Add custom functions (`sin`, `cos`, `ln`) and its  
+  derivatives to expand the application area.
+
+- Goal 2: Integrate it with `Mathematica` and create an
+  implementation of `Field` by `Expression` tree to
+  be able to run abstract algorihms on symbolic expressions.
+
+## Build & Run
+
+Requirements:
+
+- `cmake`
+- `clang 16`
+- `clang-tidy`
+- `clang-format`
+- `clangd`
+- `vscode`
+
+```bash
+bash ci/project/build.sh
+bash ci/project/test.sh
+./build/math-tool --help
+```
+
+## Reference
+
+- [ITMO University Lab reports](./doc/itmo)
