@@ -6,6 +6,7 @@
 #include "Mathematica/Error.hpp"
 #include "Mathematica/Integration/Cotes.hpp"
 #include <cmath>
+#include <concepts>
 #include <ostream>
 
 namespace Mathematica::Integration {
@@ -51,10 +52,11 @@ private:
   std::size_t printedRowsCount = 0;
 };
 
-template <typename T, class Tracer>
+template <typename T, class Tracer_>
+  requires std::derived_from<Tracer_, Tracer<T>>
 class Approx {
 public:
-  explicit Approx(T epsilon, Cotes<T> cotes, Tracer tracer)
+  explicit Approx(T epsilon, Cotes<T> cotes, Tracer_ tracer)
       : epsilon(epsilon), cotes(cotes), tracer(tracer) {}
 
   T integrate(Function<T> f, Interval<T> scope) {
@@ -65,7 +67,8 @@ public:
       size *= 2;
       auto curr = cotes.areaUnderGraph(f, Partition<T>(scope, size));
       tracer.onIteration(size, prev, curr, std::abs(prev - curr));
-      if (std::abs(prev - curr) / (std::pow(2, cotes.degree() + 2) - 1) < epsilon) {
+      if (std::abs(prev - curr) / (std::pow(2, cotes.degree() + 2) - 1)
+          < epsilon) {
         tracer.onEnd();
         return curr;
       }
@@ -81,7 +84,7 @@ private:
   Count iterationsLimit = 20; // NOLINT
   T epsilon;
   Cotes<T> cotes;
-  Tracer tracer;
+  Tracer_ tracer;
 };
 
 template <typename T, class Tracer>

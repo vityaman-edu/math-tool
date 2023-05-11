@@ -5,11 +5,8 @@
 
 namespace Mathematica::Algebra::Linear {
 
-template <
-    typename F,
-    Size R,
-    Size C,
-    Field::BasicOp<F> Op = Field::BasicOp<F>()>
+template <typename F, Size R, Size C>
+  requires Field<F>
 class Matrix {
 public:
   explicit Matrix() = default;
@@ -113,24 +110,24 @@ public:
   }
 
   static Matrix zero() noexcept {
-    return matrix([](auto, auto) { return Op.zero(); });
+    return matrix([](auto, auto) { return F::zero(); });
   }
 
   static Matrix unit() noexcept {
     return matrix([](auto row, auto col) {
-      return ((row == col) ? (Op.unit()) : (Op.zero()));
+      return ((row == col) ? (F::unit()) : (F::zero()));
     });
   }
 
 private:
   Matrix& negate() noexcept {
     for (auto i = 0; i < R; i++) {
-      data[i] = Op.neg(data[i]);
+      data[i] = - data[i];
     }
     return *this;
   }
 
-  Array<Vector<F, C, Op>, R> data;
+  Array<Vector<F, C>, R> data;
 };
 
 }

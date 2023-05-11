@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Mathematica/Algebra/FieldTrait.hpp"
 #include "Mathematica/Algebra/Linear/Eq/System.hpp"
 #include "Mathematica/Algebra/Linear/Operation.hpp"
 #include "Mathematica/Core.hpp"
@@ -9,16 +8,17 @@
 
 namespace Mathematica::Algebra::Linear::Eq {
 
-template <typename F, Size N, Field::BasicOp<F> Op = Field::BasicOp<F>()>
+template <typename F, Size N>
+  requires Field<F>
 class IterationSolver {
 public:
   explicit IterationSolver(F epsilon) : epsilon(epsilon) {}
 
-  Solution<F, N, Op> operator()(const System<F, N, Op>& system) {
+  Solution<F, N> operator()(const System<F, N>& system) {
     return solve(system);
   }
 
-  Solution<F, N, Op> solve(const System<F, N, Op>& system) {
+  Solution<F, N> solve(const System<F, N>& system) {
     const auto sys = valid(system);
     const auto alpha = buildAlpha(sys);
     const auto beta = buildBeta(sys);
@@ -31,7 +31,7 @@ public:
       x = x + beta;
 
       auto error = map<F, F, N>(prev - x, [=](auto element) {
-        return std::abs(element);
+        return abs(element);
       });
       if (*std::max_element(error.begin(), error.end()) < epsilon) {
         return {
@@ -43,7 +43,7 @@ public:
   }
 
 private:
-  static System<F, N, Op> valid(const System<F, N, Op>& system) {
+  static System<F, N> valid(const System<F, N>& system) {
     Array<OrderedSet<Index>, N> row_candidates;
     for (auto i = 0; i < N; i++) {
       row_candidates[i] = OrderedSet<Index>();
@@ -51,12 +51,14 @@ private:
 
     for (auto i = 0; i < N; i++) {
       const auto row = system.a[i];
-      const auto row_abs_sum
-          = std::accumulate(row.begin(), row.end(), 0, [](F left, F right) {
-              return std::abs(left) + std::abs(right);
-            });
+      const auto row_abs_sum = std::accumulate(
+          row.begin(),
+          row.end(),
+          F::zero(),
+          [](F left, F right) { return abs(left) + abs(right); }
+      );
       for (auto j = 0; j < N; j++) {
-        if (row_abs_sum < 2 * std::abs(row[j])) {
+        if (row_abs_sum < abs(row[j]) + abs(row[j])) {
           row_candidates[j].insert(i);
         }
       }
@@ -95,7 +97,7 @@ private:
       suitable[indexes[i]] = candidate;
     }
 
-    System<F, N, Op> result;
+    System<F, N> result;
     for (size_t i = 0; i < N; i++) {
       result.a[i] = system.a[suitable[i]];
       result.b[i] = system.b[suitable[i]];
@@ -103,14 +105,14 @@ private:
     return result;
   }
 
-  static Matrix<F, N, N, Op> buildAlpha(const System<F, N, Op>& sys) noexcept {
-    return Matrix<F, N, N, Op>([=](Index row, Index col) {
+  static Matrix<F, N, N> buildAlpha(const System<F, N>& sys) noexcept {
+    return Matrix<F, N, N>([=](Index row, Index col) {
       return ((row != col) ? (-sys.a[row][col] / sys.a[row][row]) : (0));
     });
   }
 
-  static Vector<F, N, Op> buildBeta(const System<F, N, Op>& sys) noexcept {
-    return Vector<F, N, Op>([=](auto index) {
+  static Vector<F, N> buildBeta(const System<F, N>& sys) noexcept {
+    return Vector<F, N>([=](auto index) {
       return sys.b[index] / sys.a[index][index];
     });
   }
