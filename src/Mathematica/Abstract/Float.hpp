@@ -4,6 +4,7 @@
 #include "Mathematica/Core.hpp"
 #include <cmath>
 #include <concepts>
+#include <ostream>
 
 namespace Mathematica::Abstract {
 
@@ -50,5 +51,10 @@ struct Float {
 
 static_assert(Real<Float<float>>);
 static_assert(Real<Float<double>>);
+
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const Float<T>& number) {
+  return out << number.value;
+}
 
 }
