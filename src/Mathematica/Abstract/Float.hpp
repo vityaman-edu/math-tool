@@ -4,13 +4,14 @@
 #include "Mathematica/Core.hpp"
 #include <cmath>
 #include <concepts>
+#include <cstddef>
 #include <ostream>
 #include <string>
 
 namespace Mathematica::Abstract {
 
 // TODO: remove accuracy
-template <std::floating_point T, std::size_t ACCURACY = 99999997952> // NOLINT
+template <std::floating_point T>
 struct Float {
   constexpr Float() = default;
   constexpr Float(T value) : value(value) {} // NOLINT
@@ -29,7 +30,7 @@ struct Float {
   void operator/=(Float other) noexcept { value /= other.value; }
 
   bool operator==(Float other) const noexcept {
-    return std::abs(value - other.value) * ACCURACY < 1;
+    return value == other.value;
   }
 
   bool operator!=(Float other) const noexcept { //
@@ -53,17 +54,11 @@ struct Float {
     return std::pow(value, power.value);
   }
 
-  [[nodiscard]] Float abs() const noexcept {
-    return std::abs(value);
-  }
+  [[nodiscard]] Float abs() const noexcept { return std::abs(value); }
 
-  [[nodiscard]] Float sqrt() const noexcept {
-    return std::sqrt(value);
-  }
+  [[nodiscard]] Float sqrt() const noexcept { return std::sqrt(value); }
 
-  [[nodiscard]] Float ln() const noexcept {
-    return std::log(value);
-  }
+  [[nodiscard]] Float ln() const noexcept { return std::log(value); }
 
   constexpr static Float zero() { return Float(static_cast<T>(0)); }
   constexpr static Float unit() { return Float(static_cast<T>(1)); }

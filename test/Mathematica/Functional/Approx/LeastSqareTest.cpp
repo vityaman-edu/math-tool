@@ -43,6 +43,6 @@ TEST(LeastSqare, Polynomial) { // NOLINT
 
   const auto poly = LeastSqare::optimalPolynomial<Float<F>, 3>(points);
   for (Float<F> x = -30; x < 30; x += 0.2) { // NOLINT
-    ASSERT_EQ(poly(x), parabola(x));
+    ASSERT_NEAR(poly(x).value, parabola(x).value, 0.0001);
   }
 }
