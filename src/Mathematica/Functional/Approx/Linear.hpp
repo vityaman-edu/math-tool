@@ -13,6 +13,7 @@ template <Abstract::Field F>
 class TrendLine {
 public:
   explicit TrendLine(F slope, F bias) : _slope(slope), _bias(bias) {} // NOLINT
+  TrendLine(const TrendLine& other) : TrendLine(other._slope, other._bias) {}
 
   F operator()(F x) const noexcept { return _slope * x + _bias; }
 

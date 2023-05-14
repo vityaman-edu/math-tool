@@ -2,6 +2,7 @@
 
 #include "Mathematica/Abstract/Real.hpp"
 #include "Mathematica/Common/Point.hpp"
+#include "Mathematica/Core.hpp"
 #include "Mathematica/Functional/Approx/Linear.hpp"
 #include <string>
 
@@ -24,6 +25,7 @@ struct Trend {
     return a + " * e ^ (" + b + " * x)";
   }
 };
+
 
 template <Abstract::Real F, Count N>
 Trend<F> train(const Array<Point<F>, N>& points) noexcept {

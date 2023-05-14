@@ -6,12 +6,12 @@
 #include "Mathematica/Statistics/Basic.hpp"
 #include "Mathematica/Statistics/RSS.hpp"
 
-namespace Mathematica::Statistics::Metrics {
+namespace Mathematica::Statistics::Score {
 
 using Mathematica::Collection::Array;
 
 template <Abstract::Real R, Size N, Function1<R, R> Func>
-R R2Score(
+R R2(
     const Func& predict, //
     const Array<Point<R>, N>& points
 ) noexcept {

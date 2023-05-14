@@ -36,9 +36,6 @@ template <typename T, Size N>
 using Array = std::array<T, N>;
 
 template <typename T>
-using ArrayList = std::vector<T>;
-
-template <typename T>
 using OrderedSet = std::set<T>;
 
 }
