@@ -9,7 +9,8 @@
 
 namespace Mathematica::Abstract {
 
-template <std::floating_point T, std::size_t ACCURACY = 1000000> // NOLINT
+// TODO: remove accuracy
+template <std::floating_point T, std::size_t ACCURACY = 99999997952> // NOLINT
 struct Float {
   constexpr Float() = default;
   constexpr Float(T value) : value(value) {} // NOLINT

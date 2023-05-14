@@ -35,7 +35,6 @@ public:
 
     const auto best = std::max_element(r2scores.begin(), r2scores.end());
     const auto bestIndex = best - r2scores.begin();
-    std::cout << "best: " << bestIndex << std::endl;
     return trends[bestIndex];
   }
 

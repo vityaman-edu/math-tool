@@ -3,6 +3,8 @@
 #include "Mathematica/Core.hpp"
 #include <array>
 #include <cassert>
+#include <iostream>
+#include <ostream>
 
 namespace Mathematica::Collection {
 

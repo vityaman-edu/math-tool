@@ -35,22 +35,14 @@ void Runner::run(std::istream& input, std::ostream& out) {
   using Mathematica::Functional::Approx::LeastSqare::optimalPolynomial;
   using Mathematica::Statistics::Score::R2;
   using R = Mathematica::Abstract::Float<double>;
-  constexpr auto N = 100;
+  constexpr auto N = 10;
 
-  //   const auto points = Array<Mathematica::Point<R>, N>([&input](auto) {
-  //     double x = 0;
-  //     double y = 0;
-  //     input >> x >> y;
-  //     return Mathematica::Point<R>(x, y);
-  //   });
-
-  const auto points = Functional::Exploration::Tabulate::trivial<R, N>(
-      [](R x) { // NOLINT
-        constexpr auto K = 3;
-        return R(K * std::sin(x.value));
-      },                 //
-      Interval<R>(0, 10) //
-  );
+  const auto points = Array<Mathematica::Point<R>, N>([&input](auto) {
+    double x = 0;
+    double y = 0;
+    input >> x >> y;
+    return Mathematica::Point<R>(x, y);
+  });
 
   out << "=== Approx::Linear ===" << std::endl;
   auto line = Functional::Approx::Linear::trendLine(points);
@@ -157,18 +149,17 @@ void Runner::run(std::istream& input, std::ostream& out) {
     auto poly6 = Algorithm<R, N, Polynomial<R, 7>>(optimalPolynomial<R, 7, N>);
     auto poly7 = Algorithm<R, N, Polynomial<R, 8>>(optimalPolynomial<R, 8, N>);
     auto poly8 = Algorithm<R, N, Polynomial<R, 9>>(optimalPolynomial<R, 9, N>);
-    auto poly10 = Algorithm<R, N, Polynomial<R, 11>>(optimalPolynomial<R, 11, N>);
 
     // clang-format off
-    const auto algorithms = Array<Model<R, N>*, 12>({{ 
+    const auto algorithms = Array<Model<R, N>*, 11>({{ 
         &line, &pow, &exp, &log,
         &poly2, &poly3, &poly4, 
         &poly5, &poly6, &poly7, 
-        &poly8, &poly10
+        &poly8,
     }});
     // clang-format on
 
-    auto optimal = ChoiceOptimal<R, N, 12>( // NOLINT
+    auto optimal = ChoiceOptimal<R, N, 11>( // NOLINT
       algorithms,
       Score::R2<R, N, Mathematica::Function<R>>
     );
