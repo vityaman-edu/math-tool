@@ -48,7 +48,7 @@ public:
     Index i;
   };
 
-  Partition(Interval<T> interval, Size count)
+  Partition(Interval<T> interval, Count count)
       : interval(interval), count(count) {}
 
   iterator begin() const noexcept { return iterator(0, *this); }
@@ -70,7 +70,7 @@ public:
 
 private:
   Interval<T> interval;
-  Size count;
+  Count count;
 };
 
 }

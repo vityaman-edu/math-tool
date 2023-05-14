@@ -1,5 +1,6 @@
 #include "Mathematica/Functional/Approx/LeastSqare.hpp"
 #include "Mathematica/Abstract/Float.hpp"
+#include "Mathematica/Collection/Array.hpp"
 #include "Mathematica/Common/Point.hpp"
 #include "Mathematica/Core.hpp"
 #include "Mathematica/Interop/Polynomial.hpp"
@@ -15,10 +16,10 @@ using F = double;
 
 TEST(LeastSqare, Playground) { // NOLINT
   // clang-format off
-  const auto points = Array<Point<Float<F>>, 3>({{
-      {.x = 1,  .y = 0 },
-      {.x = -6, .y = 0 },
-      {.x = 0,  .y = -6},
+  const auto points = Collection::Array<Point<Float<F>>, 3>({{
+      {  1,  0 },
+      { -6,  0 },
+      {  0, -6 },
   }});
   // clang-format on
 
@@ -33,15 +34,15 @@ TEST(LeastSqare, Polynomial) { // NOLINT
   };
 
   // clang-format off
-  const auto points = Array<Point<Float<F>>, 3>({{
-      {.x =  1,  .y = parabola(1) },
-      {.x = -6, .y = parabola(-6) },
-      {.x =  0,  .y = parabola(0) },
+  const auto points = Collection::Array<Point<Float<F>>, 3>({{
+      {  1, parabola( 1) },
+      { -6, parabola(-6) },
+      {  0, parabola( 0) },
   }});
   // clang-format on
 
   const auto poly = LeastSqare::optimalPolynomial<Float<F>, 3>(points);
   for (Float<F> x = -30; x < 30; x += 0.2) { // NOLINT
-    ASSERT_EQ(poly(x), parabola(x));
+    ASSERT_NEAR(poly(x).value, parabola(x).value, 0.0001);
   }
 }

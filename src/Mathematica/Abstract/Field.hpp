@@ -21,7 +21,7 @@ concept Field = requires(NotNegativeInteger m, F a, F b) {
   { -a            } -> std::same_as<F>;
   { F::unit() / a } -> std::same_as<F>;
   { a.pow(m)      } -> std::same_as<F>;
-} && EqualityComparable<F>;
+} && EqualityComparable<F> && AsString<F>;
 
 // clang-format on
 

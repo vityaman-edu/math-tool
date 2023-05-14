@@ -1,3 +1,4 @@
+#include "App/Tool/Approx.hpp"
 #include "App/Tool/EquationSolver.hpp"
 #include "App/Tool/EquationSystemSolver.hpp"
 #include "App/Tool/Integrator.hpp"
@@ -29,7 +30,8 @@ int help() {
       "  integrator:\n"
       "    <method> rect-l rect-m rect-r trapeze simpson cotes5\n"
       "    <left> <right> scope\n"
-      "    <accuracy>\n";
+      "    <accuracy>\n"
+      "  approx\n";
   return 0;
 }
 
@@ -69,6 +71,13 @@ int integrator(const std::vector<std::string>& args) {
   return 0;
 }
 
+int approx(const std::vector<std::string>& args) {
+  auto arguments = App::Tool::Approx::Arguments::parseArgs(args);
+  auto runner = App::Tool::Approx::Runner(arguments);
+  runner.run(std::cin, std::cout);
+  return 0;
+}
+
 int main(int argc, char* argv[]) {
   std::cin.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
@@ -85,6 +94,7 @@ int main(int argc, char* argv[]) {
   if (tool == "eqsolver"  ) return eqsolver  (args); // NOLINT
   if (tool == "syssolver" ) return syssolver (args); // NOLINT
   if (tool == "integrator") return integrator(args); // NOLINT
+  if (tool == "approx"    ) return approx    (args); // NOLINT
   return usage();
   // clang-format on
 

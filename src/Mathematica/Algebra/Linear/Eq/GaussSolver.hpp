@@ -47,11 +47,12 @@ private:
 
   static MatIndex peek(const Matrix<F, N, N>& matrix, MatIndex start) {
     auto max = start;
-    auto j = start.j;
     for (auto i = start.i; i < N; i++) {
-      if (matrix[max.i][max.j] < matrix[i][j]) {
-        max.i = i;
-        max.j = j;
+      for (auto j = start.j; j < N; j++) {
+        if (matrix[max.i][max.j] < matrix[i][j]) {
+          max.i = i;
+          max.j = j;
+        }
       }
     }
     return max;
@@ -69,7 +70,7 @@ private:
     for (Index row = 0; row < N; row++) {
       // Put max element in working position
       // const index_pair pos = {row, row};
-      const auto pos = peek(sys.a, {row, row,});
+      const auto pos = peek(sys.a, {row, row});
 
       if (sys.a[pos.i][pos.j] == 0) {
         throw std::invalid_argument("matrix can't be solved by gauss");

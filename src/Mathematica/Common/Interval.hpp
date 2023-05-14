@@ -12,8 +12,6 @@ namespace Mathematica {
 
 template <typename T>
 class Interval {
-  static_assert(std::is_arithmetic<T>::value);
-
 public:
   explicit Interval(T left, T right) : _left(left), _right(right) { // NOLINT
     assert(left <= right);
