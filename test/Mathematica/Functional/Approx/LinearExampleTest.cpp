@@ -18,13 +18,13 @@ using Mathematica::Collection::Array;
 using Mathematica::Statistics::standartDeviation;
 using namespace Mathematica::Statistics;         // NOLINT
 using namespace Mathematica::Functional::Approx; // NOLINT
-using F = Mathematica::Abstract::Float<double>;
+using R = Mathematica::Abstract::Float<double>;
 constexpr auto N = 7;
 constexpr auto EPS = 0.001;
 
 TEST(ApproxLinear, Example) { // NOLINT
   // clang-format off
-  const auto points = Array<Point<F>, N>({{
+  const auto points = Array<Point<R>, N>({{
       { 1.1,  2.73 },
       { 2.3,  5.12 },
       { 3.7,  7.74 },
@@ -62,25 +62,25 @@ TEST(ApproxLinear, Example) { // NOLINT
 
 TEST(ApproxChoiceBest, Example) { // NOLINT
   auto line
-      = Model::Algorithm<F, N, Linear::TrendLine<F>>(Linear::trendLine<F, N>);
+      = Model::Algorithm<R, N, Linear::TrendLine<R>>(Linear::trendLine<R, N>);
   auto pow //
-      = Model::Algorithm<F, N, Power::Trend<F>>(Power::train<F, N>);
+      = Model::Algorithm<R, N, Power::Trend<R>>(Power::train<R, N>);
   auto exp
-      = Model::Algorithm<F, N, Exponential::Trend<F>>(Exponential::train<F, N>);
+      = Model::Algorithm<R, N, Exponential::Trend<R>>(Exponential::train<R, N>);
   auto log
-      = Model::Algorithm<F, N, Logarithmic::Trend<F>>(Logarithmic::train<F, N>);
+      = Model::Algorithm<R, N, Logarithmic::Trend<R>>(Logarithmic::train<R, N>);
 
-  const auto algorithms = Array<Model::Model<F, N>*, 4>({
+  const auto algorithms = Array<Model::Model<R, N>*, 4>({
       {&line, &pow, &exp, &log}
   });
 
-  auto choice = Model::ChoiceOptimal<F, N, 4>( //
+  auto choice = Model::ChoiceOptimal<R, N, 4>( //
       algorithms,
-      Score::R2<F, N, Mathematica::Function<F>> 
+      Score::R2<R, N, Mathematica::Function<R>> 
   );
 
   // clang-format off
-  const auto points = Array<Point<F>, N>({{
+  const auto points = Array<Point<R>, N>({{
       { 1.1,  2.73 },
       { 2.3,  5.12 },
       { 3.7,  7.74 },

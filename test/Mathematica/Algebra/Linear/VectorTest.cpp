@@ -9,18 +9,18 @@ using Mathematica::Algebra::Linear::Vector;
 
 static constexpr std::size_t N = 10; // NOLINT
 static constexpr int B = 100;   // NOLINT
-using F = double;
+using R = double;
 
 TEST(Vector, CreateFromArray) { // NOLINT
-  auto data = randomArray<F, N>(-B, B);
-  auto vec = Vector<Float<F>, N>(data);
+  auto data = randomArray<R, N>(-B, B);
+  auto vec = Vector<Float<R>, N>(data);
   for (auto i = 0; i < N; i++) {
     ASSERT_EQ(vec[i], data[i]);
   }
 }
 
 TEST(Vector, Copy) { // NOLINT
-  auto input = randomVector<F, N>(-B, B);
+  auto input = randomVector<R, N>(-B, B);
   auto copy = input;
 
   auto index = randomSize(N);
@@ -33,14 +33,14 @@ TEST(Vector, Copy) { // NOLINT
 }
 
 TEST(Vector, AddSub) { // NOLINT
-  auto left = randomVector<F, N>(-B, B);
-  auto right = randomVector<F, N>(-B, B);
+  auto left = randomVector<R, N>(-B, B);
+  auto right = randomVector<R, N>(-B, B);
 
-  auto expected_sum = Vector<Float<F>, N>([=](size_t index) {
+  auto expected_sum = Vector<Float<R>, N>([=](size_t index) {
     return left[index] + right[index];
   });
 
-  auto expected_diff = Vector<Float<F>, N>([=](size_t index) {
+  auto expected_diff = Vector<Float<R>, N>([=](size_t index) {
     return left[index] - right[index];
   });
 
@@ -51,12 +51,12 @@ TEST(Vector, AddSub) { // NOLINT
 }
 
 TEST(Vector, MultOnScalar) { // NOLINT
-  auto input = randomVector<F, N>(-B, B);
+  auto input = randomVector<R, N>(-B, B);
   auto scalar = randomInt(-B, B);
 
   auto actual = input * scalar;
 
-  auto expected = Vector<Float<F>, N>([=](size_t index) {
+  auto expected = Vector<Float<R>, N>([=](size_t index) {
     return input[index] * scalar;
   });
 
