@@ -4,6 +4,7 @@
 #include "Mathematica/Algebra/Linear/Eq/GaussSolver.hpp"
 #include "Mathematica/Algebra/Linear/Matrix.hpp"
 #include "Mathematica/Algebra/Linear/Vector.hpp"
+#include "Mathematica/Algebra/Linear/IO.hpp"
 #include "Mathematica/Algebra/Polynomial/Polynomial.hpp"
 #include "Mathematica/Collection/Array.hpp"
 #include "Mathematica/Common/Point.hpp"
@@ -43,9 +44,7 @@ Algebra::Linear::Vector<F, D> buildVector( //
 }
 
 template <Abstract::Field F, Algebra::PolynomialDegree D, Count N>
-Algebra::Polynomial<F, D> optimalPolynomial( //
-    const Array<Point<F>, N>& points
-) noexcept {
+Algebra::Polynomial<F, D> optimalPolynomial(const Array<Point<F>, N>& points) {
   const auto matrix = buildMatrix<F, D, N>(points);
   const auto vector = buildVector<F, D, N>(points);
   const auto gauss = Algebra::Linear::Eq::GaussSolver<F, D>();

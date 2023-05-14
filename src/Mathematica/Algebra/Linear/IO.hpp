@@ -23,9 +23,8 @@ std::ostream& operator<<(std::ostream& out, const Vector<T, N>& vec) {
 
 template <typename F, Size R, Size C>
 std::ostream& operator<<(std::ostream& out, const Matrix<F, R, C>& mat) {
-  constexpr int COL_WIDTH = 5;
   for (auto i = 0; i < R; i++) {
-    out << std::setw(COL_WIDTH) << std::setfill(' ') << mat[i] << '\n';
+    out << mat[i] << '\n';
   }
   return out;
 }
