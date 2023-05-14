@@ -13,7 +13,7 @@ concept TotallyOredered = std::totally_ordered<T>;
 
 // clang-format off
 template <typename T>
-concept ToString = requires(T object) {
+concept AsString = requires(T object) {
  { object.asString() } -> std::same_as<String>;
 };
 // clang-format on
