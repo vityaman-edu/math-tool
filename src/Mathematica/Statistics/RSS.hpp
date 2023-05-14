@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Mathematica/Algebra/FieldTrait.hpp"
+#include "Mathematica/Abstract/Real.hpp"
+#include "Mathematica/Collection/Array.hpp"
 #include "Mathematica/Common/Point.hpp"
 #include "Mathematica/Core.hpp"
 #include <cmath>
@@ -8,15 +9,21 @@
 
 namespace Mathematica::Statistics {
 
-template <
-    typename F,
-    Algebra::Field::BasicOp<F> Op = Algebra::Field::BasicOp<F>()>
-F rss(const Function<F>& f, const ArrayList<Point<F>>& points) noexcept {
-  auto sumOfSquares = Op.zero();
+using Mathematica::Collection::Array;
+
+// Residual sum of squares.
+template <Abstract::Real R, Size N, Function1<R, R> Func>
+R rss(const Func& f, const Array<Point<R>, N>& points) noexcept {
+  auto sumOfSquares = R::zero();
   for (const auto point : points) {
-    sumOfSquares += std::pow(std::abs(f(point.x) - point.y), 2);
+    sumOfSquares += abs(f(point.x) - point.y).pow(2);
   }
   return sumOfSquares;
+}
+
+template <Abstract::Real R, Size N, Function1<R, R> Func>
+R standartDeviation(const Func& f, const Array<Point<R>, N>& points) noexcept {
+  return Abstract::sqrt(rss(f, points) / N);
 }
 
 }

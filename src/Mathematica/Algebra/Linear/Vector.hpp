@@ -124,6 +124,7 @@ private:
     return *this;
   }
 
+  // TODO: use Mathematica::Collection::Array
   Array<F, N> data;
 };
 

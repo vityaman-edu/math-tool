@@ -1,18 +1,26 @@
 #pragma once
 
-#include "Mathematica/Algebra/FieldTrait.hpp"
+#include "Mathematica/Common/Point.hpp"
 #include "Mathematica/Core.hpp"
 #include "Mathematica/Functional/Approx/LeastSqare.hpp"
-#include "Mathematica/Common/Point.hpp"
+#include <string>
 
 namespace Mathematica::Functional::Approx::Linear {
 
-template <typename F>
+using Mathematica::Collection::Array;
+
+template <Abstract::Field F>
 class TrendLine {
 public:
   explicit TrendLine(F slope, F bias) : _slope(slope), _bias(bias) {} // NOLINT
 
   F operator()(F x) const noexcept { return _slope * x + _bias; }
+
+  [[nodiscard]] String asString() const noexcept {
+    const auto a = slope().asString();
+    const auto b = bias().asString();
+    return a + " * x + " + b;
+  }
 
   F slope() const noexcept { return _slope; }
   F bias() const noexcept { return _bias; }
@@ -23,12 +31,9 @@ private:
   F _bias;
 };
 
-template <
-    typename F,
-    Count N,
-    Algebra::Field::BasicOp<F> Op = Algebra::Field::BasicOp<F>()>
-TrendLine<F> trendLine(const Array<Point<F>, N>& points) {
-  const auto poly = LeastSqare::optimalPolynomial<F, 2, Op>(points);
+template <Abstract::Field F, Count N>
+TrendLine<F> trendLine(const Array<Point<F>, N>& points) noexcept {
+  const auto poly = LeastSqare::optimalPolynomial<F, 2>(points);
   return TrendLine(poly[1], poly[0]);
 }
 
