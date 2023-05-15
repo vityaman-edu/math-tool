@@ -189,16 +189,86 @@ $R^2$.
 
 \section{Программная реализация задачи}
 
+Далее представлю реализации различных алгоритмов 
+аппроксимации функций на языке программирования C++.
+Стоит заметить, что все они так или иначе реализованы через
+методе наименьших квадратов.
 
+\subsection{Нахождение линии линейного тренда}
+
+\lstinputlisting[
+    language={C++},
+    caption={Нахождение линии линейного тренда},
+    linerange={8-39}
+]{../../../src/Mathematica/Functional/Approx/Linear.hpp}
+
+\subsection{Нахождение линии логарифмического тренда}
+
+\lstinputlisting[
+    language={C++},
+    caption={Нахождение линии логарифмического тренда},
+    linerange={6-36}
+]{../../../src/Mathematica/Functional/Approx/Logarithmic.hpp}
+
+\subsection{Нахождение линии степенного тренда}
+
+\lstinputlisting[
+    language={C++},
+    caption={Нахождение линии степенного тренда},
+    linerange={9-38}
+]{../../../src/Mathematica/Functional/Approx/Power.hpp}
+
+\subsection{Нахождение линии экспоненциального тренда}
+
+\lstinputlisting[
+    language={C++},
+    caption={Нахождение линии экспоненциального тренда},
+    linerange={9-41}
+]{../../../src/Mathematica/Functional/Approx/Exponential.hpp}
+
+\subsection{Ядро моделей аппроксимации}
+
+\lstinputlisting[
+    language={C++},
+    caption={Ядро моделей аппроксимации},
+    linerange={9-34}
+]{../../../src/Mathematica/Functional/Approx/Model/Core.hpp}
+
+\subsection{Модель, выбирающая лучшую из данных}
+
+\lstinputlisting[
+    language={C++},
+    caption={Модель, выбирающая лучшую из данных},
+    linerange={10-46}
+]{../../../src/Mathematica/Functional/Approx/Model/ChoiceOptimal.hpp}
+
+\subsection{Модель, приблищая функцию кусочно}
+
+\lstinputlisting[
+    language={C++},
+    caption={Модель, приблищая функцию кусочно},
+    linerange={13-50}
+]{../../../src/Mathematica/Functional/Approx/Model/Partition.hpp}
 
 \section{Вывод}
 
+Выполнив данную лабораторную работу я познакомился
+с базовыми методами аппроксимации функций. По сути 
+все рассмотренные методы являются формой метода
+наименьших квадратов (МНК). МНК позволяет 
+достаточно точно приближать функции разной природы,
+кажется, что эффективность построенного полинома растет
+пропорционально его степени. Также хорошо показывает
+себя метод кусочной аппроксимации функции.
 
 \begin{thebibliography}{9}
 
     \bibitem{calc-math-demidovich-maron}
     Б.П. Демидович, И.А. Марон Основы вычислительной математики:
     учебное пособие — 1966 год.
+
+    \bibitem{itmo-lecture} 
+    Лекции Татьяны Алексеевны Малышевой
 
 \end{thebibliography}
 
