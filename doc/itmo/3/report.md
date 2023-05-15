@@ -203,7 +203,6 @@ No result: Can't integrate given function, maybe it diverges in given interval
 ## Программная реализация
 
 ```c++
-
 template <typename T>
 using TrivialMethod = std::function<T(Function<T>, Interval<T>)>;
 
