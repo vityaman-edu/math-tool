@@ -2,6 +2,7 @@
 #include "App/Tool/EquationSolver.hpp"
 #include "App/Tool/EquationSystemSolver.hpp"
 #include "App/Tool/Integrator.hpp"
+#include "App/Tool/Interpolator.hpp"
 #include "App/Tool/LinEqSys.hpp"
 #include <cstddef>
 #include <cstdio>
@@ -78,6 +79,13 @@ int approx(const std::vector<std::string>& args) {
   return 0;
 }
 
+int interpol(const std::vector<std::string>& args) {
+  auto arguments = App::Tool::Interpolator::Arguments::parseArgs(args);
+  auto runner = App::Tool::Interpolator::Runner(arguments);
+  runner.run(std::cin, std::cout);
+  return 0;
+}
+
 int main(int argc, char* argv[]) {
   std::cin.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
@@ -95,6 +103,7 @@ int main(int argc, char* argv[]) {
   if (tool == "syssolver" ) return syssolver (args); // NOLINT
   if (tool == "integrator") return integrator(args); // NOLINT
   if (tool == "approx"    ) return approx    (args); // NOLINT
+  if (tool == "interpol"  ) return interpol  (args); // NOLINT
   return usage();
   // clang-format on
 

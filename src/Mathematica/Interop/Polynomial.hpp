@@ -28,4 +28,6 @@ symbolic(Algebra::Polynomial<Float<F>, D> polynomial, const Ptr<Variable>& x) {
   return make.optimized(poly);
 }
 
+
+
 }

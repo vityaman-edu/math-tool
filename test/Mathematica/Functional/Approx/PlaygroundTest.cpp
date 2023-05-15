@@ -112,6 +112,4 @@ TEST(Approx, PlaygroundPartition) {        // NOLINT
   std::cout << "=== Approx::Partition ===" << std::endl;
   std::cout << "std   = " + s.asString() << std::endl;
   std::cout << "r2    = " + r2.asString() << std::endl;
-
-
 }

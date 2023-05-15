@@ -41,6 +41,15 @@ public:
     canvas[shifted.y()][shifted.x()] = symbol;
   }
 
+  void plot(const Function<Real>& f, double step, char symbol) { // NOLINT
+    for (auto x = scope.left(); x <= scope.right(); x += step) { // NOLINT
+      auto y = f(x);
+      draw({x, 0}, '-');
+      draw({0, y}, '|');
+      draw({x, y}, symbol);
+    }
+  }
+
   void print(std::ostream& out) {
     for (std::size_t i = minY; i <= maxY; i++) {
       out << canvas[i] << std::endl;

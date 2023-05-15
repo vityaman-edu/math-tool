@@ -18,6 +18,9 @@ public:
   explicit Polynomial(const Linear::Vector<F, N>& coefficients)
       : coefficients(coefficients) {}
 
+  explicit Polynomial(const Array<F, N>& coefficients)
+      : Polynomial(Linear::Vector<F, N>(coefficients)) {}
+
   Polynomial(const Polynomial& other) : Polynomial(other.coefficients) {}
 
   F operator()(F argument) const noexcept {
@@ -90,16 +93,37 @@ public:
 
   Polynomial operator-() const noexcept { return Polynomial(-coefficients); }
 
+  bool operator==(const Polynomial& other) const noexcept {
+    return coefficients == other.coefficients;
+  }
+
+  bool operator!=(const Polynomial& other) const noexcept {
+    return !(*this == other);
+  }
+
+  static Polynomial zero() noexcept {
+    return Polynomial(Linear::Vector<F, N>([](auto) { return F::zero(); }));
+  }
+
+  static Polynomial unit() noexcept {
+    return Polynomial(Linear::Vector<F, N>([](auto i) {
+      if (i == 0) {
+        return F::unit();
+      }
+      return F::zero();
+    }));
+  }
+
 private:
   Linear::Vector<F, N> coefficients;
 };
 
 template <Abstract::Field F, PolynomialDegree A, PolynomialDegree B>
-Polynomial<F, A + B>
+Polynomial<F, A + B - 1>
 operator*(const Polynomial<F, A>& a, const Polynomial<F, B>& b) noexcept {
-  return Polynomial(Linear::Vector<F, A + B>([&](auto n) {
+  return Polynomial<F, A + B - 1>(Linear::Vector<F, A + B - 1>([&](auto n) {
     auto sum = F::zero();
-    for (auto i = 0; i < n; i++) {
+    for (auto i = 0; i <= n; i++) {
       sum = sum + a[i] * b[n - i];
     }
     return sum;

@@ -7,19 +7,19 @@ namespace Symatica::Symbol {
 TreeTable::TreeTable(std::map<Id, Ptr<Expression>> expressionById)
     : _expressionById(std::move(expressionById)) {}
 
-[[nodiscard]] Ptr<Expression> TreeTable::get(Id number) const {
-  if (!has(number)) {
-    throw Error::SymbolNotFound(number);
+[[nodiscard]] Ptr<Expression> TreeTable::get(Id id) const {
+  if (!has(id)) {
+    throw Error::SymbolNotFound(id);
   }
-  return _expressionById.at(number);
+  return _expressionById.at(id);
 }
 
-void TreeTable::put(Id number, const Ptr<Expression>& expression) {
-  _expressionById.insert(std::make_pair(number, std::ref(expression)));
+void TreeTable::put(Id id, const Ptr<Expression>& expression) {
+  _expressionById[id] = std::ref(expression);
 }
 
-[[nodiscard]] bool TreeTable::has(Id number) const noexcept {
-  return _expressionById.find(number) != _expressionById.end();
+[[nodiscard]] bool TreeTable::has(Id id) const noexcept {
+  return _expressionById.find(id) != _expressionById.end();
 }
 
 }
