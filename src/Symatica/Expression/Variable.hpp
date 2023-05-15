@@ -19,6 +19,9 @@ public:
   [[nodiscard]] Id id() const noexcept { return _id; }
 
   [[nodiscard]] std::string asString() const noexcept override {
+    if (_id == 1) {
+      return "x";
+    }
     return "$" + std::to_string(_id);
   }
 
