@@ -18,11 +18,11 @@ using R = Mathematica::Abstract::Float<double>;
 
 TEST(MathematicaFunctionalInterpolation, LagrangeSymbolic) { // NOLINT
   // clang-format off
-  const auto points = Array<Point<R>, 10>({{
+  const auto points = Array<Point<R>, 5>({{
     { 0.1, 1.25 },
     { 0.2, 2.38 },
     { 0.3, 3.79 },
-    { 0.4, 5.54 },
+    { 0.4, 5.44 },
     { 0.5, 7.14 },
   }});
   // clang-format on
@@ -33,6 +33,15 @@ TEST(MathematicaFunctionalInterpolation, LagrangeSymbolic) { // NOLINT
   auto table = TreeTable({});
   auto eval = Evaluator(table);
 
-  table.put(1, l(0.35)); // NOLINT
-  ASSERT_NEAR(eval.valueOf(poly), 4.59336, 0.01);
+  std::cout << poly->asString() << std::endl;
+
+  auto f = [&table, &eval, &poly](double x) {
+    table.put(1, l(x));
+    return eval.valueOf(poly);
+  };
+
+  for (const auto& [x, y] : points) {
+    ASSERT_NEAR(f(x.value), y.value, 0.0001);  
+  }
+  ASSERT_NEAR(f(0.35), 4.59336, 0.0001);
 }

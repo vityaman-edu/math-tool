@@ -15,9 +15,9 @@ class TreeTable : public Table {
 public:
   explicit TreeTable(std::map<Id, Ptr<Expression>> expressionById);
 
-  [[nodiscard]] Ptr<Expression> get(Id number) const override;
-  void put(Id number, const Ptr<Expression>& expression) override;
-  [[nodiscard]] bool has(Id number) const noexcept override;
+  [[nodiscard]] Ptr<Expression> get(Id id) const override;
+  void put(Id id, const Ptr<Expression>& expression) override;
+  [[nodiscard]] bool has(Id id) const noexcept override;
 
 private:
   std::map<Id, Ptr<Expression>> _expressionById;
