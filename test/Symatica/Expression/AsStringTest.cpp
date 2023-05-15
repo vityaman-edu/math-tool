@@ -15,7 +15,7 @@ using Symatica::Expression::DSL::var;
 TEST(TestExpression, AsString) { // NOLINT
   ASSERT_EQ(l(0)->asString(), "0");
   ASSERT_EQ(l(5)->asString(), "5");
-  ASSERT_EQ(l(12.0213)->asString(), "12.021300");
+  ASSERT_EQ(l(12.0213)->asString(), "12.02");
   ASSERT_EQ(var(1)->asString(), "x");
   ASSERT_EQ((l(5) + l(6))->asString(), "(5 + 6)");
   ASSERT_EQ((l(5) - l(6))->asString(), "(5 - 6)");

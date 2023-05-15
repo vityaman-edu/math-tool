@@ -23,7 +23,10 @@ public:
     if (value() == static_cast<Core::Integer>(value())) {
       return std::to_string(static_cast<Core::Integer>(value()));
     }
-    return std::to_string(value()); // NOLINT
+    constexpr auto PRECISION = 2;
+    return std::to_string(value()).substr(
+        0, std::to_string(value()).find('.') + PRECISION + 1
+    ); // NOLINT
   }
 
 private:
