@@ -9,7 +9,7 @@
 
 using Mathematica::Point;
 using Mathematica::Collection::Array;
-using Mathematica::Functional::Interpolation::lagrangeSymbolic;
+using Mathematica::Functional::Interpolation::symbolicLagrange;
 using Symatica::Expression::DSL::l;
 using Symatica::Expression::DSL::var;
 using Symatica::Symbol::TreeTable;
@@ -28,7 +28,7 @@ TEST(MathematicaFunctionalInterpolation, LagrangeSymbolic1) { // NOLINT
   // clang-format on
 
   const auto x = var(1);
-  const auto poly = lagrangeSymbolic(points, x);
+  const auto poly = symbolicLagrange(points, x);
 
   auto table = TreeTable({});
   auto eval = Evaluator(table);
@@ -55,9 +55,7 @@ TEST(MathematicaFunctionalInterpolation, LagrangeSymbolic2) { // NOLINT
   // clang-format on
 
   const auto x = var(1);
-  const auto poly = lagrangeSymbolic(points, x);
-
-  std::cout << poly->asString() << std::endl;
+  const auto poly = symbolicLagrange(points, x);
 
   auto table = TreeTable({});
   auto eval = Evaluator(table);
