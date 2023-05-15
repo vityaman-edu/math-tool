@@ -18,6 +18,9 @@ public:
   explicit Polynomial(const Linear::Vector<F, N>& coefficients)
       : coefficients(coefficients) {}
 
+  explicit Polynomial(const Array<F, N>& coefficients)
+      : Polynomial(Linear::Vector<F, N>(coefficients)) {}
+
   Polynomial(const Polynomial& other) : Polynomial(other.coefficients) {}
 
   F operator()(F argument) const noexcept {
@@ -96,6 +99,19 @@ public:
 
   bool operator!=(const Polynomial& other) const noexcept {
     return !(*this == other);
+  }
+
+  static Polynomial zero() noexcept {
+    return Polynomial(Linear::Vector<F, N>([](auto) { return F::zero(); }));
+  }
+
+  static Polynomial unit() noexcept {
+    return Polynomial(Linear::Vector<F, N>([](auto i) {
+      if (i == 0) {
+        return F::unit();
+      }
+      return F::zero();
+    }));
   }
 
 private:
