@@ -40,7 +40,10 @@ Mathematica::Function<R> parseFunction(const String& string) {
   if (string == "1") {
     return [](R x) { return R(std::sin(x.value)); }; // NOLINT
   }
-  throw Error::IllegalArgument("expected 1, got " + string);
+  if (string == "2") {
+    return [](R x) { return R(std::tan(x.value)); }; // NOLINT
+  }
+  throw Error::IllegalArgument("expected 1-2, got " + string);
 }
 
 template <Mathematica::Count N>
@@ -57,7 +60,8 @@ getPoints(std::istream& input, std::ostream& out, Mode mode) {
 
   out << "Choice a function: " << std::endl;
   out << "1) y = sin(x)" << std::endl;
-  out << "I choice [1]: ";
+  out << "2) y = tan(x)" << std::endl;
+  out << "I choice [1-2]: ";
   String text;
   input >> text;
   const auto f = parseFunction(text);
@@ -74,7 +78,7 @@ getPoints(std::istream& input, std::ostream& out, Mode mode) {
 }
 
 void Runner::run(std::istream& input, std::ostream& out) {
-  constexpr auto N = 50;
+  constexpr auto N = 5;
   const auto points = getPoints<N>(input, out, args().mode);
 
   constexpr auto X = 1;
@@ -131,6 +135,14 @@ void Runner::run(std::istream& input, std::ostream& out) {
       canvas.draw({point.x.value, point.y.value}, '#');
     }
     canvas.print(out);
+  }
+
+  auto argument = 0.0;
+  out << "Enter x: ";
+  while (input >> argument) {
+    out << "lagrangeAt(" << argument << ") = " << lagrangeAt(argument) << std::endl;
+    out << "newtonAt(" << argument << ") = " << newtonAt(argument) << std::endl;
+    out << "Enter x: ";
   }
 }
 

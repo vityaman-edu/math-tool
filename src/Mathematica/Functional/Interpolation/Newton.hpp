@@ -56,6 +56,7 @@ Ptr<Expression> symbolicNewton(
     for (auto i = 0; i < k; i++) {
       tail = tail * (x - l(points[i].x.value));
     }
+    std::cout << "dividedDifference(" << k << ") = " << dividedDifference(points, k).value << std::endl;
     poly = poly + l(dividedDifference(points, k).value) * tail;
   }
   return poly;
